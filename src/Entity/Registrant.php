@@ -61,7 +61,7 @@ class Registrant extends EntityAbstract
             $this->email = $parameterArray['email']; //required
 
             //optional
-            $this->timeZone = (isset($parameterArray['timeZone']) ? $parameterArray['timeZone'] : config('app.timezone'));
+            $this->timeZone = (isset($parameterArray['timeZone']) ? $parameterArray['timeZone'] : config('app.timezone')); //framwork config
             $this->organization = (isset($parameterArray['organization']) ? $parameterArray['organization'] : null);
             $this->source = (isset($parameterArray['source']) ? $parameterArray['source'] : null);
             $this->address = (isset($parameterArray['address']) ? $parameterArray['address'] : null);
