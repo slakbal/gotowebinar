@@ -1,0 +1,47 @@
+{
+  "name": "slakbal/gotowebinar",
+  "description": "GotoWebinar API wrapper for laravel 5+",
+  "license": "MIT",
+  "keywords": [
+    "gotowebinar",
+    "webinar",
+    "laravel"
+  ],
+  "authors": [
+    {
+      "name": "Leslie Price",
+      "email": "leslie.price78@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "nategood/httpful": "*",
+    "guzzlehttp/guzzle": "^6.1",
+    "illuminate/support": "~5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Slakbal\\Gotowebinar\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Slakbal\\Gotowebinar\\Test\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Slakbal\\Gotowebinar\\GotoWebinarServiceProvider"
+      ],
+      "aliases": {
+        "GotoWebinar": "Slakbal\\Gotowebinar\\Facade\\GotoWebinar"
+      }
+    }
+  },
+  "minimum-stability": "stable"
+}

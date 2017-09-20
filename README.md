@@ -1,2 +1,3 @@
-# gotowebinar
+# GotoWebinar
+
 Laravel GoToWebinar API wrapper
