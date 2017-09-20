@@ -24,9 +24,7 @@ class GotoWebinarServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/Routes/routes.php');
 
-        $this->publishes([
-            __DIR__ . '/../config/goto.php' => config_path('goto.php'),
-        ], 'config');
+        $this->publishes([__DIR__ . '/../config/goto.php' => config_path('goto.php')], 'config');
 
     }
 

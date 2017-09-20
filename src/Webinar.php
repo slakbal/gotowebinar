@@ -3,7 +3,7 @@
 
 namespace Slakbal\Gotowebinar;
 
-use Slakbal\Gotowebinar\Entity\Attendee;
+use Slakbal\Gotowebinar\Entity\Registrant;
 use Slakbal\Gotowebinar\Entity\Webinar as WebinarEntity;
 
 class Webinar extends GotoAbstract
@@ -125,7 +125,7 @@ class Webinar extends GotoAbstract
 
         $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/registrants';
 
-        $attendeeObject = new Attendee($payloadArray);
+        $attendeeObject = new Registrant($payloadArray);
 
         return $this->sendRequest('POST', $path, $parameters, $payload = $attendeeObject->toArray());
     }
@@ -168,18 +168,16 @@ class Webinar extends GotoAbstract
         return $this->sendRequest('DELETE', $path, $parameters = null, $payload = null);
     }
 
-    //TODO CARRY ON HERE
-
 
     /*
      * Retrieves details for all past sessions of a specific webinar.
      */
-    //function getSessions($webinarKey)
-    //{
-    //    $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions';
-    //
-    //    return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
-    //}
+    function getSessions($webinarKey)
+    {
+        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions';
+
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
 
 
     /*
@@ -188,28 +186,43 @@ class Webinar extends GotoAbstract
      * attendenceTime for a registrant, will also be retrieved. For technical reasons, this call cannot
      * be executed from this documentation. Please use the curl command to execute it.
      */
-    //function getSession($webinarKey, $sessionKey)
-    //{
-    //    $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey;
-    //
-    //    return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
-    //}
-
-
-    /*
-     * Returns all attendees for all sessions of the specified webinar.
-     */
-    function getAttendees($webinarKey)
+    function getSession($webinarKey, $sessionKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/attendees';
+        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey;
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
 
 
-    function getAttendee($webinarKey, $registrantKey)
+    /*
+     * Get performance details for a session. For technical reasons, this call cannot be executed from
+     * this documentation. Please use the curl command to execute it.
+     */
+    function getSessionPerformance($webinarKey, $sessionKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/attendees/' . $registrantKey;
+        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey . '/performance';
+
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
+
+
+    /*
+     * Retrieve details for all attendees of a specific webinar session.
+     */
+    function getAttendees($webinarKey, $sessionKey)
+    {
+        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey . '/attendees';
+
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
+
+
+    /*
+     * Retrieve registration details for a particular attendee of a specific webinar session.
+     */
+    function getAttendee($webinarKey, $sessionKey, $registrantKey)
+    {
+        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey . '/attendees/' . $registrantKey;
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }

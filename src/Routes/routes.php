@@ -47,12 +47,13 @@ if (!App::environment('production')) {
 
             Route::get('all', function () {
 
-                try {
 
-                    $parameters = [
-                        'fromTime' => Carbon::now()->subYears(5)->toW3cString(), //"2017-06-01T00:00:00Z",
-                        'toTime'   => Carbon::now()->addYears(5)->toW3cString(),
-                    ];
+                $parameters = [
+                    'fromTime' => Carbon::now()->subYears(5)->toW3cString(), //"2017-06-01T00:00:00Z",
+                    'toTime'   => Carbon::now()->addYears(5)->toW3cString(),
+                ];
+
+                try {
 
                     $gotoResponse = GotoWebinar::getAllWebinars($parameters);
 
@@ -180,7 +181,7 @@ if (!App::environment('production')) {
                         //required
                         'firstName'             => 'Peter',
                         'lastName'              => 'Pan',
-                        'email'                 => 'leslie.price78@gmail.com',
+                        'email'                 => 'peter.pan@example.com',
 
                         //optional empty fields will be filtered out an not sent with the request
                         'timeZone'              => 'America/Sao_Paulo',
@@ -247,44 +248,11 @@ if (!App::environment('production')) {
 
             });
 
-            /*
-                        Route::get('{webinarKey}/sessions', function ($webinarKey) {
-
-                            try {
-
-                                $gotoResponse = GotoWebinar::getSessions($webinarKey);
-
-                            } catch (GotoException $e) {
-
-                                return [$e->getMessage()];
-
-                            }
-
-                            return [$gotoResponse];
-                        });
-
-
-                        Route::get('{webinarKey}/sessions/{sessionKey}/show', function ($webinarKey, $sessionKey) {
-
-                            try {
-
-                                $gotoResponse = GotoWebinar::getSession($webinarKey, $sessionKey);
-
-                            } catch (GotoException $e) {
-
-                                return [$e->getMessage()];
-
-                            }
-
-                            return [$gotoResponse];
-                        });
-            */
-
-            Route::get('{webinarKey}/attendees', function ($webinarKey) {
+            Route::get('{webinarKey}/sessions', function ($webinarKey) {
 
                 try {
 
-                    $gotoResponse = GotoWebinar::getAttendees($webinarKey);
+                    $gotoResponse = GotoWebinar::getSessions($webinarKey);
 
                 } catch (GotoException $e) {
 
@@ -296,11 +264,59 @@ if (!App::environment('production')) {
             });
 
 
-            Route::get('{webinarKey}/attendees/{registrantKey}/show', function ($webinarKey, $registrantKey) {
+            Route::get('{webinarKey}/sessions/{sessionKey}/show', function ($webinarKey, $sessionKey) {
 
                 try {
 
-                    $gotoResponse = GotoWebinar::getAttendee($webinarKey, $registrantKey);
+                    $gotoResponse = GotoWebinar::getSession($webinarKey, $sessionKey);
+
+                } catch (GotoException $e) {
+
+                    return [$e->getMessage()];
+
+                }
+
+                return [$gotoResponse];
+            });
+
+
+            Route::get('{webinarKey}/sessions/{sessionKey}/performance', function ($webinarKey, $sessionKey) {
+
+                try {
+
+                    $gotoResponse = GotoWebinar::getSessionPerformance($webinarKey, $sessionKey);
+
+                } catch (GotoException $e) {
+
+                    return [$e->getMessage()];
+
+                }
+
+                return [$gotoResponse];
+            });
+
+
+            Route::get('{webinarKey}/sessions/{sessionKey}/attendees', function ($webinarKey, $sessionKey) {
+
+                try {
+
+                    $gotoResponse = GotoWebinar::getAttendees($webinarKey, $sessionKey);
+
+                } catch (GotoException $e) {
+
+                    return [$e->getMessage()];
+
+                }
+
+                return [$gotoResponse];
+            });
+
+
+            Route::get('webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/show', function ($webinarKey, $sessionKey, $registrantKey) {
+
+                try {
+
+                    $gotoResponse = GotoWebinar::getAttendee($webinarKey, $sessionKey, $registrantKey);
 
                 } catch (GotoException $e) {
 

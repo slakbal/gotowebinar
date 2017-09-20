@@ -67,21 +67,6 @@ trait GotoClient
     }
 
 
-    function getAuthObject($path, $parameters = null)
-    {
-        try {
-
-            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->send();
-
-        } catch (\Exception $e) {
-
-            $this->throwResponseException('GET', $this->response, $e->getMessage());
-        }
-
-        return $this->response->body; //the authObject is in the body of the response object
-    }
-
-
     function getUrl($baseUri, $path, $parameters = null)
     {
         if (is_null($parameters)) {
@@ -95,29 +80,6 @@ trait GotoClient
     function getBasePath($baseUri, $path)
     {
         return trim($baseUri, '/') . '/' . trim($path, '/');
-    }
-
-
-    /**
-     * @param $response
-     *
-     * @throws GotoException
-     */
-    private function processResultCode($verb, $response)
-    {
-        if ($response->code >= Response::HTTP_BAD_REQUEST) { //if any error range
-            $this->throwResponseException($verb, $response);
-        } else {
-
-            if (in_array($verb, ['DELETE', 'UPDATE', 'PUT'])) {
-
-                if (is_null($response->body) || empty($response->body)) {
-                    return true; //return true if it was not an error and if the VERB was completed
-                }
-            }
-        }
-
-        return $response->body;
     }
 
 
@@ -136,13 +98,12 @@ trait GotoClient
     {
         $this->message = $this->getResponseMessage($response->code);
 
-        ($exceptionMessage) ? Log::error('GOTO Http Exception: ' . $this->message . ' - ' . $exceptionMessage . ' Payload: ' . json_encode($response->payload)) : null;
+        ($exceptionMessage) ? Log::error('GOTOWEBINAR: HTTP Exception: ' . $this->message . ' - ' . $exceptionMessage . ' Payload: ' . json_encode($response->payload)) : null;
 
         if ($response->hasErrors()) {
 
             if ($response->hasBody()) {
 
-                //dump($response);
                 switch ($response->code) {
 
                     case Response::HTTP_CONFLICT:
@@ -169,6 +130,45 @@ trait GotoClient
     private function getResponseMessage($responseCode)
     {
         return isset($responseCode) ? Response::$statusTexts[$responseCode] . ' (' . $responseCode . ')' : 'unknown status';
+    }
+
+
+    /**
+     * @param $response
+     *
+     * @throws GotoException
+     */
+    private function processResultCode($verb, $response)
+    {
+        if ($response->code >= Response::HTTP_BAD_REQUEST) { //if any error range
+            $this->throwResponseException($verb, $response);
+        } else {
+
+            if (in_array($verb, ['DELETE', 'UPDATE', 'PUT'])) {
+
+                if (is_null($response->body) || empty($response->body)) {
+                    return true; //return true if it was not an error and if the VERB was completed
+                }
+            }
+        }
+
+        return $response->body;
+    }
+
+
+    function getAuthObject($path, $parameters = null)
+    {
+        try {
+
+            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->send();
+
+        } catch (\Exception $e) {
+
+            $this->throwResponseException('GET', $this->response, $e->getMessage());
+        }
+
+        //the authObject is in the body of the response object
+        return $this->response->body;
     }
 
 }

@@ -3,7 +3,7 @@
 namespace Slakbal\Gotowebinar\Entity;
 
 
-class Attendee extends EntityAbstract
+class Registrant extends EntityAbstract
 {
 
     /* Model Schema
@@ -61,7 +61,7 @@ class Attendee extends EntityAbstract
             $this->email = $parameterArray['email']; //required
 
             //optional
-            $this->timeZone = (isset($parameterArray['timeZone']) ? $parameterArray['timeZone'] : null);
+            $this->timeZone = (isset($parameterArray['timeZone']) ? $parameterArray['timeZone'] : config('app.timezone'));
             $this->organization = (isset($parameterArray['organization']) ? $parameterArray['organization'] : null);
             $this->source = (isset($parameterArray['source']) ? $parameterArray['source'] : null);
             $this->address = (isset($parameterArray['address']) ? $parameterArray['address'] : null);

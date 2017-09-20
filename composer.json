@@ -16,7 +16,7 @@
   ],
   "require": {
     "php": ">=7.0.0",
-    "nategood/httpful": "*",
+    "nategood/httpful": "^0.2",
     "guzzlehttp/guzzle": "^6.1",
     "illuminate/support": "~5"
   },

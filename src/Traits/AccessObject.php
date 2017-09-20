@@ -57,7 +57,7 @@ trait AccessObject
     }
 
 
-    private function directLogin()//todo make this private again... or check if there is a nice usecase for it to be public.... eg. renewal via a command?
+    private function directLogin()
     {
         $directAuth = new DirectLogin();
 
@@ -88,7 +88,7 @@ trait AccessObject
 
     private function checkAccessObject($authType)
     {
-        //If no Authenticate Object perform authentication to receive access object with tokens, etc.
+        //If no Authenticate Object, perform authentication to receive new access object with fresh tokens, etc.
         if (!$this->hasAccessObject()) {
 
             switch (strtolower($authType)) {

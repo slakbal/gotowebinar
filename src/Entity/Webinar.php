@@ -34,9 +34,12 @@ class Webinar extends EntityAbstract
     {
         if (isset($parameterArray) && is_array($parameterArray)) {
 
-            $this->subject = (isset($parameterArray['subject']) ? $parameterArray['subject'] : null);
-            $this->description = (isset($parameterArray['description']) ? $parameterArray['description'] : '');
+            //required
+            $this->subject = $parameterArray['subject'];
+            $this->description = $parameterArray['description'];
             $this->times[] = new Time($parameterArray['startTime'], $parameterArray['endTime']);
+
+            //optional
             $this->timeZone = (isset($parameterArray['timezone']) ? $parameterArray['timezone'] : config('app.timezone'));
             $this->type = (isset($parameterArray['type']) ? $parameterArray['type'] : $this->type);
             $this->locale = (isset($parameterArray['locale']) ? $parameterArray['locale'] : config('goto.default_locale'));
