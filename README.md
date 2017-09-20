@@ -99,6 +99,19 @@ _goto/webinars/{webinarKey}/show
 _goto/webinars/{webinarKey}/update                                              
 ```
 
+## Authentication Token Caching
+
+The authentication token is cached! So caching the token results in one less round trip to GotoWebinar servers. You can use the following mehtod to refresh the cached authentication token:
+
+```php
+
+//pass in "true" to force authentication token refresh
+$gotoResponse = GotoWebinar::state(false);
+
+//or explicity call the refreshToken method
+$gotoResponse = GotoWebinar::refreshToken();
+```
+
 ## Usage
 
 When using this package you'll notice it is closely aligned to the API documentation schemas etc. as can be found here: [GotoWebinar API Reference](https://goto-developer.logmeininc.com/content/gotowebinar-api-reference). It is recommended that you also keep an eye on the official API reference while implementing with this package.
@@ -315,7 +328,7 @@ GotoWebinar::getRegistrant($webinarKey, $registrantKey);
 
 ### deleteRegistrant
 
-Delete a specific registrant by webinarKey and registrantKey
+Delete a specific registrant by webinarKey and registrantKey, method returns `true` or `false`
 
 ```php
 GotoWebinar::deleteRegistrant($webinarKey, $registrantKey);
