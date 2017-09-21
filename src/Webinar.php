@@ -22,7 +22,10 @@ class Webinar extends GotoAbstract
      */
     function getAllWebinars($parameters = null)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars';
+        $path = sprintf(
+            'organizers/%s/webinars',
+            $this->getOrganizerKey()
+        );
 
         return $this->sendRequest('GET', $path, $parameters, $payload = null);
     }
@@ -34,7 +37,10 @@ class Webinar extends GotoAbstract
      */
     function getUpcomingWebinars()
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/upcomingWebinars';
+        $path = sprintf(
+            'organizers/%s/upcomingWebinars',
+            $this->getOrganizerKey()
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -45,7 +51,10 @@ class Webinar extends GotoAbstract
      */
     function getHistoricalWebinars($parameters = null)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/historicalWebinars';
+        $path = sprintf(
+            'organizers/%s/historicalWebinars',
+            $this->getOrganizerKey()
+        );
 
         return $this->sendRequest('GET', $path, $parameters, $payload = null);
     }
@@ -59,7 +68,11 @@ class Webinar extends GotoAbstract
      */
     function getWebinar($webinarKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s',
+            $this->getOrganizerKey(),
+            $webinarKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -71,7 +84,10 @@ class Webinar extends GotoAbstract
      */
     function createWebinar($payloadArray)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars';
+        $path = sprintf(
+            'organizers/%s/webinars',
+            $this->getOrganizerKey()
+        );
 
         $webinarObject = new WebinarEntity($payloadArray);
 
@@ -88,7 +104,11 @@ class Webinar extends GotoAbstract
     {
         ($sendNotification) ? $parameters = ['notifyParticipants' => true] : $parameters = ['notifyParticipants' => false];
 
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s',
+            $this->getOrganizerKey(),
+            $webinarKey
+        );
 
         $webinarObject = new WebinarEntity($payloadArray);
 
@@ -105,7 +125,11 @@ class Webinar extends GotoAbstract
     {
         ($sendCancellationEmails) ? $parameters = ['sendCancellationEmails' => true] : $parameters = null;
 
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s',
+            $this->getOrganizerKey(),
+            $webinarKey
+        );
 
         return $this->sendRequest('DELETE', $path, $parameters, $payload = null);
     }
@@ -123,7 +147,11 @@ class Webinar extends GotoAbstract
     {
         ($resendConfirmation) ? $parameters = ['resendConfirmation' => true] : $parameters = ['resendConfirmation' => false];
 
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/registrants';
+        $path = sprintf(
+            'organizers/%s/webinars/%s/registrants',
+            $this->getOrganizerKey(),
+            $webinarKey
+        );
 
         $attendeeObject = new Registrant($payloadArray);
 
@@ -141,7 +169,11 @@ class Webinar extends GotoAbstract
      */
     function getRegistrants($webinarKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/registrants';
+        $path = sprintf(
+            'organizers/%s/webinars/%s/registrants',
+            $this->getOrganizerKey(),
+            $webinarKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -152,7 +184,12 @@ class Webinar extends GotoAbstract
      */
     function getRegistrant($webinarKey, $registrantKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/registrants/' . $registrantKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s/registrants/%s',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $registrantKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -163,7 +200,12 @@ class Webinar extends GotoAbstract
      */
     function deleteRegistrant($webinarKey, $registrantKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/registrants/' . $registrantKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s/registrants/%s',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $registrantKey
+        );
 
         return $this->sendRequest('DELETE', $path, $parameters = null, $payload = null);
     }
@@ -174,7 +216,11 @@ class Webinar extends GotoAbstract
      */
     function getSessions($webinarKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions';
+        $path = sprintf(
+            'organizers/%s/webinars/%s/sessions',
+            $this->getOrganizerKey(),
+            $webinarKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -188,7 +234,12 @@ class Webinar extends GotoAbstract
      */
     function getSession($webinarKey, $sessionKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s/sessions/%s',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $sessionKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -200,7 +251,12 @@ class Webinar extends GotoAbstract
      */
     function getSessionPerformance($webinarKey, $sessionKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey . '/performance';
+        $path = sprintf(
+            'organizers/%s/webinars/%s/sessions/%s/performance',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $sessionKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -211,7 +267,12 @@ class Webinar extends GotoAbstract
      */
     function getAttendees($webinarKey, $sessionKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey . '/attendees';
+        $path = sprintf(
+            'organizers/%s/webinars/%s/sessions/%s/attendees',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $sessionKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
@@ -222,11 +283,17 @@ class Webinar extends GotoAbstract
      */
     function getAttendee($webinarKey, $sessionKey, $registrantKey)
     {
-        $path = 'organizers/' . $this->getOrganizerKey() . '/webinars/' . $webinarKey . '/sessions/' . $sessionKey . '/attendees/' . $registrantKey;
+        $path = sprintf(
+            'organizers/%s/webinars/%s/sessions/%s/attendees/%s',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $sessionKey,
+            $registrantKey
+        );
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
-    
+
     /**
      * [getAttendeePollAnswers description]
      * @param  [type] $webinarKey    [description]
@@ -237,7 +304,7 @@ class Webinar extends GotoAbstract
     public function getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey)
     {
         $path = sprintf(
-            '/organizers/%s/webinars/%s/sessions/%s/attendees/%s/polls',
+            'organizers/%s/webinars/%s/sessions/%s/attendees/%s/polls',
             $this->getOrganizerKey(),
             $webinarKey,
             $sessionKey,
@@ -255,8 +322,7 @@ class Webinar extends GotoAbstract
      */
     public function getSessionPolls($webinarKey, $sessionKey)
     {
-        $path = sprintf(
-            '/organizers/%s/webinars/%s/sessions/%s/polls',
+        $path = sprintf('organizers/%s/webinars/%s/sessions/%s/polls',
             $this->getOrganizerKey(),
             $webinarKey,
             $sessionKey

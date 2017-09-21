@@ -2,6 +2,7 @@
 
 namespace Slakbal\Gotowebinar;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class GotoWebinarServiceProvider extends ServiceProvider
@@ -22,7 +23,9 @@ class GotoWebinarServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/Routes/routes.php');
+        if (!App::environment('production')) {
+            $this->loadRoutesFrom(__DIR__ . '/Routes/routes.php');
+        }
 
         $this->publishes([__DIR__ . '/../config/goto.php' => config_path('goto.php')], 'config');
 
