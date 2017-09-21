@@ -141,7 +141,7 @@ $eventParams = [
 try {
     $gotoResponse = GotoWebinar::createWebinar($eventParams);
 } catch (GotoException $e) {
-    //do something or go somewhere or notifify someone
+    //do something, go somewhere or notifify someone
 }
 
 
@@ -181,8 +181,7 @@ When using the package methods it is recommended to call them within a `try`, `c
 try {
     $gotoResponse = GotoWebinar::createWebinar($eventParams);
 } catch (GotoException $e) {
-    return [$e->getMessage()];
-    //or send a notification
+    //do something, go somewhere or notifify someone
 }
 ``` 
 
@@ -374,6 +373,21 @@ Return a specif attendee of a specific session by webinarKey and sessionKey
 GotoWebinar::getAttendee($webinarKey, $sessionKey);
 ```
 
+### getAttendeePollAnswers
+
+Get poll answers from a particular attendee of a specific webinar session
+
+```php
+getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey);
+```
+
+### getSessionPolls
+
+Retrieve all collated attendee questions and answers for polls from a specific webinar session
+
+```php
+getSessionPolls($webinarKey, $sessionKey);
+```
 
 Your contribution or bug fixes are welcome!
 
