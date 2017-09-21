@@ -33,9 +33,9 @@ class Registrant extends EntityAbstract
     public $firstName;
     public $lastName;
     public $email;
-    public $timeZone;
 
     //optional
+    public $timeZone;
     public $organization;
     public $source;
     public $address;
