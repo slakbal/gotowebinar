@@ -226,5 +226,42 @@ class Webinar extends GotoAbstract
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
+    
+    /**
+     * [getAttendeePollAnswers description]
+     * @param  [type] $webinarKey    [description]
+     * @param  [type] $sessionKey    [description]
+     * @param  [type] $registrantKey [description]
+     * @return [type]                [description]
+     */
+    public function getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey)
+    {
+        $path = sprintf(
+            '/organizers/%s/webinars/%s/sessions/%s/attendees/%s/polls',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $sessionKey,
+            $registrantKey
+        );
 
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
+
+    /**
+     * [getSessionPolls description]
+     * @param  [type] $webinarKey [description]
+     * @param  [type] $sessionKey [description]
+     * @return [type]             [description]
+     */
+    public function getSessionPolls($webinarKey, $sessionKey)
+    {
+        $path = sprintf(
+            '/organizers/%s/webinars/%s/sessions/%s/polls',
+            $this->getOrganizerKey(),
+            $webinarKey,
+            $sessionKey
+        );
+
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
 }
