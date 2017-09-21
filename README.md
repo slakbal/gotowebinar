@@ -167,7 +167,7 @@ the API will send back a JSON response which will look like this:
 ]
 ```
 
-You can on the $gotoResponse directly access the properties in the response object:
+You can now on $gotoResponse directly access the properties in the response object:
 
 ```php
 $gotoResponse->webinarKey
