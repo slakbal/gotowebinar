@@ -5,325 +5,443 @@ use Slakbal\Gotowebinar\Exception\GotoException;
 use Slakbal\Gotowebinar\Facade\GotoWebinar;
 
 //apply the web group middleware so that the session is started for the provider
-Route::prefix('_goto')->middleware(['web'])->group(function () {
+Route::prefix('_goto')
+     ->middleware(['web'])
+     ->group(function () {
 
 
-    Route::get('/', function () {
+         Route::get('/', function () {
 
-        try {
+             try {
 
-            $gotoResponse = GotoWebinar::state(false);
-            //$gotoResponse = GotoWebinar::refreshToken();
+                 $gotoResponse = GotoWebinar::state(false);
+                 //$gotoResponse = GotoWebinar::refreshToken();
 
-        } catch (GotoException $e) {
+             } catch (GotoException $e) {
 
-            return [$e->getMessage()];
+                 return [$e->getMessage()];
 
-        }
+             }
 
-        return [$gotoResponse];
-    });
+             return [$gotoResponse];
+         });
 
-    Route::prefix('webinars')->group(function () {
+         Route::prefix('webinars')
+              ->group(function () {
 
-        Route::get('/', function () {
 
-            try {
+                  Route::get('/', function () {
 
-                $gotoResponse = GotoWebinar::getUpcomingWebinars();
+                      try {
 
-            } catch (GotoException $e) {
+                          $gotoResponse = GotoWebinar::getUpcomingWebinars();
 
-                return [$e->getMessage()];
+                      } catch (GotoException $e) {
 
-            }
+                          return [$e->getMessage()];
 
-            return [$gotoResponse];
+                      }
 
-        });
+                      return [$gotoResponse];
 
+                  });
 
-        Route::get('all', function () {
 
+                  Route::get('account', function () {
 
-            $parameters = [
-                'fromTime' => Carbon::now()->subYears(5)->toW3cString(), //"2017-06-01T00:00:00Z",
-                'toTime'   => Carbon::now()->addYears(5)->toW3cString(),
-            ];
 
-            try {
+                      $parameters = [
+                          'fromTime' => Carbon::now()
+                                              ->subYears(5)
+                                              ->toW3cString(),
+                          //"2017-06-01T00:00:00Z",
+                          'toTime'   => Carbon::now()
+                                              ->addYears(5)
+                                              ->toW3cString(),
+                          'size'     => 10,
+                          'page'     => 1,
+                      ];
 
-                $gotoResponse = GotoWebinar::getAllWebinars($parameters);
+                      try {
 
-            } catch (GotoException $e) {
+                          $gotoResponse = GotoWebinar::getAllWebinars($parameters);
 
-                return [$e->getMessage()];
+                      } catch (GotoException $e) {
 
-            }
+                          return [$e->getMessage()];
 
-            return [$gotoResponse];
-        });
+                      }
 
+                      return [$gotoResponse];
+                  });
 
-        Route::get('create', function () {
 
-            //Some of the body parameters are set per default but can explicitly be overridden.
-            $eventParams = [
-                'subject'             => 'XXXXX Test XXXXX*', //required
-                'description'         => 'Test Description*', //required
-                'startTime'           => Carbon::now()->addDays(2)->toW3cString(), //required  eg "2016-03-23T19:00:00Z"
-                'endTime'             => Carbon::now()->addDays(2)->addHour()->toW3cString(), //require eg "2016-03-23T20:00:00Z"
-                'timeZone'            => 'Europe/Berlin', //if not given the config('app.timezone) will be used
-                'type'                => 'single_session', //if not given the default is single_session
-                'isPasswordProtected' => false, //if not given the default is false
-            ];
 
-            try {
+                  Route::get('all', function () {
 
-                $gotoResponse = GotoWebinar::createWebinar($eventParams);
 
-            } catch (GotoException $e) {
+                      $parameters = [
+                          'fromTime' => Carbon::now()
+                                              ->subYears(5)
+                                              ->toW3cString(),
+                          //"2017-06-01T00:00:00Z",
+                          'toTime'   => Carbon::now()
+                                              ->addYears(5)
+                                              ->toW3cString(),
+                      ];
 
-                return [$e->getMessage()];
+                      try {
 
-            }
+                          $gotoResponse = GotoWebinar::getAllWebinars($parameters);
 
-            return [$gotoResponse];
+                      } catch (GotoException $e) {
 
-        });
+                          return [$e->getMessage()];
 
+                      }
 
-        Route::get('{webinarKey}/update', function ($webinarKey) {
+                      return [$gotoResponse];
+                  });
 
-            //Some of the body parameters are set per default but can explicitly be overridden.
-            $eventParams = [
-                'subject'             => 'XXXXX UPDATE Test2 XXXXX**', //required
-                'description'         => 'Updated Description**', //required
-                'startTime'           => Carbon::now()->addDays(3)->toW3cString(), //required  eg "2016-03-23T19:00:00Z"
-                'endTime'             => Carbon::now()->addDays(3)->addHour()->toW3cString(), //require eg "2016-03-23T20:00:00Z"
-                'timeZone'            => 'Africa/Johannesburg', //if not given the config('app.timezone) will be used
-                'type'                => 'single_session', //if not given the default is single_session
-                'isPasswordProtected' => true, //if not given the default is false
-            ];
 
-            try {
+                  Route::get('historical', function () {
 
-                $gotoResponse = GotoWebinar::updateWebinar($webinarKey, $eventParams, $sendNotification = true);
 
-            } catch (GotoException $e) {
+                      $parameters = [
+                          'fromTime' => "2017-01-01T00:00:00Z",
+                          'toTime'   => "2017-05-01T00:00:00Z",
+                      ];
 
-                return [$e->getMessage()];
+                      try {
 
-            }
+                          $gotoResponse = GotoWebinar::getHistoricalWebinars($parameters);
 
-            return [$gotoResponse];
+                      } catch (GotoException $e) {
 
-        });
+                          return [$e->getMessage()];
 
+                      }
 
-        Route::get('{webinarKey}/show', function ($webinarKey) {
+                      return [$gotoResponse];
+                  });
 
-            try {
 
-                $gotoResponse = GotoWebinar::getWebinar($webinarKey);
+                  Route::get('create', function () {
 
-            } catch (GotoException $e) {
+                      //Some of the body parameters are set per default but can explicitly be overridden.
+                      $eventParams = [
+                          //required
+                          'subject'             => 'XXXXX Test XXXXX*',
+                          //required
+                          'description'         => 'Test Description*',
+                          //required  eg "2016-03-23T19:00:00Z"
+                          'startTime'           => Carbon::now()
+                                                         ->addDays(2)
+                                                         ->toW3cString(),
+                          //require eg "2016-03-23T20:00:00Z"
+                          'endTime'             => Carbon::now()
+                                                         ->addDays(2)
+                                                         ->addHour()
+                                                         ->toW3cString(),
+                          //if not given the config('app.timezone) will be used
+                          'timeZone'            => 'Europe/Berlin',
+                          //if not given the default is single_session
+                          'type'                => 'single_session',
+                          //if not given the default is false
+                          'isPasswordProtected' => false,
+                      ];
 
-                return [$e->getMessage()];
+                      try {
 
-            }
+                          $gotoResponse = GotoWebinar::createWebinar($eventParams);
 
-            return [$gotoResponse];
+                      } catch (GotoException $e) {
 
-        });
+                          return [$e->getMessage()];
 
+                      }
 
-        Route::get('{webinarKey}/delete', function ($webinarKey) {
+                      return [$gotoResponse];
 
-            try {
+                  });
 
-                $gotoResponse = GotoWebinar::deleteWebinar($webinarKey, $sendNotification = false);
 
-            } catch (GotoException $e) {
+                  Route::get('{webinarKey}/update', function ($webinarKey) {
 
-                return [$e->getMessage()];
+                      //Some of the body parameters are set per default but can explicitly be overridden.
+                      $eventParams = [
+                          //required
+                          'subject'             => 'XXXXX UPDATE Test2 XXXXX**',
+                          //required
+                          'description'         => 'Updated Description**',
+                          //required  eg "2016-03-23T19:00:00Z"
+                          'startTime'           => Carbon::now()
+                                                         ->addDays(3)
+                                                         ->toW3cString(),
+                          //require eg "2016-03-23T20:00:00Z"
+                          'endTime'             => Carbon::now()
+                                                         ->addDays(3)
+                                                         ->addHour()
+                                                         ->toW3cString(),
+                          //if not given the config('app.timezone) will be used
+                          'timeZone'            => 'Africa/Johannesburg',
+                          //if not given the default is single_session
+                          'type'                => 'single_session',
+                          //if not given the default is false
+                          'isPasswordProtected' => true,
+                      ];
 
-            }
+                      try {
 
-            return [$gotoResponse];
+                          $gotoResponse = GotoWebinar::updateWebinar($webinarKey, $eventParams, $sendNotification = true);
 
-        });
+                      } catch (GotoException $e) {
 
+                          return [$e->getMessage()];
 
-        Route::get('{webinarKey}/registrants', function ($webinarKey) {
+                      }
 
-            try {
+                      return [$gotoResponse];
 
-                $gotoResponse = GotoWebinar::getRegistrants($webinarKey);
+                  });
 
-            } catch (GotoException $e) {
 
-                return [$e->getMessage()];
+                  Route::get('{webinarKey}/show', function ($webinarKey) {
 
-            }
+                      try {
 
-            return [$gotoResponse];
-        });
+                          $gotoResponse = GotoWebinar::getWebinar($webinarKey);
 
+                      } catch (GotoException $e) {
 
-        Route::get('{webinarKey}/registrants/create', function ($webinarKey) {
+                          return [$e->getMessage()];
 
-            try {
-                //Some of the body parameters are set per default but can explicitly be overridden.
-                $attendeeParams = [
-                    //required
-                    'firstName'             => 'Peter',
-                    'lastName'              => 'Pan',
-                    'email'                 => 'peter.pan@example.com',
+                      }
 
-                    //optional empty fields will be filtered out an not sent with the request
-                    'timeZone'              => 'America/Sao_Paulo',
-                    'organization'          => 'Test Organisation',
-                    'source '               => '',
-                    'address '              => '',
-                    'city '                 => '',
-                    'state '                => '',
-                    'zipCode '              => '',
-                    'country '              => '',
-                    'phone '                => '',
-                    'jobTitle '             => '',
-                    'questionsAndComments ' => '',
-                    'industry '             => '',
-                    'numberOfEmployees '    => '',
-                    'purchasingTimeFrame '  => '',
-                    'purchasingRole '       => '',
-                ];
+                      return [$gotoResponse];
 
-                //do the API call
-                $gotoResponse = GotoWebinar::createRegistrant($webinarKey, $attendeeParams, $resendConfirmation = false);
+                  });
 
-            } catch (GotoException $e) {
 
-                return [$e->getMessage()];
+                  Route::get('{webinarKey}/delete', function ($webinarKey) {
 
-            }
+                      try {
 
-            return [$gotoResponse];
+                          $gotoResponse = GotoWebinar::deleteWebinar($webinarKey, $sendNotification = false);
 
-        });
+                      } catch (GotoException $e) {
 
+                          return [$e->getMessage()];
 
-        Route::get('{webinarKey}/registrants/{registrantKey}/show', function ($webinarKey, $registrantKey) {
+                      }
 
-            try {
+                      return [$gotoResponse];
 
-                $gotoResponse = GotoWebinar::getRegistrant($webinarKey, $registrantKey);
+                  });
 
-            } catch (GotoException $e) {
 
-                return [$e->getMessage()];
+                  Route::get('{webinarKey}/registrants', function ($webinarKey) {
 
-            }
+                      try {
 
-            return [$gotoResponse];
+                          $gotoResponse = GotoWebinar::getRegistrants($webinarKey);
 
-        });
+                      } catch (GotoException $e) {
 
+                          return [$e->getMessage()];
 
-        Route::get('{webinarKey}/registrants/{registrantKey}/delete', function ($webinarKey, $registrantKey) {
+                      }
 
-            try {
+                      return [$gotoResponse];
+                  });
 
-                $gotoResponse = GotoWebinar::deleteRegistrant($webinarKey, $registrantKey);
 
-            } catch (GotoException $e) {
+                  Route::get('{webinarKey}/registrants/create', function ($webinarKey) {
 
-                return [$e->getMessage()];
+                      try {
+                          //Some of the body parameters are set per default but can explicitly be overridden.
+                          $attendeeParams = [
+                              //required
+                              'firstName'             => 'Peter',
+                              'lastName'              => 'Pan',
+                              'email'                 => 'peter.pan@example.com',
 
-            }
+                              //optional empty fields will be filtered out an not sent with the request
+                              'timeZone'              => 'America/Sao_Paulo',
+                              'organization'          => 'Test Organisation',
+                              'source '               => '',
+                              'address '              => '',
+                              'city '                 => '',
+                              'state '                => '',
+                              'zipCode '              => '',
+                              'country '              => '',
+                              'phone '                => '',
+                              'jobTitle '             => '',
+                              'questionsAndComments ' => '',
+                              'industry '             => '',
+                              'numberOfEmployees '    => '',
+                              'purchasingTimeFrame '  => '',
+                              'purchasingRole '       => '',
+                          ];
 
-            return [$gotoResponse];
+                          //do the API call
+                          $gotoResponse = GotoWebinar::createRegistrant($webinarKey, $attendeeParams, $resendConfirmation = false);
 
-        });
+                      } catch (GotoException $e) {
 
-        Route::get('{webinarKey}/sessions', function ($webinarKey) {
+                          return [$e->getMessage()];
 
-            try {
+                      }
 
-                $gotoResponse = GotoWebinar::getSessions($webinarKey);
+                      return [$gotoResponse];
 
-            } catch (GotoException $e) {
+                  });
 
-                return [$e->getMessage()];
 
-            }
+                  Route::get('{webinarKey}/registrants/{registrantKey}/show', function ($webinarKey, $registrantKey) {
 
-            return [$gotoResponse];
-        });
+                      try {
 
+                          $gotoResponse = GotoWebinar::getRegistrant($webinarKey, $registrantKey);
 
-        Route::get('{webinarKey}/sessions/{sessionKey}/show', function ($webinarKey, $sessionKey) {
+                      } catch (GotoException $e) {
 
-            try {
+                          return [$e->getMessage()];
 
-                $gotoResponse = GotoWebinar::getSession($webinarKey, $sessionKey);
+                      }
 
-            } catch (GotoException $e) {
+                      return [$gotoResponse];
 
-                return [$e->getMessage()];
+                  });
 
-            }
 
-            return [$gotoResponse];
-        });
+                  Route::get('{webinarKey}/registrants/{registrantKey}/delete', function ($webinarKey, $registrantKey) {
 
+                      try {
 
-        Route::get('{webinarKey}/sessions/{sessionKey}/performance', function ($webinarKey, $sessionKey) {
+                          $gotoResponse = GotoWebinar::deleteRegistrant($webinarKey, $registrantKey);
 
-            try {
+                      } catch (GotoException $e) {
 
-                $gotoResponse = GotoWebinar::getSessionPerformance($webinarKey, $sessionKey);
+                          return [$e->getMessage()];
 
-            } catch (GotoException $e) {
+                      }
 
-                return [$e->getMessage()];
+                      return [$gotoResponse];
 
-            }
+                  });
 
-            return [$gotoResponse];
-        });
+                  Route::get('{webinarKey}/sessions', function ($webinarKey) {
 
+                      try {
 
-        Route::get('{webinarKey}/sessions/{sessionKey}/attendees', function ($webinarKey, $sessionKey) {
+                          $gotoResponse = GotoWebinar::getSessions($webinarKey);
 
-            try {
+                      } catch (GotoException $e) {
 
-                $gotoResponse = GotoWebinar::getAttendees($webinarKey, $sessionKey);
+                          return [$e->getMessage()];
 
-            } catch (GotoException $e) {
+                      }
 
-                return [$e->getMessage()];
+                      return [$gotoResponse];
+                  });
 
-            }
 
-            return [$gotoResponse];
-        });
+                  Route::get('{webinarKey}/sessions/{sessionKey}/show', function ($webinarKey, $sessionKey) {
 
+                      try {
 
-        Route::get('webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/show', function ($webinarKey, $sessionKey, $registrantKey) {
+                          $gotoResponse = GotoWebinar::getSession($webinarKey, $sessionKey);
 
-            try {
+                      } catch (GotoException $e) {
 
-                $gotoResponse = GotoWebinar::getAttendee($webinarKey, $sessionKey, $registrantKey);
+                          return [$e->getMessage()];
 
-            } catch (GotoException $e) {
+                      }
 
-                return [$e->getMessage()];
+                      return [$gotoResponse];
+                  });
 
-            }
 
-            return [$gotoResponse];
-        });
+                  Route::get('{webinarKey}/sessions/{sessionKey}/performance', function ($webinarKey, $sessionKey) {
 
-    });
-});
+                      try {
+
+                          $gotoResponse = GotoWebinar::getSessionPerformance($webinarKey, $sessionKey);
+
+                      } catch (GotoException $e) {
+
+                          return [$e->getMessage()];
+
+                      }
+
+                      return [$gotoResponse];
+                  });
+
+
+                  Route::get('{webinarKey}/sessions/{sessionKey}/attendees', function ($webinarKey, $sessionKey) {
+
+                      try {
+
+                          $gotoResponse = GotoWebinar::getAttendees($webinarKey, $sessionKey);
+
+                      } catch (GotoException $e) {
+
+                          return [$e->getMessage()];
+
+                      }
+
+                      return [$gotoResponse];
+                  });
+
+
+                  Route::get('{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/show', function ($webinarKey, $sessionKey, $registrantKey) {
+
+                      try {
+
+                          $gotoResponse = GotoWebinar::getAttendee($webinarKey, $sessionKey, $registrantKey);
+
+                      } catch (GotoException $e) {
+
+                          return [$e->getMessage()];
+
+                      }
+
+                      return [$gotoResponse];
+                  });
+
+
+                  Route::get('{webinarKey}/sessions/{sessionKey}/polls', function ($webinarKey, $sessionKey) {
+
+                      try {
+
+                          $gotoResponse = GotoWebinar::getSessionPolls($webinarKey, $sessionKey);
+
+                      } catch (GotoException $e) {
+
+                          return [$e->getMessage()];
+
+                      }
+
+                      return [$gotoResponse];
+                  });
+
+
+                  Route::get('{webinarKey}/sessions/{sessionKey}/polls/{registrantKey}/answers', function ($webinarKey, $sessionKey, $registrantKey) {
+
+                      try {
+
+                          $gotoResponse = GotoWebinar::getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey);
+
+                      } catch (GotoException $e) {
+
+                          return [$e->getMessage()];
+
+                      }
+
+                      return [$gotoResponse];
+                  });
+
+              });
+
+     });

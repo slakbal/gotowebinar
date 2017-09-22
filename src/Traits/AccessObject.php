@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Slakbal\Gotowebinar\DirectLogin;
 use Slakbal\Gotowebinar\Exception\GotoAuthenticateException;
 
+
 trait AccessObject
 {
 
@@ -43,17 +44,17 @@ trait AccessObject
     }
 
 
-    function hasAccessObject()
-    {
-        return cache()->has('GOTO_ACCESS_OBJECT');
-    }
-
-
     function clearAccessObject()
     {
         cache()->forget('GOTO_ACCESS_OBJECT');
 
         return $this;
+    }
+
+
+    function hasAccessObject()
+    {
+        return cache()->has('GOTO_ACCESS_OBJECT');
     }
 
 
@@ -82,7 +83,8 @@ trait AccessObject
 
     private function rememberAccessObject($authObject)
     {
-        cache()->put('GOTO_ACCESS_OBJECT', $authObject, Carbon::now()->addMinutes($this->tokenExpiryMinutes));
+        cache()->put('GOTO_ACCESS_OBJECT', $authObject, Carbon::now()
+                                                              ->addMinutes($this->tokenExpiryMinutes));
     }
 
 

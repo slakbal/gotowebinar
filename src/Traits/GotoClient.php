@@ -35,23 +35,47 @@ trait GotoClient
 
                 case 'GET':
 
-                    $this->response = Request::get($this->getUrl($this->G2W_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->send();
+                    $this->response = Request::get($this->getUrl($this->G2W_uri, $path, $parameters))
+                                             ->strictSSL($this->verify_ssl)
+                                             ->addHeaders($this->determineHeaders())
+                                             ->timeout($this->timeout)
+                                             ->expectsJson()
+                                             ->send();
                     break;
 
                 case 'POST':
 
-                    $this->response = Request::post($this->getUrl($this->G2W_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->sendsJson()->body($payload)->send();
+                    $this->response = Request::post($this->getUrl($this->G2W_uri, $path, $parameters))
+                                             ->strictSSL($this->verify_ssl)
+                                             ->addHeaders($this->determineHeaders())
+                                             ->timeout($this->timeout)
+                                             ->expectsJson()
+                                             ->sendsJson()
+                                             ->body($payload)
+                                             ->send();
                     break;
 
 
                 case 'PUT':
 
-                    $this->response = Request::put($this->getUrl($this->G2W_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->sendsJson()->body($payload)->send();
+                    $this->response = Request::put($this->getUrl($this->G2W_uri, $path, $parameters))
+                                             ->strictSSL($this->verify_ssl)
+                                             ->addHeaders($this->determineHeaders())
+                                             ->timeout($this->timeout)
+                                             ->expectsJson()
+                                             ->sendsJson()
+                                             ->body($payload)
+                                             ->send();
                     break;
 
                 case 'DELETE':
 
-                    $this->response = Request::delete($this->getUrl($this->G2W_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->send();
+                    $this->response = Request::delete($this->getUrl($this->G2W_uri, $path, $parameters))
+                                             ->strictSSL($this->verify_ssl)
+                                             ->addHeaders($this->determineHeaders())
+                                             ->timeout($this->timeout)
+                                             ->expectsJson()
+                                             ->send();
                     break;
 
                 default:
@@ -144,7 +168,11 @@ trait GotoClient
             $this->throwResponseException($verb, $response);
         } else {
 
-            if (in_array($verb, ['DELETE', 'UPDATE', 'PUT'])) {
+            if (in_array($verb, [
+                'DELETE',
+                'UPDATE',
+                'PUT',
+            ])) {
 
                 if (is_null($response->body) || empty($response->body)) {
                     return true; //return true if it was not an error and if the VERB was completed
@@ -156,11 +184,28 @@ trait GotoClient
     }
 
 
+    function getPathRelativeToOrganizer($relativePathSection = null)
+    {
+        return sprintf('organizers/%s/', $this->getOrganizerKey()) . trim($relativePathSection, '/');
+    }
+
+
+    function getPathRelativeToAccount($relativePathSection = null)
+    {
+        return sprintf('accounts/%s/', $this->getAccountKey()) . trim($relativePathSection, '/');
+    }
+
+
     function getAuthObject($path, $parameters = null)
     {
         try {
 
-            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))->strictSSL($this->verify_ssl)->addHeaders($this->determineHeaders())->timeout($this->timeout)->expectsJson()->send();
+            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))
+                                     ->strictSSL($this->verify_ssl)
+                                     ->addHeaders($this->determineHeaders())
+                                     ->timeout($this->timeout)
+                                     ->expectsJson()
+                                     ->send();
 
         } catch (\Exception $e) {
 

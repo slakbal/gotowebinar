@@ -11,6 +11,7 @@ class Time extends EntityAbstract
       "endTime": "2017-09-20T13:00:00Z"
     }
     */
+
     public $startTime;
     public $endTime;
 

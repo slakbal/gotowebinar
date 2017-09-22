@@ -21,6 +21,7 @@ class Webinar extends EntityAbstract
       "isPasswordProtected": false
     }
     */
+
     public $subject;
     public $description;
     public $times = [];

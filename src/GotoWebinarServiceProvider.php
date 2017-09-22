@@ -10,7 +10,6 @@ class GotoWebinarServiceProvider extends ServiceProvider
 
     /**
      * Indicates if loading of the provider is deferred.
-     *
      * @var bool
      */
     protected $defer = false; //must be false for the routes to work
@@ -18,13 +17,14 @@ class GotoWebinarServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application services.
-     *
      * @return void
      */
     public function boot()
     {
         if (!App::environment('production')) {
             $this->loadRoutesFrom(__DIR__ . '/Routes/routes.php');
+        } else {
+            $this->defer = true;
         }
 
         $this->publishes([__DIR__ . '/../config/goto.php' => config_path('goto.php')], 'config');
@@ -51,7 +51,6 @@ class GotoWebinarServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
      * @return array
      */
     public function provides()
