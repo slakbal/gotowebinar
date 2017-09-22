@@ -67,8 +67,6 @@ trait WebinarOperations
 
         $webinarObject = new WebinarEntity($payloadArray);
 
-        dd($webinarObject->toArray());
-
         return $this->sendRequest('POST', $path, $parameters = null, $payload = $webinarObject->toArray());
     }
 
