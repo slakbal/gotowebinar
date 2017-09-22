@@ -31,12 +31,14 @@ abstract class GotoAbstract
         }
 
         if ($this->hasAccessObject()) {
-            return ['state'        => 'Access object available',
-                    'accessObject' => $this->getAccessObject(),
+            return [
+                'state'        => 'Access object available',
+                'accessObject' => $this->getAccessObject(),
             ];
         } else {
-            return ['state'        => 'No access object available',
-                    'accessObject' => null,
+            return [
+                'state'        => 'No access object available',
+                'accessObject' => null,
             ];
         }
     }

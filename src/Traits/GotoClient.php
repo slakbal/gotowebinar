@@ -107,6 +107,39 @@ trait GotoClient
     }
 
 
+    function getPathRelativeToOrganizer($relativePathSection = null)
+    {
+        return sprintf('organizers/%s/', $this->getOrganizerKey()) . trim($relativePathSection, '/');
+    }
+
+
+    function getPathRelativeToAccount($relativePathSection = null)
+    {
+        return sprintf('accounts/%s/', $this->getAccountKey()) . trim($relativePathSection, '/');
+    }
+
+
+    function getAuthObject($path, $parameters = null)
+    {
+        try {
+
+            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))
+                                     ->strictSSL($this->verify_ssl)
+                                     ->addHeaders($this->determineHeaders())
+                                     ->timeout($this->timeout)
+                                     ->expectsJson()
+                                     ->send();
+
+        } catch (\Exception $e) {
+
+            $this->throwResponseException('GET', $this->response, $e->getMessage());
+        }
+
+        //the authObject is in the body of the response object
+        return $this->response->body;
+    }
+
+
     private function determineHeaders()
     {
         //if the accessObject exist it means the API can probably authenticate by token, thus add it to the headers
@@ -181,39 +214,6 @@ trait GotoClient
         }
 
         return $response->body;
-    }
-
-
-    function getPathRelativeToOrganizer($relativePathSection = null)
-    {
-        return sprintf('organizers/%s/', $this->getOrganizerKey()) . trim($relativePathSection, '/');
-    }
-
-
-    function getPathRelativeToAccount($relativePathSection = null)
-    {
-        return sprintf('accounts/%s/', $this->getAccountKey()) . trim($relativePathSection, '/');
-    }
-
-
-    function getAuthObject($path, $parameters = null)
-    {
-        try {
-
-            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))
-                                     ->strictSSL($this->verify_ssl)
-                                     ->addHeaders($this->determineHeaders())
-                                     ->timeout($this->timeout)
-                                     ->expectsJson()
-                                     ->send();
-
-        } catch (\Exception $e) {
-
-            $this->throwResponseException('GET', $this->response, $e->getMessage());
-        }
-
-        //the authObject is in the body of the response object
-        return $this->response->body;
     }
 
 }

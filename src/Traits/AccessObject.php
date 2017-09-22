@@ -83,8 +83,7 @@ trait AccessObject
 
     private function rememberAccessObject($authObject)
     {
-        cache()->put('GOTO_ACCESS_OBJECT', $authObject, Carbon::now()
-                                                              ->addMinutes($this->tokenExpiryMinutes));
+        cache()->put('GOTO_ACCESS_OBJECT', $authObject, Carbon::now()->addMinutes($this->tokenExpiryMinutes));
     }
 
 
