@@ -378,7 +378,7 @@ GotoWebinar::getAttendee($webinarKey, $sessionKey);
 Get poll answers from a particular attendee of a specific webinar session
 
 ```php
-getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey);
+GotoWebinar::getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey);
 ```
 
 ### getSessionPolls
@@ -386,7 +386,7 @@ getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey);
 Retrieve all collated attendee questions and answers for polls from a specific webinar session
 
 ```php
-getSessionPolls($webinarKey, $sessionKey);
+GotoWebinar::getSessionPolls($webinarKey, $sessionKey);
 ```
 
 Your contribution or bug fixes are welcome!
