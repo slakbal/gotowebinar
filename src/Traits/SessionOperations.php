@@ -57,4 +57,19 @@ trait SessionOperations
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
+
+    /**
+     * [getSessionQuestions description]
+     *
+     * @param  [type] $webinarKey [description]
+     * @param  [type] $sessionKey [description]
+     *
+     * @return [type]             [description]
+     */
+    public function getSessionQuestions($webinarKey, $sessionKey)
+    {
+        $path = $this->getPathRelativeToOrganizer(sprintf('webinars/%s/sessions/%s/questions', $webinarKey, $sessionKey));
+
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
 }
