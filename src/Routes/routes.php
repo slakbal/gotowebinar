@@ -155,7 +155,7 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
             //Some of the body parameters are set per default but can explicitly be overridden.
             $eventParams = [
                 //required
-                'subject'             => 'XXXXX UPDATE Test2 XXXXX**',
+                'subject'             => 'XXXXX UPDATED to New Test XXXXX**',
                 //required
                 'description'         => 'Updated Description**',
                 //required  eg "2016-03-23T19:00:00Z"
@@ -246,7 +246,6 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
                     'email'                 => 'peter.pan@example.com',
 
                     //optional empty fields will be filtered out an not sent with the request
-                    'timeZone'              => 'America/Sao_Paulo',
                     'organization'          => 'Test Organisation',
                     'source '               => '',
                     'address '              => '',

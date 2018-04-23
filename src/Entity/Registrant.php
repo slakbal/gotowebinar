@@ -11,7 +11,6 @@ class Registrant extends EntityAbstract
       "firstName": "string",
       "lastName": "string",
       "email": "string",
-      "timeZone": "string",
       "source": "string",
       "address": "string",
       "city": "string",
@@ -35,7 +34,6 @@ class Registrant extends EntityAbstract
     public $email;
 
     //optional
-    public $timeZone;
     public $organization;
     public $source;
     public $address;
@@ -61,22 +59,22 @@ class Registrant extends EntityAbstract
             $this->email = $parameterArray['email']; //required
 
             //optional
-            $this->timeZone = (isset($parameterArray['timeZone']) ? $parameterArray['timeZone'] : config('app.timezone')); //framwork config
-            $this->organization = (isset($parameterArray['organization']) ? $parameterArray['organization'] : null);
-            $this->source = (isset($parameterArray['source']) ? $parameterArray['source'] : null);
-            $this->address = (isset($parameterArray['address']) ? $parameterArray['address'] : null);
-            $this->city = (isset($parameterArray['city']) ? $parameterArray['city'] : null);
-            $this->state = (isset($parameterArray['state']) ? $parameterArray['state'] : null);
-            $this->zipCode = (isset($parameterArray['zipCode']) ? $parameterArray['zipCode'] : null);
-            $this->country = (isset($parameterArray['country']) ? $parameterArray['country'] : null);
-            $this->phone = (isset($parameterArray['phone']) ? $parameterArray['phone'] : null);
-            $this->jobTitle = (isset($parameterArray['jobTitle']) ? $parameterArray['jobTitle'] : null);
-            $this->questionsAndComments = (isset($parameterArray['questionsAndComments']) ? $parameterArray['questionsAndComments'] : null);
-            $this->industry = (isset($parameterArray['industry']) ? $parameterArray['industry'] : null);
-            $this->numberOfEmployees = (isset($parameterArray['numberOfEmployees']) ? $parameterArray['numberOfEmployees'] : null);
-            $this->purchasingTimeFrame = (isset($parameterArray['purchasingTimeFrame']) ? $parameterArray['purchasingTimeFrame'] : null);
-            $this->purchasingRole = (isset($parameterArray['purchasingRole']) ? $parameterArray['purchasingRole'] : null);
+            $this->organization = $parameterArray['organization'] ?? null;
+            $this->source = $parameterArray['source'] ?? null;
+            $this->address = $parameterArray['address'] ?? null;
+            $this->city = $parameterArray['city'] ?? null;
+            $this->state = $parameterArray['state'] ?? null;
+            $this->zipCode = $parameterArray['zipCode'] ?? null;
+            $this->country = $parameterArray['country'] ?? null;
+            $this->phone = $parameterArray['phone'] ?? null;
+            $this->jobTitle = $parameterArray['jobTitle'] ?? null;
+            $this->questionsAndComments = $parameterArray['questionsAndComments'] ?? null;
+            $this->industry = $parameterArray['industry'] ?? null;
+            $this->numberOfEmployees = $parameterArray['numberOfEmployees'] ?? null;
+            $this->purchasingTimeFrame = $parameterArray['purchasingTimeFrame'] ?? null;
+            $this->purchasingRole = $parameterArray['purchasingRole'] ?? null;
         }
     }
+
 
 }
