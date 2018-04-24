@@ -128,7 +128,7 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
                 //require eg "2016-03-23T20:00:00Z"
                 'endTime'             => Carbon::now()->addDays(2)->addHour()->toW3cString(),
                 //if not given the config('app.timezone) will be used
-                'timeZone'            => 'Europe/Berlin',
+                'timeZone'            => 'Europe/Amsterdam',
                 //if not given the default is single_session
                 'type'                => 'single_session',
                 //if not given the default is false
@@ -163,7 +163,7 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
                 //require eg "2016-03-23T20:00:00Z"
                 'endTime'             => Carbon::now()->addDays(3)->addHour()->toW3cString(),
                 //if not given the config('app.timezone) will be used
-                'timeZone'            => 'Africa/Johannesburg',
+                'timeZone'            => 'Africa/Harare',
                 //if not given the default is single_session
                 'type'                => 'single_session',
                 //if not given the default is false
