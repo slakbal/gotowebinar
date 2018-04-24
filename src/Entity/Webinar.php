@@ -41,11 +41,10 @@ class Webinar extends EntityAbstract
             $this->times[] = new Time($parameterArray['startTime'], $parameterArray['endTime']);
 
             //optional
-            $this->timeZone = $parameterArray['timeZone'] ?? config('app.timezone');
+            $this->timeZone = $parameterArray['timeZone'] ?? null;
             $this->locale = $parameterArray['locale'] ?? $this->determineLocale() ?? 'en_US';
             $this->type = $parameterArray['type'] ?? $this->type;
             $this->isPasswordProtected = $parameterArray['isPasswordProtected'] ?? $this->isPasswordProtected;
-
         }
     }
 
