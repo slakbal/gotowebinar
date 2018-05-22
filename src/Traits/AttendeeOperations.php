@@ -43,4 +43,20 @@ trait AttendeeOperations
 
         return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
     }
+
+    /**
+     * [getAttendeeQuestions description]
+     * 
+     * @param  [type] $webinarKey    [description]
+     * @param  [type] $sessionKey    [description]
+     * @param  [type] $registrantKey [description]
+     * 
+     * @return [type]                [description]
+     */
+    public function getAttendeeQuestions($webinarKey, $sessionKey, $registrantKey)
+    {
+        $path = $this->getPathRelativeToOrganizer(sprintf('webinars/%s/sessions/%s/attendees/%s/questions', $webinarKey, $sessionKey, $registrantKey));
+
+        return $this->sendRequest('GET', $path, $parameters = null, $payload = null);
+    }
 }
