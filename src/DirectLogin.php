@@ -9,7 +9,7 @@ class DirectLogin
 
     use GotoClient;
 
-    protected $path = 'oauth/access_token';
+    protected $path = 'oauth/v2/token';
 
 
     public function authenticate()
@@ -22,10 +22,8 @@ class DirectLogin
     {
         return [
             'grant_type' => "password",
-            'user_id'    => config('goto.direct.username'),
-            'password'   => config('goto.direct.password'),
-            'client_id'  => config('goto.direct.client_id'),
+            'username'    => config('goto.direct.username'),
+            'password'   => config('goto.direct.password')
         ];
     }
-
 }
