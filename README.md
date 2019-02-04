@@ -81,22 +81,22 @@ php artisan route:list
 You will notice that there are some test routes, which you can look at for examples. Once your environment is in `production` in your `.env` file these routes will no longer be available.
 
 ```php
-_goto                                                                           
-_goto/webinars                                                                  
-_goto/webinars/all                                                              
-_goto/webinars/create                                                           
-_goto/webinars/webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/show 
-_goto/webinars/{webinarKey}/delete                                              
-_goto/webinars/{webinarKey}/registrants                                         
-_goto/webinars/{webinarKey}/registrants/create                                  
-_goto/webinars/{webinarKey}/registrants/{registrantKey}/delete                  
-_goto/webinars/{webinarKey}/registrants/{registrantKey}/show                    
-_goto/webinars/{webinarKey}/sessions                                            
-_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees                     
-_goto/webinars/{webinarKey}/sessions/{sessionKey}/performance                   
-_goto/webinars/{webinarKey}/sessions/{sessionKey}/show                          
-_goto/webinars/{webinarKey}/show                                                
-_goto/webinars/{webinarKey}/update                                              
+_goto
+_goto/webinars
+_goto/webinars/all
+_goto/webinars/create
+_goto/webinars/webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/show
+_goto/webinars/{webinarKey}/delete
+_goto/webinars/{webinarKey}/registrants
+_goto/webinars/{webinarKey}/registrants/create
+_goto/webinars/{webinarKey}/registrants/{registrantKey}/delete
+_goto/webinars/{webinarKey}/registrants/{registrantKey}/show
+_goto/webinars/{webinarKey}/sessions
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/performance
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/show
+_goto/webinars/{webinarKey}/show
+_goto/webinars/{webinarKey}/update
 ```
 
 ## Authentication Token Caching
@@ -118,19 +118,19 @@ When using this package you'll notice it is closely aligned to the API documenta
 
 ### Examples
 
-In the following location `vendor/slakbal/gotowebinar/src/routes` , there is a `routes.php` file with the above mentioned routes. 
+In the following location `vendor/slakbal/gotowebinar/src/routes` , there is a `routes.php` file with the above mentioned routes.
 
 For example:
 
 ```php
 //Some of the body parameters have defaults, but can be explicitly overridden.
-$eventParams = [                    
+$eventParams = [
     //required
     'subject'             => 'XXXXX Test XXXXX*', //required
     'description'         => 'Test Description*', //required
     'startTime'           => Carbon::now()->addDays(2)->toW3cString(),              //required  eg "2016-03-23T19:00:00Z"
     'endTime'             => Carbon::now()->addDays(2)->addHour()->toW3cString(),   //require eg "2016-03-23T20:00:00Z"
-    
+
     //optional with defaults
     'timeZone'            => 'Europe/Berlin',   //if not given the default is: config('app.timezone') from framework config
     'type'                => 'single_session',  //if not given the default is: single_session
@@ -176,14 +176,14 @@ $gotoResponse->webinarKey
 ## Exception Handling and Logging
 
 When using the package methods it is recommended to call them within a `try`, `catch` block. For example:
- 
+
 ```php
 try {
     $gotoResponse = GotoWebinar::createWebinar($eventParams);
 } catch (GotoException $e) {
     //do something, go somewhere or notifify someone
 }
-``` 
+```
 
 The package will automatically log most errors for you to the Laravel log file, so you don't need to log them again. For example:
 
@@ -388,6 +388,10 @@ Retrieve all collated attendee questions and answers for polls from a specific w
 ```php
 GotoWebinar::getSessionPolls($webinarKey, $sessionKey);
 ```
+
+## Testing
+
+For your installation, add your own `phpunit.xml` file to add to your environment
 
 Your contribution or bug fixes are welcome!
 
