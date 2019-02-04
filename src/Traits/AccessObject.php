@@ -63,14 +63,10 @@ trait AccessObject
         $directAuth = new DirectLogin();
 
         try {
-
             $this->authObject = $directAuth->authenticate(); //the method returns authObject
-
         } catch (GotoAuthenticateException $e) {
-
             $this->clearAccessObject(); //make sure the object is cleared from the cache to force a login retry
             throw $e; //bubble the exception up by rethrowing
-
         }
 
         $this->rememberAccessObject($this->authObject); //cache the authObject
