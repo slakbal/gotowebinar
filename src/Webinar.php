@@ -9,13 +9,10 @@ use Slakbal\Gotowebinar\Traits\WebinarOperations;
 
 class Webinar extends GotoAbstract
 {
-
     use WebinarOperations, RegistrantOperations, SessionOperations, AttendeeOperations;
 
-
-    function __construct($authType = 'direct')
+    public function __construct($authType = 'direct')
     {
         parent::__construct($authType = 'direct');
     }
-
 }

@@ -26,7 +26,7 @@ trait GotoClient
 
 
     //returns the body of the rest response
-    function sendRequest($verb, $path, $parameters = null, $payload = null)
+    public function sendRequest($verb, $path, $parameters = null, $payload = null)
     {
         $verb = strtoupper(trim($verb));
 
@@ -91,7 +91,7 @@ trait GotoClient
     }
 
 
-    function getUrl($baseUri, $path, $parameters = null)
+    public function getUrl($baseUri, $path, $parameters = null)
     {
         if (is_null($parameters)) {
             return $this->getBasePath($baseUri, $path);
@@ -101,52 +101,51 @@ trait GotoClient
     }
 
 
-    function getBasePath($baseUri, $path)
+    public function getBasePath($baseUri, $path)
     {
         return trim($baseUri, '/') . '/' . trim($path, '/');
     }
 
 
-    function getPathRelativeToOrganizer($relativePathSection = null)
+    public function getPathRelativeToOrganizer($relativePathSection = null)
     {
         return sprintf('organizers/%s/', $this->getOrganizerKey()) . trim($relativePathSection, '/');
     }
 
 
-    function getPathRelativeToAccount($relativePathSection = null)
+    public function getPathRelativeToAccount($relativePathSection = null)
     {
         return sprintf('accounts/%s/', $this->getAccountKey()) . trim($relativePathSection, '/');
     }
 
 
-    function getAuthObject($path, $parameters = null)
+    public function getAuthObject($path, $parameters = null)
     {
         try {
-
-            $this->response = Request::get($this->getUrl($this->AUTH_uri, $path, $parameters))
-                                     ->strictSSL($this->verify_ssl)
-                                     ->addHeaders($this->determineHeaders())
-                                     ->timeout($this->timeout)
-                                     ->expectsJson()
-                                     ->send();
-
+            $this->response = Request::post($this->getUrl($this->AUTH_uri, $path))
+                                    ->strictSSL($this->verify_ssl)
+                                    ->addHeaders($this->determineHeaders())
+                                    ->timeout($this->timeout)
+                                    ->body($parameters, 'form')
+                                    ->expects('json')
+                                    ->send();
         } catch (\Exception $e) {
-
-            $this->throwResponseException('GET', $this->response, $e->getMessage());
+            $this->throwResponseException('POST', $this->response, $e->getMessage());
         }
-
         //the authObject is in the body of the response object
         return $this->response->body;
     }
-
 
     private function determineHeaders()
     {
         //if the accessObject exist it means the API can probably authenticate by token, thus add it to the headers
         if (cache()->has('GOTO_ACCESS_OBJECT')) {
             $this->headers['Authorization'] = $this->getAccessToken();
+        } else {
+            $this->headers = [
+                'Authorization' => 'Basic ' . base64_encode(config('goto.direct.client_id') . ':' . config('goto.direct.client_secret'))
+            ];
         }
-
         return $this->headers;
     }
 
@@ -157,38 +156,27 @@ trait GotoClient
 
         ($exceptionMessage) ? Log::error('GOTOWEBINAR: HTTP Exception: ' . $this->message . ' - ' . $exceptionMessage . ' Payload: ' . json_encode($response->payload)) : null;
 
-        if ($response->hasErrors()) {
+        if ($response->hasErrors() && $response->hasBody()) {
+            switch ($response->code) {
+                case Response::HTTP_CONFLICT:
+                    Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
+                    throw new GotoException($this->message . ' - ' . $response->body->description);
 
-            if ($response->hasBody()) {
+                    break;
 
-                switch ($response->code) {
-
-                    case Response::HTTP_CONFLICT:
-
-                        Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
-                        throw new GotoException($this->message . ' - ' . $response->body->description);
-
-                        break;
-
-                    default:
-
-                        Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
-                        throw new GotoException($this->message . ' - ' . $response->body->description);
-                }
+                default:
+                    Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
+                    throw new GotoException($this->message . ' - ' . $response->body->description);
             }
-
         }
 
         throw new GotoException($this->message . ' - There was an error, make sure the API endpoint-url exist and if all the required data is given to the request');
-
     }
-
 
     private function getResponseMessage($responseCode)
     {
         return isset($responseCode) ? Response::$statusTexts[$responseCode] . ' (' . $responseCode . ')' : 'unknown status';
     }
-
 
     /**
      * @param $response
@@ -200,13 +188,11 @@ trait GotoClient
         if ($response->code >= Response::HTTP_BAD_REQUEST) { //if any error range
             $this->throwResponseException($verb, $response);
         } else {
-
             if (in_array($verb, [
                 'DELETE',
                 'UPDATE',
                 'PUT',
             ])) {
-
                 if (is_null($response->body) || empty($response->body)) {
                     return true; //return true if it was not an error and if the VERB was completed
                 }
@@ -215,5 +201,4 @@ trait GotoClient
 
         return $response->body;
     }
-
 }
