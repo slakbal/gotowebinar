@@ -1,6 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Entity;
+namespace Slakbal\Gotowebinar\Old\Entity;
 
 
 class Registrant extends EntityAbstract

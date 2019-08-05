@@ -1,11 +1,11 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Test\Unit;
+namespace Slakbal\Gotowebinar\Old\Test\Unit;
 
-use Slakbal\Gotowebinar\Test\BaseTestCase;
-use Slakbal\Gotowebinar\Facade\GotoWebinar;
+use Slakbal\Gotowebinar\Old\Test\TestCase;
+use Slakbal\Gotowebinar\Old\Facade\GotoWebinar;
 
-class WebinarOperationsTest extends BaseTestCase
+class WebinarOperationsTest extends TestCase
 {
     /**
      * Get all webinars in the account, then test for a count of webinars

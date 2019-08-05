@@ -2,8 +2,8 @@
 
 namespace Slakbal\Gotowebinar;
 
-use Slakbal\Gotowebinar\Traits\AccessObject;
-use Slakbal\Gotowebinar\Traits\GotoClient;
+use Slakbal\Gotowebinar\Old\Traits\AccessObject;
+use Slakbal\Gotowebinar\Old\Traits\GotoClient;
 
 /**
  * Provides common functionality

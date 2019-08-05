@@ -2,7 +2,7 @@
 
 namespace Slakbal\Gotowebinar;
 
-use Slakbal\Gotowebinar\Traits\GotoClient;
+use Slakbal\Gotowebinar\Old\Traits\GotoClient;
 
 class DirectLogin
 {

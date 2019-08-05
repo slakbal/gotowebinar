@@ -1,6 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Entity;
+namespace Slakbal\Gotowebinar\Old\Entity;
 
 
 class Webinar extends EntityAbstract
@@ -29,7 +29,6 @@ class Webinar extends EntityAbstract
     public $type = 'single_session';
     public $locale;
     public $isPasswordProtected = false;
-
 
     public function __construct($parameterArray = null)
     {

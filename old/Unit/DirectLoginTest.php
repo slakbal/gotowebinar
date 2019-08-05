@@ -1,12 +1,12 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Test\Unit;
+namespace Slakbal\Gotowebinar\Old\Test\Unit;
 
-use Slakbal\Gotowebinar\DirectLogin;
-use Slakbal\Gotowebinar\Facade\GotoWebinar;
-use Slakbal\Gotowebinar\Test\BaseTestCase;
+use Slakbal\Gotowebinar\Old\DirectLogin;
+use Slakbal\Gotowebinar\Old\Facade\GotoWebinar;
+use Slakbal\Gotowebinar\Old\Test\TestCase;
 
-class DirectLoginTest extends BaseTestCase
+class DirectLoginTest extends TestCase
 {
     /**
      * Test direct login for access token

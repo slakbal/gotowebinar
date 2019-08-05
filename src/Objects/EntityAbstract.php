@@ -1,7 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Entity;
-
+namespace Slakbal\Gotowebinar\Objects;
 
 class EntityAbstract
 {
@@ -19,21 +18,22 @@ class EntityAbstract
         }
     }
 
+
     public function toArray()
     {
-        //list of variables to be filtered
-        $blacklist = [
+        //list of variables to be filtered out
+        $ignore = [
             'webinarKey',
             'registrationUrl',
             'participants',
         ];
 
-        return array_where(get_object_vars($this), function ($value, $key) use ($blacklist) {
+        return array_where(get_object_vars($this), function ($value, $key) use ($ignore) {
 
-            if (!in_array($key, $blacklist)) {
-                return !empty($value);
+            if (! in_array($key, $ignore)) {
+                return ! empty($value);
             }
-
         });
     }
+
 }

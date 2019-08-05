@@ -1,8 +1,8 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Traits;
+namespace Slakbal\Gotowebinar\Old\Traits;
 
-use Slakbal\Gotowebinar\Entity\Webinar as WebinarEntity;
+use Slakbal\Gotowebinar\Old\Entity\Webinar as WebinarEntity;
 
 trait WebinarOperations
 {

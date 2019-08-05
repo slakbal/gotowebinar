@@ -1,6 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Traits;
+namespace Slakbal\Gotowebinar\Old\Traits;
 
 
 trait SessionOperations

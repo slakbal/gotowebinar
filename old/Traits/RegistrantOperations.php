@@ -1,8 +1,8 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Traits;
+namespace Slakbal\Gotowebinar\Old\Traits;
 
-use Slakbal\Gotowebinar\Entity\Registrant;
+use Slakbal\Gotowebinar\Old\Entity\Registrant;
 
 trait RegistrantOperations
 {

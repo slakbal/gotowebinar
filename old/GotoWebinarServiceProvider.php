@@ -28,8 +28,14 @@ class GotoWebinarServiceProvider extends ServiceProvider
         //runtime merge config
         $this->mergeConfigFrom(__DIR__ . '/../config/goto.php', 'goto');
 
-        $this->app->singleton(Webinar::class, function ($app) {
-            return new Webinar();
+        $this->registerGotoWebinar(config('goto.auth_type'));
+    }
+
+
+    public function registerGotoWebinar($authType = 'direct')
+    {
+        $this->app->singleton(Webinar::class, function ($app) use ($authType) {
+            return new Webinar($authType);
         });
     }
 

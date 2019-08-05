@@ -1,11 +1,11 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Traits;
+namespace Slakbal\Gotowebinar\Old\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use Slakbal\Gotowebinar\DirectLogin;
-use Slakbal\Gotowebinar\Exception\GotoAuthenticateException;
+use Slakbal\Gotowebinar\Old\DirectLogin;
+use Slakbal\Gotowebinar\Old\Exception\GotoAuthenticateException;
 
 
 trait AccessObject

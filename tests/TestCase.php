@@ -1,15 +1,21 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Test;
+namespace Slakbal\Gotowebinar\Tests;
 
-use Orchestra\Testbench\TestCase as TestbenchTestCase;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
-class BaseTestCase extends TestbenchTestCase
+abstract class TestCase extends OrchestraTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
+
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -19,4 +25,5 @@ class BaseTestCase extends TestbenchTestCase
         $app['config']->set('goto.direct.client_id', env('GOTO_CONSUMER_KEY'));
         $app['config']->set('goto.direct.client_secret', env('GOTO_CLIENT_SECRET'));
     }
+
 }

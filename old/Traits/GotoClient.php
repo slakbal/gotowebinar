@@ -1,11 +1,11 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Traits;
+namespace Slakbal\Gotowebinar\Old\Traits;
 
 use Httpful\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Slakbal\Gotowebinar\Exception\GotoException;
+use Slakbal\Gotowebinar\Old\Exception\GotoException;
 
 trait GotoClient
 {
