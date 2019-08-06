@@ -28,7 +28,7 @@ trait AccessProvider
     }
 
 
-    private function getBearerHeader()
+    private function getAuthorisationHeader()
     {
         return ['Authorization' => 'Bearer ' . $this->getAccessToken()];
     }
@@ -42,8 +42,6 @@ trait AccessProvider
 
     private function setAccessInformation($responseObject)
     {
-        dump($responseObject);
-
         $this->setAccessToken($responseObject->access_token, $responseObject->expires_in)
              ->setRefreshToken($responseObject->refresh_token)
              ->setOrganizerKey($responseObject->organizer_key)

@@ -23,11 +23,11 @@ trait Client
     {
         $this->refreshAuthentication();
 
-        return $this->state();
+        return $this->status();
     }
 
 
-    public function state()
+    public function status()
     {
         if ($this->getAccessToken()) {
             return ['ready' => true, 'access_token' => Str::limit($this->getAccessToken(), (10), '...')];
@@ -42,6 +42,8 @@ trait Client
     {
         $verb = strtoupper(trim($verb));
 
+
+
         $this->checkAuthentication();
 
         try {
@@ -52,11 +54,10 @@ trait Client
 
                     $this->response = Request::get($this->getUrl($path, $parameters))
                                              ->strictSSL($this->strict_ssl)
-                                             ->addHeaders($this->getBearerHeader())
+                                             ->addHeaders($this->getAuthorisationHeader())
                                              ->timeout($this->timeout)
                                              ->expectsJson()
                                              ->send();
-                    dd($this->response);
 
                     break;
 
@@ -64,11 +65,11 @@ trait Client
 
                     $this->response = Request::post($this->getUrl($path, $parameters))
                                              ->strictSSL($this->strict_ssl)
-                                             ->addHeaders($this->getBearerHeader())
+                                             ->addHeaders($this->getAuthorisationHeader())
                                              ->timeout($this->timeout)
                                              ->expectsJson()
                                              ->sendsJson()
-                                             ->body($payload)
+                                             ->body($this->preparePayload($payload))
                                              ->send();
                     break;
 
@@ -76,11 +77,11 @@ trait Client
 
                     $this->response = Request::put($this->getUrl($path, $parameters))
                                              ->strictSSL($this->strict_ssl)
-                                             ->addHeaders($this->getBearerHeader())
+                                             ->addHeaders($this->getAuthorisationHeader())
                                              ->timeout($this->timeout)
                                              ->expectsJson()
                                              ->sendsJson()
-                                             ->body($payload)
+                                             ->body($this->preparePayload($payload))
                                              ->send();
                     break;
 
@@ -88,7 +89,7 @@ trait Client
 
                     $this->response = Request::delete($this->getUrl($path, $parameters))
                                              ->strictSSL($this->strict_ssl)
-                                             ->addHeaders($this->getBearerHeader())
+                                             ->addHeaders($this->getAuthorisationHeader())
                                              ->timeout($this->timeout)
                                              ->expectsJson()
                                              ->send();
@@ -161,6 +162,12 @@ trait Client
     private function getResponseStatusText($responseCode)
     {
         return isset($responseCode) ? Response::$statusTexts[$responseCode] . ' (' . $responseCode . ')' : 'unknown status';
+    }
+
+
+    private function preparePayload($payload)
+    {
+        return $payload->toArray();
     }
 
 }

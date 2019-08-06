@@ -77,7 +77,7 @@ class Webinar extends EntityAbstract
             //required
             $this->subject($parameterArray['subject']);
             $this->description($parameterArray['description'] ?? null);
-            $this->time($parameterArray['startTime'], $parameterArray['endTime']);
+            $this->timeFromTo($parameterArray['startTime'], $parameterArray['endTime']);
 
             //optional
             $this->timeZone($parameterArray['timeZone'] ?? null);
@@ -126,7 +126,7 @@ class Webinar extends EntityAbstract
      * @param string $startTime , $endTime
      * @return $this
      */
-    public function time($startTime, $endTime)
+    public function timeFromTo($startTime, $endTime)
     {
         $this->times = [new Time($startTime, $endTime)];
 

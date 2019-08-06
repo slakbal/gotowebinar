@@ -47,8 +47,6 @@ trait Authenticable
             $this->setAccessInformation($this->response->body);
         } catch (\Exception $e) {
 
-            dd($e->getMessage());
-
             $this->throwResponseException('POST', $this->response, $e->getMessage());
         }
         //the authObject is in the body of the response object
@@ -59,7 +57,6 @@ trait Authenticable
     public function refreshAuthentication()
     {
         $this->clearAuthCache();
-
         $this->authenticate();
 
         return $this;
@@ -78,15 +75,12 @@ trait Authenticable
                 'redirect_uri' => route('goto.redirect'),
             ];
 
-//            dump($this->getPath(self::BASE_URI, 'oauth/v2/authorize', $parameters));
-
             $this->response = Request::get($this->getPath(self::BASE_URI, 'oauth/v2/authorize', $parameters))
                                      ->addHeaders($this->getAuthenticationHeader())
                                      ->strictSSL($this->strict_ssl)
                                      ->timeout($this->timeout)
                                      ->send();
 
-            //dd($this->response);
         } catch (\Exception $e) {
 
             $this->throwResponseException('POST', $this->response, $e->getMessage());
@@ -95,8 +89,10 @@ trait Authenticable
         return $this->response;
     }
 
-    /*
 
+
+
+    /*
             public function getAccessToken()
             {
                 try {

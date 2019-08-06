@@ -4,12 +4,8 @@
 Route::prefix('_goto')->middleware(['web'])->group(function () {
 
     Route::any('/redirect', function (Request $request) {
-//        dump(Request::query());
-//        dump(Request::input('code'));
 
         Log::alert('*********** '.Request::input('code'). ' ***************');
-
-//        $gotoResponse = GotoWebinar::initialise(Request::input('code'));
 
     })->name('goto.redirect');
 

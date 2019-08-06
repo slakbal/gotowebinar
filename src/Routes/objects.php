@@ -29,7 +29,7 @@ Route::get('/webinar/object', function () {
     $webinar = (new \Slakbal\Gotowebinar\Objects\Webinar())
         ->subject('XXXXX Test XXXXX*')
         ->description('Object Description*')
-        ->time(Carbon\Carbon::now()->addDays(2)->toW3cString(), Carbon\Carbon::now()->addDays(2)->addHour()->toW3cString())
+        ->timeFromTo(Carbon\Carbon::now()->addDays(2)->toW3cString(), Carbon\Carbon::now()->addDays(2)->addHour()->toW3cString())
         ->timezone('Europe/Amsterdam')
         ->locale('de_DE')
         ->singleSession()

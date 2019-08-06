@@ -1,11 +1,14 @@
 <?php
 
+use Slakbal\Gotowebinar\Objects\Webinar;
+
 Route::get('webinars', function () {
 
     $parameters = [
-        'fromTime' => Carbon\Carbon::now()->subYears(5)->toW3cString(),
-        //"2017-06-01T00:00:00Z",
+        'fromTime' => Carbon\Carbon::now()->subYears(5)->toW3cString(), //"2017-06-01T00:00:00Z",
         'toTime' => Carbon\Carbon::now()->addYears(5)->toW3cString(),
+        'page' => 1,
+        'size' => 10,
     ];
 
     try {
@@ -19,116 +22,18 @@ Route::get('webinars', function () {
     return [$gotoResponse];
 });
 
-/*
-
-Route::get('webinars/', function () {
-
-    try {
-
-        $gotoResponse = GotoWebinar::getUpcomingWebinars();
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-});
-
 Route::get('webinars/account', function () {
 
     $parameters = [
         'fromTime' => Carbon\Carbon::now()->subYears(5)->toW3cString(),
-        //"2017-06-01T00:00:00Z",
         'toTime' => Carbon\Carbon::now()->addYears(5)->toW3cString(),
-        'size' => 10,
         'page' => 1,
+        'size' => 10,
     ];
 
     try {
 
-        $gotoResponse = GotoWebinar::getAllWebinars($parameters);
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-});
-
-
-
-Route::get('webinars/historical', function () {
-
-    $parameters = [
-        'fromTime' => "2017-01-01T00:00:00Z",
-        'toTime' => "2017-05-01T00:00:00Z",
-    ];
-
-    try {
-
-        $gotoResponse = GotoWebinar::getHistoricalWebinars($parameters);
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-});
-
-Route::get('webinars/create', function () {
-
-    //Some of the body parameters are set per default but can explicitly be overridden.
-    $eventParams = [
-        //required
-        'subject' => 'XXXXX Test XXXXX*',
-        //required
-        'description' => 'Test Description*',
-        //required  eg "2016-03-23T19:00:00Z"
-        'startTime' => Carbon\Carbon::now()->addDays(2)->toW3cString(),
-        //require eg "2016-03-23T20:00:00Z"
-        'endTime' => Carbon\Carbon::now()->addDays(2)->addHour()->toW3cString(),
-        //if not given the config('app.timezone) will be used
-        'timeZone' => 'Europe/Amsterdam',
-        //if not given the default is single_session
-        'type' => 'single_session',
-        //if not given the default is false
-        'isPasswordProtected' => false,
-    ];
-
-    try {
-
-        $gotoResponse = GotoWebinar::createWebinar($eventParams);
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-});
-
-Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
-
-    //Some of the body parameters are set per default but can explicitly be overridden.
-    $eventParams = [
-        //required
-        'subject' => 'XXXXX UPDATED to New Test XXXXX**',
-        //required
-        'description' => 'Updated Description**',
-        //required  eg "2016-03-23T19:00:00Z"
-        'startTime' => Carbon\Carbon::now()->addDays(3)->toW3cString(),
-        //require eg "2016-03-23T20:00:00Z"
-        'endTime' => Carbon\Carbon::now()->addDays(3)->addHour()->toW3cString(),
-        //if not given the config('app.timezone) will be used
-        'timeZone' => 'Africa/Harare',
-        //if not given the default is single_session
-        'type' => 'single_session',
-        //if not given the default is false
-        'isPasswordProtected' => true,
-    ];
-
-    try {
-
-        $gotoResponse = GotoWebinar::updateWebinar($webinarKey, $eventParams, $sendNotification = true);
+        $gotoResponse = GotoWebinar::getAccountWebinars($parameters);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
 
         return [$e->getMessage()];
@@ -150,6 +55,87 @@ Route::get('webinars/{webinarKey}/show', function ($webinarKey) {
     return [$gotoResponse];
 });
 
+Route::get('webinars/create', function () {
+
+    //see Webinar class for available methods
+    $webinarValueObject = (new Webinar())->subject('XXXXX CREATED BY OBJECT XXXXX*')
+                                         ->description('OBJECT Description*')
+                                         ->timeFromTo(Carbon\Carbon::now()->addDays(2)->toW3cString(), Carbon\Carbon::now()->addDays(2)->addHour()->toW3cString())
+                                         ->timezone('Europe/Amsterdam')
+                                         ->singleSession()
+                                         ->noEmailReminder()
+                                         ->noEmailAttendeeFollowUp()
+                                         ->noEmailAbsenteeFollowUp()
+                                         ->noEmailConfirmation();
+
+    try {
+
+        $gotoResponse = GotoWebinar::createWebinar($webinarValueObject);
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+
+        return [$e->getMessage()];
+    }
+
+    return [$gotoResponse];
+});
+
+Route::get('webinars/createByArray', function () {
+
+    //Some of the body parameters are set per default but can explicitly be overridden.
+    $eventParams = [
+        'subject' => 'XXXXX CREATED BY ARRAY XXXXX*',
+        'description' => 'Test Description*',
+        'startTime' => Carbon\Carbon::now()->addDays(2)->toW3cString(), //require eg "2016-03-23T20:00:00Z"
+        'endTime' => Carbon\Carbon::now()->addDays(2)->addHour()->toW3cString(), //require eg "2016-03-23T20:00:00Z"
+        'timeZone' => 'Europe/Amsterdam',
+        'type' => 'single_session', //single_session
+        'isPasswordProtected' => false, //default is false
+    ];
+
+    //cast the array through the Webinar constructor to initialise the value object and ensure all the data is structured correctly
+    $webinarValueObject = new Webinar($eventParams);
+
+    //see Webinar class for available methods
+    $webinarValueObject->noEmailReminder()
+                       ->noEmailAttendeeFollowUp()
+                       ->noEmailAbsenteeFollowUp()
+                       ->noEmailConfirmation();
+
+    try {
+
+        $gotoResponse = GotoWebinar::createWebinar($webinarValueObject);
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+
+        return [$e->getMessage()];
+    }
+
+    return [$gotoResponse];
+});
+
+Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
+
+    //see Webinar class for available methods
+    $webinarValueObject = (new Webinar())->subject('XXXXX UPDATED BY OBJECT XXXXX*')
+                                         ->description('UPDATED Description*')
+                                         ->timeFromTo(Carbon\Carbon::now()->addDays(3)->toW3cString(), Carbon\Carbon::now()->addDays(3)->addHour()->toW3cString())
+                                         ->timezone('Africa/Harare')
+                                         ->singleSession()
+                                         ->EmailReminder()
+                                         ->EmailAttendeeFollowUp()
+                                         ->EmailAbsenteeFollowUp()
+                                         ->EmailConfirmation();
+
+    try {
+
+        $gotoResponse = GotoWebinar::updateWebinar($webinarValueObject, $webinarKey, $sendNotification = true);
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+
+        return [$e->getMessage()];
+    }
+
+    return [$gotoResponse];
+});
+
 Route::get('webinars/{webinarKey}/delete', function ($webinarKey) {
 
     try {
@@ -162,4 +148,3 @@ Route::get('webinars/{webinarKey}/delete', function ($webinarKey) {
 
     return [$gotoResponse];
 });
-*/
