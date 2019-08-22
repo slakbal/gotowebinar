@@ -4,7 +4,7 @@ namespace Slakbal\Gotowebinar\Objects;
 
 class Registrant extends EntityAbstract
 {
-    //Header: resendConfirmation (boolean)
+    //Query Param: resendConfirmation (boolean)
     /*
         {
           "firstName": "string",
@@ -16,6 +16,7 @@ class Registrant extends EntityAbstract
           "state": "string",
           "zipCode": "string",
           "country": "string",
+          "timeZone": "string",
           "phone": "string",
           "organization": "string",
           "jobTitle": "string",
@@ -39,6 +40,7 @@ class Registrant extends EntityAbstract
     public $state;
     public $zipCode;
     public $country;
+    public $timeZone;
     public $phone;
     public $organization;
     public $jobTitle;
@@ -59,9 +61,9 @@ class Registrant extends EntityAbstract
         if (isset($parameterArray) && is_array($parameterArray)) {
 
             //required
-            $this->firstName = $parameterArray['firstName']; //required
-            $this->lastName = $parameterArray['lastName']; //required
-            $this->email = $parameterArray['email']; //required
+            $this->firstName($parameterArray['firstName']); //required
+            $this->lastName($parameterArray['lastName']); //required
+            $this->email($parameterArray['email']); //required
 
             //optional
             $this->source($parameterArray['source'] ?? null);
@@ -70,6 +72,7 @@ class Registrant extends EntityAbstract
             $this->state($parameterArray['state'] ?? null);
             $this->zipCode($parameterArray['zipCode'] ?? null);
             $this->country($parameterArray['country'] ?? null);
+            $this->timeZone($parameterArray['timeZone'] ?? null);
             $this->phone($parameterArray['phone'] ?? null);
             $this->organization($parameterArray['organization'] ?? null);
             $this->jobTitle($parameterArray['jobTitle'] ?? null);
@@ -79,23 +82,9 @@ class Registrant extends EntityAbstract
             $this->purchasingTimeFrame($parameterArray['purchasingTimeFrame'] ?? null);
             $this->purchasingRole($parameterArray['purchasingRole'] ?? null);
 
-            //header
+            //query parameter
             isset($parameterArray['resendConfirmation']) ? $parameterArray['resendConfirmation'] ? $this->resendConfirmation() : null : null;
         }
-    }
-
-
-    public function resendConfirmation()
-    {
-        $this->resendConfirmation = true;
-
-        return $this;
-    }
-
-
-    public function getResendConfirmation()
-    {
-        return $this->resendConfirmation;
     }
 
 
@@ -171,6 +160,14 @@ class Registrant extends EntityAbstract
     }
 
 
+    public function timezone($timezone = null)
+    {
+        $this->timeZone = (new Timezone($timezone))->getTimezone();
+
+        return $this;
+    }
+
+
     public function phone($phone = null)
     {
         $this->phone = $phone;
@@ -232,6 +229,20 @@ class Registrant extends EntityAbstract
         $this->purchasingRole = $purchasingRole;
 
         return $this;
+    }
+
+
+    public function resendConfirmation()
+    {
+        $this->resendConfirmation = true;
+
+        return $this;
+    }
+
+
+    public function getResendConfirmation()
+    {
+        return $this->resendConfirmation;
     }
 
 }

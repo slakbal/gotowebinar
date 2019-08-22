@@ -2,156 +2,76 @@
 
 namespace Slakbal\Gotowebinar\Traits\Client;
 
-use Httpful\Request;
+use Illuminate\Support\Str;
 
 trait Authenticable
 {
     use AccessProvider;
 
 
-    public function checkAuthentication()
+    public function status()
     {
-        if (! $this->hasAccessToken()) {
-            $this->authenticate();
-        }
-
-        return $this;
+        return [
+            'ready' => $this->hasAccessToken(),
+            'access_token' => Str::limit($this->getAccessToken(), 10),
+            'refresh_token' => Str::limit($this->getRefreshToken(), 10),
+            'organiser_key' => Str::limit($this->getOrganizerKey(), 8),
+            'account_key' => Str::limit($this->getAccountKey(), 8),
+        ];
     }
 
 
     public function authenticate()
     {
-        return $this->authenticateDirect();
-    }
+        if (! $this->hasAccessToken()) {
 
-
-    private function authenticateDirect()
-    {
-        try {
-
-            $payload = [
-                'grant_type' => 'password',
-                'username' => config('goto.direct_username'),
-                'password' => config('goto.direct_password'),
-                'client_id' => config('goto.client_id'),
-            ];
-
-            $this->response = Request::post($this->getPath(self::BASE_URI, 'oauth/v2/token'))
-                                     ->strictSSL($this->strict_ssl)
-                                     ->addHeaders($this->getAuthenticationHeader())
-                                     ->body(http_build_query($payload), 'form')
-                                     ->timeout($this->timeout)
-                                     ->expectsJson()
-                                     ->send();
-
-            $this->setAccessInformation($this->response->body);
-        } catch (\Exception $e) {
-
-            $this->throwResponseException('POST', $this->response, $e->getMessage());
+            if ($this->hasRefreshToken()) {
+                //Get new bearer token with refresh token
+                $this->refreshAccessToken();
+            } else {
+                //Perform fresh authentication for bearer and refresh token
+                $this->authenticateDirect();
+            }
         }
-        //the authObject is in the body of the response object
-        return $this->response->body;
-    }
-
-
-    public function refreshAuthentication()
-    {
-        $this->clearAuthCache();
-        $this->authenticate();
 
         return $this;
     }
 
 
-    public function getAuthorizationCode()
+    private function refreshAccessToken()
     {
-        try {
+        $response = $this->sendAuthenticationRequest([
+                                                         'grant_type' => 'refresh_token',
+                                                         'refresh_token' => $this->getRefreshToken(),
+                                                     ]);
 
-            $parameters = [
-                'response_type' => 'code',
-                'client_id' => $this->getClientId(),
-                'client_secret' => $this->getClientSecret(),
-                'state' => csrf_token(),
-                'redirect_uri' => route('goto.redirect'),
-            ];
+        //explicitly set only the Access Token so that the refresh token's ttl expiry is not affected
+        $this->setAccessToken($response->access_token, $response->expires_in);
 
-            $this->response = Request::get($this->getPath(self::BASE_URI, 'oauth/v2/authorize', $parameters))
-                                     ->addHeaders($this->getAuthenticationHeader())
-                                     ->strictSSL($this->strict_ssl)
-                                     ->timeout($this->timeout)
-                                     ->send();
-
-        } catch (\Exception $e) {
-
-            $this->throwResponseException('POST', $this->response, $e->getMessage());
-        }
-        //the authObject is in the body of the response object
-        return $this->response;
+        return $response;
     }
 
 
+    private function authenticateDirect()
+    {
+        $response = $this->sendAuthenticationRequest([
+                                                         'grant_type' => 'password',
+                                                         'username' => config('goto.direct_username'),
+                                                         'password' => config('goto.direct_password'),
+                                                         'client_id' => config('goto.client_id'),
+                                                     ]);
+
+        $this->setAccessInformation($response);
+
+        return $response;
+    }
 
 
-    /*
-            public function getAccessToken()
-            {
-                try {
-                    $this->response = Request::post($this->getPath(self::AUTH_ENDPOINT, 'token'))
-                                             ->strictSSL($this->strict_ssl)
-                                             ->addHeaders($this->getAuthHeaders())
-                                             ->timeout($this->timeout)
-                                             ->body('grant_type=authorization_code&code=' . config('goto.response_key'), 'form')
-                                             ->expectsJson()
-                                             ->send();
+    public function flushAuthentication()
+    {
+        $this->clearAuthCache();
 
-                    dd($this->response);
-                } catch (\Exception $e) {
-                    $this->throwResponseException('POST', $this->response, $e->getMessage());
-                }
-                //the authObject is in the body of the response object
-                return $this->response->body;
-            }
+        return $this;
+    }
 
-
-            public function refreshTokens()
-            {
-                try {
-
-                    $this->response = Request::post($this->getPath(self::AUTH_ENDPOINT, 'token'))
-                                             ->strictSSL($this->strict_ssl)
-                                             ->timeout($this->timeout)
-                                             ->addHeaders($this->getAuthHeaders())
-                                             ->body('grant_type=refresh_token&refresh_token='.$this->getRefreshToken(), 'form')
-                                             ->expectsJson()
-                                             ->send();
-
-                    dd($this->response);
-
-                    $this->setAccessInformation($this->response->body);
-                } catch (\Exception $e) {
-
-                    $this->throwResponseException('POST', $this->response, $e->getMessage());
-                }
-                //the authObject is in the body of the response object
-                return $this->response->body;
-            }
-
-
-            public function getAuthObject($path, $parameters = null)
-            {
-                try {
-                    $this->response = Request::post($this->getUrl(self::AUTH_ENDPOINT, $path))
-                                             ->strictSSL($this->strict_ssl)
-                                             ->addHeaders($this->determineHeaders())
-                                             ->timeout($this->timeout)
-                                             ->body($parameters, 'form')
-                                             ->expectsJson()
-                                             ->send();
-                } catch (\Exception $e) {
-                    $this->throwResponseException('POST', $this->response, $e->getMessage());
-                }
-                //the authObject is in the body of the response object
-                return $this->response->body;
-            }
-        */
 }

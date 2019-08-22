@@ -6,12 +6,16 @@ trait PathHelpers
 {
     public function getPathRelativeToOrganizer($relativePathSection = null)
     {
+        $this->authenticate(); //the path requires the organiser key which is in the auth object
+
         return sprintf('organizers/%s/', $this->getOrganizerKey()) . trim($relativePathSection, '/');
     }
 
 
     public function getPathRelativeToAccount($relativePathSection = null)
     {
+        $this->authenticate(); //the path requires the organiser key which is in the auth object
+
         return sprintf('accounts/%s/', $this->getAccountKey()) . trim($relativePathSection, '/');
     }
 

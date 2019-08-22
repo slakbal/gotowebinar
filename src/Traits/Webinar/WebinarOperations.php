@@ -63,11 +63,11 @@ trait WebinarOperations
      * The request completely replaces the existing session, series, or sequence and so must include
      * the full definition of each as for the Create call.
      *
-     * Set notifyParticipants=true to send update emails to registrants.
+     * S$notifyParticipants - Indicates if update emails should be sent to registrants. Default is true.
      */
-    function updateWebinar(Webinar $webinarObject, $webinarKey, $sendNotification = true)
+    function updateWebinar($webinarKey, Webinar $webinarObject, $notifyParticipants = true)
     {
-        ($sendNotification) ? $parameters = ['notifyParticipants' => true] : $parameters = ['notifyParticipants' => false];
+        ($notifyParticipants) ? $parameters = ['notifyParticipants' => true] : $parameters = ['notifyParticipants' => false];
 
         $path = $this->getPathRelativeToOrganizer(sprintf('webinars/%s', $webinarKey));
 
@@ -79,8 +79,10 @@ trait WebinarOperations
      * Cancels a specific webinar. If the webinar is a series or sequence, this call deletes all scheduled sessions.
      * To send cancellation emails to registrants set sendCancellationEmails=true in the request.
      * When the cancellation emails are sent, the default generated message is used in the cancellation email body.
+     *
+     * $sendCancellationEmails - Indicates whether cancellation notice emails should be sent. The default value is false.
      */
-    function deleteWebinar($webinarKey, $sendCancellationEmails = true)
+    function deleteWebinar($webinarKey, $sendCancellationEmails = false)
     {
         ($sendCancellationEmails) ? $parameters = ['sendCancellationEmails' => true] : $parameters = null;
 

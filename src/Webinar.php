@@ -15,9 +15,4 @@ class Webinar
     const BASE_URI = 'https://api.getgo.com';
     const API_ENDPOINT = 'https://api.getgo.com/G2W/rest/v2';
 
-    public function __construct()
-    {
-
-    }
-
 }

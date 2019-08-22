@@ -101,17 +101,9 @@ trait AccessProvider
     }
 
 
-    private function getTokenType()
+    private function hasRefreshToken()
     {
-        return Cache::tags($this->cache_tags)->get('token-type');
-    }
-
-
-    private function setTokenType($tokenType)
-    {
-        Cache::tags($this->cache_tags)->forever('token-type', $tokenType);
-
-        return $this;
+        return Cache::tags($this->cache_tags)->has('refresh-token');
     }
 
 

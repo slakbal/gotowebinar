@@ -5,7 +5,6 @@ namespace Slakbal\Gotowebinar\Traits\Client;
 use Httpful\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Slakbal\Gotowebinar\Exception\GotoException;
 
 trait Client
@@ -19,35 +18,63 @@ trait Client
     private $response;
 
 
-    public function reauthenticate()
+    private function sendAuthenticationRequest(array $payload)
     {
-        $this->refreshAuthentication();
-
-        return $this->status();
+        try {
+            $this->response = Request::post($this->getPath(self::BASE_URI, 'oauth/v2/token'))
+                                     ->strictSSL($this->strict_ssl)
+                                     ->addHeaders($this->getAuthenticationHeader())
+                                     ->body(http_build_query($payload), 'form')
+                                     ->timeout($this->timeout)
+                                     ->expectsJson()
+                                     ->send();
+        } catch (\Exception $e) {
+            $this->throwResponseException('POST', $this->response, $e->getMessage());
+        }
+        //the tokens, etc. are in the body of the response object
+        return $this->response->body;
     }
 
 
-    public function status()
+    private function throwResponseException($verb, $response, $exceptionMessage = null): void
     {
-        if ($this->getAccessToken()) {
-            return ['ready' => true, 'access_token' => Str::limit($this->getAccessToken(), (10), '...')];
+        $this->message = $this->getResponseStatusText($response->code);
+
+        $payload = isset($response->payload) ? json_encode($response->payload) : 'no payload';
+
+        ($exceptionMessage) ? Log::error('GOTOWEBINAR: HTTP Exception: ' . $this->message . ' - ' . $exceptionMessage . ' - Payload: ' . $payload) : null;
+
+        if ($response->hasErrors() && $response->hasBody()) {
+            switch ($response->code) {
+                case Response::HTTP_CONFLICT:
+                    Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
+                    throw new GotoException($this->message . ' - ' . $response->body->description);
+
+                    break;
+
+                default:
+                    Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
+                    throw new GotoException($this->message . ' - ' . $response->body->description);
+            }
         }
 
-        return ['ready' => false, 'access_token' => null];
+        throw new GotoException($this->message . ' - There was an error, make sure the API endpoint-url exist, config is correct');
     }
 
 
-    //returns the body of the rest response
+    private function getResponseStatusText($responseCode)
+    {
+        return isset($responseCode) ? Response::$statusTexts[$responseCode] . ' (' . $responseCode . ')' : 'unknown status';
+    }
+
+
     private function sendAPIRequest($verb, $path, $parameters = null, $payload = null)
     {
         $verb = strtoupper(trim($verb));
 
-
-
-        $this->checkAuthentication();
+        $this->authenticate();
 
         try {
-
             switch ($verb) {
 
                 case 'GET':
@@ -58,7 +85,6 @@ trait Client
                                              ->timeout($this->timeout)
                                              ->expectsJson()
                                              ->send();
-
                     break;
 
                 case 'POST':
@@ -100,11 +126,16 @@ trait Client
                     break;
             }
         } catch (\Exception $e) {
-
             $this->throwResponseException($verb, $this->response, $e->getMessage());
         }
 
         return $this->processResultCode($verb, $this->response);
+    }
+
+
+    private function preparePayload($payload)
+    {
+        return $payload->toArray();
     }
 
 
@@ -130,44 +161,6 @@ trait Client
         }
 
         return $response->body;
-    }
-
-
-    private function throwResponseException($verb, $response, $exceptionMessage = null): void
-    {
-        $this->message = $this->getResponseStatusText($response->code);
-
-        $payload = isset($response->payload) ? json_encode($response->payload) : 'no payload';
-
-        ($exceptionMessage) ? Log::error('GOTOWEBINAR: HTTP Exception: ' . $this->message . ' - ' . $exceptionMessage . ' - Payload: ' . $payload) : null;
-
-        if ($response->hasErrors() && $response->hasBody()) {
-            switch ($response->code) {
-                case Response::HTTP_CONFLICT:
-                    Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
-                    throw new GotoException($this->message . ' - ' . $response->body->description);
-
-                    break;
-
-                default:
-                    Log::error('GOTOWEBINAR: ' . $verb . ' - ' . $this->message . ': ' . $response->body->description);
-                    throw new GotoException($this->message . ' - ' . $response->body->description);
-            }
-        }
-
-        throw new GotoException($this->message . ' - There was an error, make sure the API endpoint-url exist, config is correct');
-    }
-
-
-    private function getResponseStatusText($responseCode)
-    {
-        return isset($responseCode) ? Response::$statusTexts[$responseCode] . ' (' . $responseCode . ')' : 'unknown status';
-    }
-
-
-    private function preparePayload($payload)
-    {
-        return $payload->toArray();
     }
 
 }

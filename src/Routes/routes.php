@@ -5,8 +5,7 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
 
     Route::any('/redirect', function (Request $request) {
 
-        Log::alert('*********** '.Request::input('code'). ' ***************');
-
+        Log::alert('*********** ' . Request::input('code') . ' ***************');
     })->name('goto.redirect');
 
     Route::get('/url', function (Request $request) {
@@ -14,7 +13,7 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
         $parameters = [
             'client_id' => config('goto.client_id'),
             'response_type' => 'code',
-            'redirect_uri' => route('goto.redirect')
+            'redirect_uri' => route('goto.redirect'),
         ];
 
         return ['https://api.getgo.com/oauth/v2/authorize?' . http_build_query($parameters)];

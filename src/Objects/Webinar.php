@@ -177,13 +177,14 @@ class Webinar extends EntityAbstract
 
 
     /**
-     * Set the type to single session
+     * Set the experience type
      *
+     * @param string $type
      * @return $this
      */
-    public function singleSession()
+    public function experience($type = 'CLASSIC')
     {
-        $this->type('single_session');
+        $this->experienceType = $type;
 
         return $this;
     }
@@ -197,6 +198,37 @@ class Webinar extends EntityAbstract
     public function isPasswordProtected()
     {
         $this->isPasswordProtected = true;
+
+        return $this;
+    }
+
+
+    /**
+     * Set the object
+     *
+     * @return $this
+     */
+    public function setEmailSettings()
+    {
+        //create and set an email settings object with the current state
+        $this->emailSettings = new EmailSettings($this->emailConfirmation,
+                                                 $this->emailReminder,
+                                                 $this->emailAbsenteeFollowUp,
+                                                 $this->emailAttendeeFollowUp,
+                                                 $this->includeCertificate);
+
+        return $this;
+    }
+
+
+    /**
+     * Set the type to single session
+     *
+     * @return $this
+     */
+    public function singleSession()
+    {
+        $this->type('single_session');
 
         return $this;
     }
@@ -223,20 +255,6 @@ class Webinar extends EntityAbstract
     public function broadcast()
     {
         $this->experience('BROADCAST');
-
-        return $this;
-    }
-
-
-    /**
-     * Set the experience type
-     *
-     * @param string $type
-     * @return $this
-     */
-    public function experience($type = 'CLASSIC')
-    {
-        $this->experienceType = $type;
 
         return $this;
     }
@@ -374,24 +392,6 @@ class Webinar extends EntityAbstract
         $this->includeCertificate = false;
 
         $this->setEmailSettings();
-
-        return $this;
-    }
-
-
-    /**
-     * Set the object
-     *
-     * @return $this
-     */
-    public function setEmailSettings()
-    {
-        //create and set an email settings object with the current state
-        $this->emailSettings = new EmailSettings($this->emailConfirmation,
-                                                 $this->emailReminder,
-                                                 $this->emailAbsenteeFollowUp,
-                                                 $this->emailAttendeeFollowUp,
-                                                 $this->includeCertificate);
 
         return $this;
     }

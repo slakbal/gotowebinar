@@ -12,4 +12,5 @@ class GotoWebinar extends Facade
     {
         return Webinar::class;
     }
+
 }

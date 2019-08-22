@@ -12,10 +12,8 @@ Route::get('webinars', function () {
     ];
 
     try {
-
         $gotoResponse = GotoWebinar::getWebinars($parameters);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
         return [$e->getMessage()];
     }
 
@@ -32,23 +30,8 @@ Route::get('webinars/account', function () {
     ];
 
     try {
-
         $gotoResponse = GotoWebinar::getAccountWebinars($parameters);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-});
-
-Route::get('webinars/{webinarKey}/show', function ($webinarKey) {
-
-    try {
-
-        $gotoResponse = GotoWebinar::getWebinar($webinarKey);
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
         return [$e->getMessage()];
     }
 
@@ -69,10 +52,8 @@ Route::get('webinars/create', function () {
                                          ->noEmailConfirmation();
 
     try {
-
         $gotoResponse = GotoWebinar::createWebinar($webinarValueObject);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
         return [$e->getMessage()];
     }
 
@@ -82,7 +63,7 @@ Route::get('webinars/create', function () {
 Route::get('webinars/createByArray', function () {
 
     //Some of the body parameters are set per default but can explicitly be overridden.
-    $eventParams = [
+    $eventArray = [
         'subject' => 'XXXXX CREATED BY ARRAY XXXXX*',
         'description' => 'Test Description*',
         'startTime' => Carbon\Carbon::now()->addDays(2)->toW3cString(), //require eg "2016-03-23T20:00:00Z"
@@ -92,20 +73,29 @@ Route::get('webinars/createByArray', function () {
         'isPasswordProtected' => false, //default is false
     ];
 
-    //cast the array through the Webinar constructor to initialise the value object and ensure all the data is structured correctly
-    $webinarValueObject = new Webinar($eventParams);
+    //cast the array through the Webinar value-object constructor to initialise the value object and ensure all the data is structured correctly
+    $webinarValueObject = new Webinar($eventArray);
 
-    //see Webinar class for available methods
+    //see Webinar class for available public methods
     $webinarValueObject->noEmailReminder()
                        ->noEmailAttendeeFollowUp()
                        ->noEmailAbsenteeFollowUp()
                        ->noEmailConfirmation();
 
     try {
-
         $gotoResponse = GotoWebinar::createWebinar($webinarValueObject);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
 
+    return [$gotoResponse];
+});
+
+Route::get('webinars/{webinarKey}/show', function ($webinarKey) {
+
+    try {
+        $gotoResponse = GotoWebinar::getWebinar($webinarKey);
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
         return [$e->getMessage()];
     }
 
@@ -126,10 +116,9 @@ Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
                                          ->EmailConfirmation();
 
     try {
-
-        $gotoResponse = GotoWebinar::updateWebinar($webinarValueObject, $webinarKey, $sendNotification = true);
+        //return boolean
+        $gotoResponse = GotoWebinar::updateWebinar($webinarKey, $webinarValueObject, $sendNotification = true);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
         return [$e->getMessage()];
     }
 
@@ -139,10 +128,9 @@ Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
 Route::get('webinars/{webinarKey}/delete', function ($webinarKey) {
 
     try {
-
+        //return boolean
         $gotoResponse = GotoWebinar::deleteWebinar($webinarKey, $sendNotification = false);
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-
         return [$e->getMessage()];
     }
 
