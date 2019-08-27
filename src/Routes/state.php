@@ -6,6 +6,24 @@ Route::get('/ping', function () {
 
 Route::get('/', function () {
 
+    return \Slakbal\Gotowebinar\Facade\Webinars::status();
+})->name('goto.status');
+
+Route::get('/authenticate', function () {
+
+    return \Slakbal\Gotowebinar\Facade\Webinars::authenticate()->status();
+})->name('goto.auth');
+
+Route::get('/flush-auth', function () {
+
+    return \Slakbal\Gotowebinar\Facade\Webinars::flushAuthentication()->status();
+})->name('goto.flush');
+
+
+/*
+
+Route::get('/', function () {
+
     try {
         $gotoResponse = GotoWebinar::status();
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
@@ -36,3 +54,4 @@ Route::get('/flush-auth', function () {
 
     return [$gotoResponse];
 })->name('goto.flush');
+*/

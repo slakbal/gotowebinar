@@ -2,15 +2,15 @@
 
 namespace Slakbal\Gotowebinar\Facade;
 
+use Slakbal\Gotowebinar\Registrant;
 use Illuminate\Support\Facades\Facade;
-use Slakbal\Gotowebinar\Webinar;
 
-class GotoWebinar extends Facade
+class Registrants extends Facade
 {
 
     protected static function getFacadeAccessor()
     {
-        return Webinar::class;
+        return Registrant::class;
     }
 
 }

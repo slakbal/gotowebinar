@@ -2,6 +2,8 @@
 
 namespace Slakbal\Gotowebinar\Objects;
 
+use Carbon\Carbon;
+
 class Time
 {
     /* Model Schema
@@ -16,10 +18,10 @@ class Time
     public $endTime;
 
 
-    public function __construct($startTime, $endTime)
+    public function __construct(Carbon $startTime, Carbon $endTime)
     {
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->startTime = $startTime->toW3cString();
+        $this->endTime = $endTime->toW3cString();
     }
 
 }

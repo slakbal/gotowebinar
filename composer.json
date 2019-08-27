@@ -45,9 +45,10 @@
       "providers": [
         "Slakbal\\Gotowebinar\\GotoWebinarServiceProvider"
       ],
-      "aliases": {
-        "GotoWebinar": "Slakbal\\Gotowebinar\\Facade\\GotoWebinar"
-      }
+      "aliases": [
+        {"Webinars": "Slakbal\\Gotowebinar\\Facade\\Webinars"},
+        {"Registrants": "Slakbal\\Gotowebinar\\Facade\\Registrants"}
+      ]
     }
   },
   "minimum-stability": "dev",

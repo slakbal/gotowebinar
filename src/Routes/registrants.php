@@ -1,5 +1,50 @@
 <?php
 
+Route::get('webinars/{webinarKey}/registrants', function ($webinarKey) {
+
+    return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
+                                                  ->get();
+});
+
+Route::get('webinars/{webinarKey}/registrants/{registrantKey}', function ($webinarKey, $registrantKey) {
+
+    return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
+                                                  ->registrantKey($registrantKey)
+                                                  ->get();
+});
+
+Route::get('webinars/{webinarKey}/registrants/create', function ($webinarKey) {
+
+    return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
+                                                  ->firstName('John')
+                                                  ->lastName('Doe')
+                                                  ->timeZone('America/Chicago')
+                                                  ->email('john.doe@email.com')
+                                                  ->resendConfirmation()
+                                                  ->create([
+                                                               'firstName' => 'Peters',
+                                                               'lastName' => 'Panske',
+                                                               'email' => 'peter@pan.com',
+                                                               'timezone' => 'Europe/Amsterdam',
+                                                               'phone' => '123',
+                                                               'country' => 'SA',
+                                                               'zipcode' => '123',
+                                                               'source' => 'somewhere',
+                                                               'address' => '123 Some street',
+                                                               'city' => 'Some City',
+                                                               'state' => 'Some State',
+                                                               'organization' => 'Some Org',
+                                                               'jobTitle' => 'Boss',
+                                                               'questionsAndComments' => 'Some Question',
+                                                               'industry' => 'Some Industry',
+                                                               'numberOfEmployees' => 'Boss',
+                                                               'purchasingTimeFrame' => 'Very soon',
+                                                               'purchasingRole' => 'Some Buyer Role',
+                                                           ]);
+});
+
+
+/*
 use Slakbal\Gotowebinar\Objects\Registrant;
 
 Route::get('webinars/{webinarKey}/registrants', function ($webinarKey) {
@@ -109,3 +154,5 @@ Route::get('webinars/{webinarKey}/registrants/{registrantKey}/delete', function 
 
     return [$gotoResponse];
 });
+
+*/
