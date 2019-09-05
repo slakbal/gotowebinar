@@ -47,7 +47,6 @@ trait Client
                 case Response::HTTP_CONFLICT:
                     Log::error('GOTOWEBINAR: '.$verb.' - '.$this->message.': '.$response->body->description);
                     throw new GotoException($this->message.' - '.$response->body->description);
-
                     break;
 
                 default:
