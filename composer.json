@@ -26,12 +26,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Slakbal\\Gotowebinar\\": "src"
+      "Slakbal\\Gotowebinar\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Slakbal\\Gotowebinar\\Tests\\": "tests"
+      "Slakbal\\Gotowebinar\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -45,10 +45,10 @@
       "providers": [
         "Slakbal\\Gotowebinar\\GotoWebinarServiceProvider"
       ],
-      "aliases": [
-        {"Webinars": "Slakbal\\Gotowebinar\\Facade\\Webinars"},
-        {"Registrants": "Slakbal\\Gotowebinar\\Facade\\Registrants"}
-      ]
+      "aliases": {
+        "Webinars": "Slakbal\\Gotowebinar\\Facade\\Webinars",
+        "Registrants": "Slakbal\\Gotowebinar\\Facade\\Registrants"
+      }
     }
   },
   "minimum-stability": "dev",

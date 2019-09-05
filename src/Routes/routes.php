@@ -3,6 +3,14 @@
 //explicitly apply the web group middleware so that the session is started for the provider
 
 Route::prefix('_goto')->middleware(['web'])->group(function () {
+
+    require_once __DIR__.'/state.php';
+    require_once __DIR__.'/webinars.php';
+    require_once __DIR__.'/registrants.php';
+//    require_once __DIR__.'/sessions.php';
+//    require_once __DIR__.'/objects.php';
+
+    /*
     Route::any('/redirect', function (Request $request) {
         Log::alert('*********** '.Request::input('code').' ***************');
     })->name('goto.redirect');
@@ -16,10 +24,5 @@ Route::prefix('_goto')->middleware(['web'])->group(function () {
 
         return ['https://api.getgo.com/oauth/v2/authorize?'.http_build_query($parameters)];
     })->name('goto.url');
-
-    require_once __DIR__.'/state.php';
-    require_once __DIR__.'/webinars.php';
-    require_once __DIR__.'/registrants.php';
-//    require_once __DIR__.'/sessions.php';
-//    require_once __DIR__.'/objects.php';
+    */
 });

@@ -1,18 +1,18 @@
 <?php
 
 Route::get('webinars/{webinarKey}/registrants', function ($webinarKey) {
-    return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
+    return Registrants::webinarKey($webinarKey)
                                                   ->get();
 });
 
 Route::get('webinars/{webinarKey}/registrants/{registrantKey}', function ($webinarKey, $registrantKey) {
-    return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
+    return Registrants::webinarKey($webinarKey)
                                                   ->registrantKey($registrantKey)
                                                   ->get();
 });
 
 Route::get('webinars/{webinarKey}/registrants/create', function ($webinarKey) {
-    return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
+    return Registrants::webinarKey($webinarKey)
                                                   ->firstName('John')
                                                   ->lastName('Doe')
                                                   ->timeZone('America/Chicago')

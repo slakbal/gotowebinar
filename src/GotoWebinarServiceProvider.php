@@ -34,21 +34,5 @@ class GotoWebinarServiceProvider extends ServiceProvider
         $this->app->bind(Registrant::class, function () {
             return new Registrant();
         });
-
-//
-//        $this->app->singleton(RegistrantResource::class, function ($app) {
-//            return new RegistrantResource();
-//        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            Webinar::class,
-        ];
     }
 }
