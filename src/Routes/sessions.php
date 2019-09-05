@@ -1,5 +1,5 @@
 <?php
-
+/*
 Route::get('webinars/{webinarKey}/sessions', function ($webinarKey) {
     try {
         $gotoResponse = GotoWebinar::getSessions($webinarKey);
@@ -69,3 +69,4 @@ Route::get('webinars/{webinarKey}/sessions/{sessionKey}/polls/{registrantKey}/an
 
     return [$gotoResponse];
 });
+*/

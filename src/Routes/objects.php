@@ -1,5 +1,5 @@
 <?php
-
+/*
 Route::get('/webinar/array', function () {
     $eventParams = [
         //required
@@ -82,3 +82,4 @@ Route::get('/registrant/object', function () {
 
     return $registrant->toArray();
 });
+*/
