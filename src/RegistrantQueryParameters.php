@@ -2,7 +2,6 @@
 
 namespace Slakbal\Gotowebinar;
 
-
 trait RegistrantQueryParameters
 {
     /*
@@ -16,5 +15,4 @@ trait RegistrantQueryParameters
 
         return $this;
     }
-
 }

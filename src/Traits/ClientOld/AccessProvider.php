@@ -9,36 +9,30 @@ trait AccessProvider
 {
     protected $cache_tags = ['GOTO', 'GOTO-AUTH'];
 
-
     private function getAuthenticationHeader()
     {
-        return ['Authorization' => 'Basic ' . base64_encode($this->getClientId() . ':' . $this->getClientSecret())];
+        return ['Authorization' => 'Basic '.base64_encode($this->getClientId().':'.$this->getClientSecret())];
     }
-
 
     private function getClientId()
     {
         return config('goto.client_id'); //Consumer Key = Client Id
     }
 
-
     private function getClientSecret()
     {
         return config('goto.client_secret');
     }
 
-
     private function getAuthorisationHeader()
     {
-        return ['Authorization' => 'Bearer ' . $this->getAccessToken()];
+        return ['Authorization' => 'Bearer '.$this->getAccessToken()];
     }
-
 
     private function getAccessToken()
     {
         return Cache::tags($this->cache_tags)->get('access-token');
     }
-
 
     private function setAccessInformation($responseObject)
     {
@@ -50,14 +44,12 @@ trait AccessProvider
         return $this;
     }
 
-
     private function setAccountKey($accountKey)
     {
         Cache::tags($this->cache_tags)->forever('account-key', $accountKey);
 
         return $this;
     }
-
 
     private function setOrganizerKey($organizerKey)
     {
@@ -66,14 +58,12 @@ trait AccessProvider
         return $this;
     }
 
-
     private function setRefreshToken($refreshToken, $ttlSeconds = null)
     {
         Cache::tags($this->cache_tags)->put('refresh-token', $refreshToken, $ttlSeconds ?? Carbon::now()->addDays(30));
 
         return $this;
     }
-
 
     private function setAccessToken($accessToken, $ttlSeconds = null)
     {
@@ -82,36 +72,30 @@ trait AccessProvider
         return $this;
     }
 
-
     private function hasAccessToken()
     {
         return Cache::tags($this->cache_tags)->has('access-token');
     }
-
 
     private function getOrganizerKey()
     {
         return Cache::tags($this->cache_tags)->get('organizer-key');
     }
 
-
     private function getAccountKey()
     {
         return Cache::tags($this->cache_tags)->get('account-key');
     }
-
 
     private function hasRefreshToken()
     {
         return Cache::tags($this->cache_tags)->has('refresh-token');
     }
 
-
     private function getRefreshToken()
     {
         return Cache::tags($this->cache_tags)->get('refresh-token');
     }
-
 
     private function clearAuthCache()
     {
@@ -119,5 +103,4 @@ trait AccessProvider
 
         return $this;
     }
-
 }

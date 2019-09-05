@@ -14,19 +14,18 @@ class GotoWebinarServiceProvider extends ServiceProvider
     public function boot()
     {
         if (! App::environment('production')) {
-            $this->loadRoutesFrom(__DIR__ . '/Routes/routes.php');
+            $this->loadRoutesFrom(__DIR__.'/Routes/routes.php');
         } else {
             $this->defer = true;
         }
 
-        $this->publishes([__DIR__ . '/../config/goto.php' => config_path('goto.php')], 'config');
+        $this->publishes([__DIR__.'/../config/goto.php' => config_path('goto.php')], 'config');
     }
-
 
     public function register()
     {
         //runtime merge config
-        $this->mergeConfigFrom(__DIR__ . '/../config/goto.php', 'goto');
+        $this->mergeConfigFrom(__DIR__.'/../config/goto.php', 'goto');
 
         $this->app->bind(Webinar::class, function () {
             return new Webinar();
@@ -42,7 +41,6 @@ class GotoWebinarServiceProvider extends ServiceProvider
 //        });
     }
 
-
     /**
      * Get the services provided by the provider.
      * @return array
@@ -53,5 +51,4 @@ class GotoWebinarServiceProvider extends ServiceProvider
             Webinar::class,
         ];
     }
-
 }

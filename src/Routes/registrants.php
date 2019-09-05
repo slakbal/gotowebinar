@@ -1,20 +1,17 @@
 <?php
 
 Route::get('webinars/{webinarKey}/registrants', function ($webinarKey) {
-
     return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
                                                   ->get();
 });
 
 Route::get('webinars/{webinarKey}/registrants/{registrantKey}', function ($webinarKey, $registrantKey) {
-
     return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
                                                   ->registrantKey($registrantKey)
                                                   ->get();
 });
 
 Route::get('webinars/{webinarKey}/registrants/create', function ($webinarKey) {
-
     return \Slakbal\Gotowebinar\Facade\Registrants::webinarKey($webinarKey)
                                                   ->firstName('John')
                                                   ->lastName('Doe')
@@ -42,7 +39,6 @@ Route::get('webinars/{webinarKey}/registrants/create', function ($webinarKey) {
                                                                'purchasingRole' => 'Some Buyer Role',
                                                            ]);
 });
-
 
 /*
 use Slakbal\Gotowebinar\Objects\Registrant;

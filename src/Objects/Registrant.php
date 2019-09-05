@@ -55,7 +55,6 @@ class Registrant extends EntityAbstract
     //Indicates whether the confirmation email should be resent when a registrant is re-registered. The default value is false.
     private $resendConfirmation = false;
 
-
     public function __construct($parameterArray = null)
     {
         if (isset($parameterArray) && is_array($parameterArray)) {
@@ -87,14 +86,12 @@ class Registrant extends EntityAbstract
         }
     }
 
-
     public function firstName($firstName)
     {
         $this->firstName = $firstName;
 
         return $this;
     }
-
 
     public function lastName($lastName)
     {
@@ -103,14 +100,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function email($email)
     {
         $this->email = $email;
 
         return $this;
     }
-
 
     public function source($source = null)
     {
@@ -119,14 +114,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function address($address = null)
     {
         $this->address = $address;
 
         return $this;
     }
-
 
     public function city($city = null)
     {
@@ -135,14 +128,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function state($state = null)
     {
         $this->state = $state;
 
         return $this;
     }
-
 
     public function zipCode($zipCode = null)
     {
@@ -151,14 +142,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function country($country = null)
     {
         $this->country = $country;
 
         return $this;
     }
-
 
     public function timezone($timezone = null)
     {
@@ -167,14 +156,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function phone($phone = null)
     {
         $this->phone = $phone;
 
         return $this;
     }
-
 
     public function organization($organization = null)
     {
@@ -183,14 +170,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function jobTitle($jobTitle = null)
     {
         $this->jobTitle = $jobTitle;
 
         return $this;
     }
-
 
     public function questionsAndComments($questionsAndComments = null)
     {
@@ -199,14 +184,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function industry($industry = null)
     {
         $this->industry = $industry;
 
         return $this;
     }
-
 
     public function numberOfEmployees($numberOfEmployees = null)
     {
@@ -215,14 +198,12 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function purchasingTimeFrame($purchasingTimeFrame = null)
     {
         $this->purchasingTimeFrame = $purchasingTimeFrame;
 
         return $this;
     }
-
 
     public function purchasingRole($purchasingRole = null)
     {
@@ -231,7 +212,6 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function resendConfirmation()
     {
         $this->resendConfirmation = true;
@@ -239,10 +219,8 @@ class Registrant extends EntityAbstract
         return $this;
     }
 
-
     public function getResendConfirmation()
     {
         return $this->resendConfirmation;
     }
-
 }

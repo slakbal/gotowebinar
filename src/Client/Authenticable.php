@@ -10,11 +10,9 @@ trait Authenticable
 
     private $directAuthenticationUrl = 'https://api.getgo.com/oauth/v2/token';
 
-
     public function authenticate()
     {
         if (! $this->hasAccessToken()) {
-
             if ($this->hasRefreshToken()) {
                 //Get new bearer token with refresh token
                 $this->refreshAccessToken();
@@ -27,14 +25,12 @@ trait Authenticable
         return $this;
     }
 
-
     public function flushAuthentication()
     {
         $this->clearAuthCache();
 
         return $this;
     }
-
 
     private function refreshAccessToken()
     {
@@ -48,7 +44,6 @@ trait Authenticable
 
         return $response;
     }
-
 
     private function authenticateDirect()
     {
@@ -64,7 +59,6 @@ trait Authenticable
         return $response;
     }
 
-
     private function sendAuthenticationRequest(array $payload)
     {
         $this->response = Request::post($this->directAuthenticationUrl)
@@ -77,5 +71,4 @@ trait Authenticable
 
         return $this->response->body;
     }
-
 }

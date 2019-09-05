@@ -7,17 +7,16 @@ class EntityAbstract
     public function determineLocale()
     {
         switch (strtolower(config('app.locale'))) {
-            case "en":
-                return "en_US";
+            case 'en':
+                return 'en_US';
                 break;
-            case "de":
-                return "de_DE";
+            case 'de':
+                return 'de_DE';
                 break;
             default:
-                return null;
+                return;
         }
     }
-
 
     public function toArray()
     {
@@ -29,11 +28,9 @@ class EntityAbstract
         ];
 
         return array_where(get_object_vars($this), function ($value, $key) use ($ignore) {
-
             if (! in_array($key, $ignore)) {
                 return ! empty($value);
             }
         });
     }
-
 }

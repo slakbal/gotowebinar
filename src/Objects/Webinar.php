@@ -54,7 +54,7 @@ class Webinar extends EntityAbstract
 
     public $isPasswordProtected = false;
 
-    public $experienceType = "CLASSIC";
+    public $experienceType = 'CLASSIC';
 
     public $emailSettings;
 
@@ -69,7 +69,6 @@ class Webinar extends EntityAbstract
     private $emailReminder = true;
 
     private $includeCertificate = true;
-
 
     public function __construct($parameterArray = null)
     {
@@ -91,9 +90,8 @@ class Webinar extends EntityAbstract
         $this->setEmailSettings();
     }
 
-
     /**
-     * Set the subject
+     * Set the subject.
      *
      * @param string $subject
      * @return $this
@@ -105,9 +103,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the description
+     * Set the description.
      *
      * @param string $description
      * @return $this
@@ -119,9 +116,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the start and end time
+     * Set the start and end time.
      *
      * @param string $startTime , $endTime
      * @return $this
@@ -133,9 +129,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the timezone
+     * Set the timezone.
      *
      * @param string $timezone
      * @return $this
@@ -147,9 +142,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the locale
+     * Set the locale.
      *
      * @param string $locale
      * @return $this
@@ -161,9 +155,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the type
+     * Set the type.
      *
      * @param string $type
      * @return $this
@@ -175,9 +168,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the experience type
+     * Set the experience type.
      *
      * @param string $type
      * @return $this
@@ -189,9 +181,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the if webinar is password protected
+     * Set the if webinar is password protected.
      *
      * @return $this
      */
@@ -202,9 +193,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the object
+     * Set the object.
      *
      * @return $this
      */
@@ -220,9 +210,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the type to single session
+     * Set the type to single session.
      *
      * @return $this
      */
@@ -233,9 +222,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the experience type to classic
+     * Set the experience type to classic.
      *
      * @return $this
      */
@@ -246,9 +234,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the experience type to broadcast
+     * Set the experience type to broadcast.
      *
      * @return $this
      */
@@ -259,9 +246,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Set the experience type to simulive
+     * Set the experience type to simulive.
      *
      * @return $this
      */
@@ -272,9 +258,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Confirmation email
+     * Confirmation email.
      *
      * @return $this
      */
@@ -287,9 +272,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * No confirmation email
+     * No confirmation email.
      *
      * @return $this
      */
@@ -302,9 +286,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Reminder email
+     * Reminder email.
      *
      * @return $this
      */
@@ -317,9 +300,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * No reminder email
+     * No reminder email.
      *
      * @return $this
      */
@@ -332,9 +314,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Absentee Follow up email
+     * Absentee Follow up email.
      *
      * @return $this
      */
@@ -347,9 +328,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * No Absentee Follow up email
+     * No Absentee Follow up email.
      *
      * @return $this
      */
@@ -362,9 +342,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * Send attendee FollowUp email and if certificate should be included
+     * Send attendee FollowUp email and if certificate should be included.
      *
      * @return $this
      */
@@ -379,9 +358,8 @@ class Webinar extends EntityAbstract
         return $this;
     }
 
-
     /**
-     * No attendee FollowUp email
+     * No attendee FollowUp email.
      *
      * @return $this
      */
@@ -395,6 +373,4 @@ class Webinar extends EntityAbstract
 
         return $this;
     }
-
-
 }

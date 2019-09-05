@@ -5,7 +5,7 @@ namespace Slakbal\Gotowebinar\Traits;
 trait RequestHelpers
 {
     /**
-     * Returns the payload for the message (alias for toArray)
+     * Returns the payload for the message (alias for toArray).
      *
      * @return array
      */
@@ -14,9 +14,8 @@ trait RequestHelpers
         return $this->toArray2();
     }
 
-
     /**
-     * Convert the object parameters to an array and remove exclusions
+     * Convert the object parameters to an array and remove exclusions.
      *
      * @return array
      */
@@ -33,20 +32,17 @@ trait RequestHelpers
         return $values;
     }
 
-
     public function toArray2()
     {
         //list of variables to be filtered out
         $ignore = $this->getPayloadExclusions();
 
         return array_where(get_object_vars($this), function ($value, $key) use ($ignore) {
-
             if (! in_array($key, $ignore)) {
                 return ! empty($value);
             }
         });
     }
-
 
     /** Override this on resource class level to be specific what fields should be excluded from the payload **/
     protected function getPayloadExclusions(): array
@@ -66,5 +62,4 @@ trait RequestHelpers
 
         return $exclusions;
     }
-
 }

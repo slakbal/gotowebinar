@@ -4,7 +4,6 @@ namespace Slakbal\Gotowebinar;
 
 trait RegistrantOperations
 {
-
     public function webinarKey($webinarKey): self
     {
         $this->pathKeys['webinarKey'] = $webinarKey;
@@ -12,18 +11,15 @@ trait RegistrantOperations
         return $this;
     }
 
-
     /**
-     * Set the registrant key and path
-     *
+     * Set the registrant key and path.
      */
     public function registrantKey($registrantKey): self
     {
-        $this->resourcePath = $this->baseResourcePath . '/:registrantKey';
+        $this->resourcePath = $this->baseResourcePath.'/:registrantKey';
 
         $this->pathKeys['registrantKey'] = $registrantKey;
 
         return $this;
     }
-
 }

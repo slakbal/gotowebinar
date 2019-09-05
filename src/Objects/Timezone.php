@@ -80,7 +80,6 @@ class Timezone
 
     public $timeZone;
 
-
     public function __construct($timeZone)
     {
         if (in_array(strtolower($timeZone), array_map('strtolower', $this->allowedTimezones))) {
@@ -90,10 +89,8 @@ class Timezone
         }
     }
 
-
     public function getTimezone()
     {
         return $this->timeZone;
     }
-
 }

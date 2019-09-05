@@ -1,7 +1,6 @@
 <?php
 
 Route::get('account', function () {
-
     $from = Carbon\Carbon::now()->subYears(50)->startOfDay();
     $to = Carbon\Carbon::now()->addYears(50)->endOfDay();
 
@@ -16,7 +15,6 @@ Route::get('account', function () {
 });
 
 Route::get('webinars', function () {
-
     $from = Carbon\Carbon::now()->subYear()->startOfDay();
     $to = Carbon\Carbon::tomorrow()->endOfDay();
 
@@ -30,7 +28,6 @@ Route::get('webinars', function () {
 });
 
 Route::get('webinars/{webinarKey}/show', function ($webinarKey) {
-
     return [
         \Slakbal\Gotowebinar\Facade\Webinars::webinarKey($webinarKey)
                                             ->get(),
@@ -54,15 +51,14 @@ Route::get('webinars/create', function () {
 
 Route::get('webinars/createByArray', function () {
 
-    //todo still work to do on creating by array ie DateTimes
+    //todo still work to do on creating by array ie DateTimes and test if the validation is working on create
 
     return [
         \Slakbal\Gotowebinar\Facade\Webinars::noEmailReminder()
+                                            ->timeFromTo(Carbon\Carbon::now()->addDays(2), Carbon\Carbon::now()->addDays(2)->addHours(2))
                                             ->create([
                                                          'subject' => 'XXXXX CREATED BY ARRAY XXXXX*',
                                                          'description' => 'Test Description*',
-//                                                         'startTime' => Carbon\Carbon::now()->addDays(2), //require eg "2016-03-23T20:00:00Z"
-//                                                         'endTime' => Carbon\Carbon::now()->addDays(2)->addHour()->toW3cString(), //require eg "2016-03-23T20:00:00Z"
                                                          'timeZone' => 'Europe/Amsterdam',
                                                          'type' => 'single_session', //single_session
                                                          'isPasswordProtected' => false, //default is false
@@ -81,7 +77,6 @@ Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
 });
 
 Route::get('webinars/{webinarKey}/delete', function ($webinarKey) {
-
     return [
         \Slakbal\Gotowebinar\Facade\Webinars::webinarKey($webinarKey)
                                             ->sendCancellationEmails()

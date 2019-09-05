@@ -14,24 +14,22 @@ trait RegistrantOperations
      * APPROVED - registrant registered and is approved, and
      * DENIED - registrant registered and was denied.
      */
-    function getRegistrants($webinarKey)
+    public function getRegistrants($webinarKey)
     {
         $path = $this->getPathRelativeToOrganizer(sprintf('webinars/%s/registrants', $webinarKey));
 
         return $this->sendAPIRequest('GET', $path, $parameters = null, $payload = null);
     }
 
-
     /*
      * Retrieve registration details for a specific registrant.
      */
-    function getRegistrant($webinarKey, $registrantKey)
+    public function getRegistrant($webinarKey, $registrantKey)
     {
         $path = $this->getPathRelativeToOrganizer(sprintf('webinars/%s/registrants/%s', $webinarKey, $registrantKey));
 
         return $this->sendAPIRequest('GET', $path, $parameters = null, $payload = null);
     }
-
 
     /*
      * Register an attendee for a scheduled webinar. The response contains the registrantKey and join URL
@@ -50,7 +48,7 @@ trait RegistrantOperations
      * $resendConfirmation - Indicates whether the confirmation email should be resent when a registrant is re-registered. The default value is false.
      *
      */
-    function createRegistrant($webinarKey, Registrant $registrantObject, $resendConfirmation = false)
+    public function createRegistrant($webinarKey, Registrant $registrantObject, $resendConfirmation = false)
     {
         ($resendConfirmation) ? $parameters = ['resendConfirmation' => true] : $parameters = ['resendConfirmation' => false];
 
@@ -59,11 +57,10 @@ trait RegistrantOperations
         return $this->sendAPIRequest('POST', $path, $parameters, $registrantObject);
     }
 
-
     /*
      * Removes a webinar registrant from current registrations for the specified webinar. The webinar must be a scheduled, future webinar.
      */
-    function deleteRegistrant($webinarKey, $registrantKey)
+    public function deleteRegistrant($webinarKey, $registrantKey)
     {
         $path = $this->getPathRelativeToOrganizer(sprintf('webinars/%s/registrants/%s', $webinarKey, $registrantKey));
 

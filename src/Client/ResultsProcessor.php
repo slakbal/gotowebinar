@@ -2,7 +2,6 @@
 
 namespace Slakbal\Gotowebinar\Client;
 
-use Httpful\Request;
 use Illuminate\Http\Response;
 use Slakbal\Gotowebinar\Exception\GotoException;
 
@@ -29,7 +28,6 @@ trait ResultsProcessor
         return $response->body;
     }
 
-
     private function getResponseMessage($response)
     {
         switch ($response->code) {
@@ -47,7 +45,7 @@ trait ResultsProcessor
 
             case Response::HTTP_CREATED:
 
-                return Response::$statusTexts[Response::HTTP_CREATED] . ' - The resource was created.';
+                return Response::$statusTexts[Response::HTTP_CREATED].' - The resource was created.';
 
                 break;
 
@@ -59,7 +57,7 @@ trait ResultsProcessor
 
             case Response::HTTP_BAD_REQUEST:
 
-                return Response::$statusTexts[Response::HTTP_BAD_REQUEST] . ' - Possible missing data in the payload.';
+                return Response::$statusTexts[Response::HTTP_BAD_REQUEST].' - Possible missing data in the payload.';
 
                 break;
 
@@ -77,22 +75,21 @@ trait ResultsProcessor
 
             case Response::HTTP_METHOD_NOT_ALLOWED:
 
-                return Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED] . ' - Webinar is in the past.';
+                return Response::$statusTexts[Response::HTTP_METHOD_NOT_ALLOWED].' - Webinar is in the past.';
 
                 break;
 
             case Response::HTTP_CONFLICT:
 
-                return Response::$statusTexts[Response::HTTP_CONFLICT] . ' - Resource already create or in session.';
+                return Response::$statusTexts[Response::HTTP_CONFLICT].' - Resource already create or in session.';
 
                 break;
 
             default:
 
-                return null;
+                return;
 
                 break;
         }
     }
-
 }

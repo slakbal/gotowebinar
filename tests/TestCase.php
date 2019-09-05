@@ -11,7 +11,6 @@ abstract class TestCase extends OrchestraTestCase
         parent::setUp();
     }
 
-
     /**
      * Define environment setup.
      *
@@ -25,5 +24,4 @@ abstract class TestCase extends OrchestraTestCase
         $app['config']->set('goto.direct.client_id', env('GOTO_CONSUMER_KEY'));
         $app['config']->set('goto.direct.client_secret', env('GOTO_CLIENT_SECRET'));
     }
-
 }

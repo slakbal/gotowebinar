@@ -4,9 +4,9 @@ namespace Slakbal\Gotowebinar;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Slakbal\Gotowebinar\Objects\EmailSettings;
 use Slakbal\Gotowebinar\Objects\Time;
 use Slakbal\Gotowebinar\Objects\Timezone;
+use Slakbal\Gotowebinar\Objects\EmailSettings;
 
 final class Webinar extends AbstractResource
 {
@@ -47,12 +47,12 @@ final class Webinar extends AbstractResource
     */
 
     /** PAYLOAD PROPERTIES */
-
     protected $subject;
 
     protected $description;
 
     protected $times = [];
+    protected $timesX = [];
 
     protected $timeZone;
 
@@ -62,15 +62,14 @@ final class Webinar extends AbstractResource
 
     protected $isPasswordProtected = false;
 
-    protected $experienceType = "CLASSIC";
+    protected $experienceType = 'CLASSIC';
 
     protected $emailSettings;
 
     /**
      * EXPLICITLY EXCLUDE THIS TEMP STATE FROM
-     * THE PAYLOAD CALCULATION VIA PRIVATE SCOPE
+     * THE PAYLOAD CALCULATION VIA PRIVATE SCOPE.
      */
-
     private $emailConfirmation = true;
 
     private $emailAbsenteeFollowUp = true;
@@ -83,7 +82,6 @@ final class Webinar extends AbstractResource
 
     protected $baseResourcePath = '/organizers/:organizerKey/webinars';
 
-
     public function __construct()
     {
         $this->resourcePath = $this->baseResourcePath;
@@ -91,16 +89,14 @@ final class Webinar extends AbstractResource
         $this->locale();
     }
 
-
     /** OVERRIDES ABSTRACT **/
     protected function requiredFields(): array
     {
         return ['subject', 'times'];
     }
 
-
     /**
-     * Set the subject
+     * Set the subject.
      *
      * @param string $subject
      * @return \Slakbal\Gotowebinar\Objects\Webinar
@@ -112,9 +108,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the description
+     * Set the description.
      *
      * @param string $description
      * @return $this
@@ -126,9 +121,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the start and end dateTime Carbon Object
+     * Set the start and end dateTime Carbon Object.
      *
      * @param Carbon $startTime , $endTime
      * @return $this
@@ -138,9 +132,8 @@ final class Webinar extends AbstractResource
         return $this->timeFromTo($startTime, $endTime);
     }
 
-
     /**
-     * Set the start and end dateTime Carbon Object
+     * Set the start and end dateTime Carbon Object.
      *
      * @param Carbon $startTime , $endTime
      * @return $this
@@ -152,9 +145,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the timezone
+     * Set the timezone.
      *
      * @param string $timezone
      * @return $this
@@ -166,9 +158,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the locale
+     * Set the locale.
      *
      * @param string $locale
      * @return $this
@@ -180,9 +171,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the type
+     * Set the type.
      *
      * @param string $type
      * @return $this
@@ -194,9 +184,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the experience type
+     * Set the experience type.
      *
      * @param string $type
      * @return $this
@@ -208,9 +197,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the if webinar is password protected
+     * Set the if webinar is password protected.
      *
      * @return $this
      */
@@ -221,9 +209,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the object
+     * Set the object.
      *
      * @return \Slakbal\Gotowebinar\Objects\Webinar
      */
@@ -239,9 +226,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the type to single session
+     * Set the type to single session.
      *
      * @return $this
      */
@@ -252,9 +238,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the experience type to classic
+     * Set the experience type to classic.
      *
      * @return $this
      */
@@ -265,9 +250,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the experience type to broadcast
+     * Set the experience type to broadcast.
      *
      * @return $this
      */
@@ -278,9 +262,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Set the experience type to simulive
+     * Set the experience type to simulive.
      *
      * @return $this
      */
@@ -291,9 +274,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Confirmation email
+     * Confirmation email.
      *
      * @return $this
      */
@@ -306,9 +288,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * No confirmation email
+     * No confirmation email.
      *
      * @return $this
      */
@@ -321,9 +302,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Reminder email
+     * Reminder email.
      *
      * @return $this
      */
@@ -336,9 +316,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * No reminder email
+     * No reminder email.
      *
      * @return $this
      */
@@ -351,9 +330,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Absentee Follow up email
+     * Absentee Follow up email.
      *
      * @return $this
      */
@@ -366,9 +344,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * No Absentee Follow up email
+     * No Absentee Follow up email.
      *
      * @return $this
      */
@@ -381,9 +358,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * Send attendee FollowUp email and if certificate should be included
+     * Send attendee FollowUp email and if certificate should be included.
      *
      * @return $this
      */
@@ -398,9 +374,8 @@ final class Webinar extends AbstractResource
         return $this;
     }
 
-
     /**
-     * No attendee FollowUp email
+     * No attendee FollowUp email.
      *
      * @return $this
      */
@@ -414,5 +389,4 @@ final class Webinar extends AbstractResource
 
         return $this;
     }
-
 }

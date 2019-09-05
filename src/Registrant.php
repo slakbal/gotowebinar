@@ -32,7 +32,6 @@ final class Registrant extends AbstractResource
     */
 
     /** PAYLOAD PROPERTIES */
-
     protected $firstName;
 
     protected $lastName;
@@ -70,15 +69,12 @@ final class Registrant extends AbstractResource
     protected $purchasingRole;
 
     /** RESOURCE PATH **/
-
     protected $baseResourcePath = '/organizers/:organizerKey/webinars/:webinarKey/registrants';
-
 
     public function __construct()
     {
         $this->resourcePath = $this->baseResourcePath;
     }
-
 
     /** OVERRIDES ABSTRACT **/
     protected function requiredFields(): array
@@ -86,16 +82,13 @@ final class Registrant extends AbstractResource
         return ['webinarKey', 'firstName', 'lastName', 'email'];
     }
 
-
     /** PAYLOAD -- GETTERS AND SETTERS **/
-
     public function firstName($firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
-
 
     public function lastName($lastName): self
     {
@@ -104,14 +97,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function email($email): self
     {
         $this->email = $email;
 
         return $this;
     }
-
 
     public function source($source = null): self
     {
@@ -120,14 +111,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function address($address = null): self
     {
         $this->address = $address;
 
         return $this;
     }
-
 
     public function city($city = null): self
     {
@@ -136,14 +125,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function state($state = null): self
     {
         $this->state = $state;
 
         return $this;
     }
-
 
     public function zipCode($zipCode = null): self
     {
@@ -152,14 +139,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function country($country = null): self
     {
         $this->country = $country;
 
         return $this;
     }
-
 
     public function timeZone($timezone = null): self
     {
@@ -168,14 +153,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function phone($phone = null): self
     {
         $this->phone = $phone;
 
         return $this;
     }
-
 
     public function organization($organization = null): self
     {
@@ -184,14 +167,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function jobTitle($jobTitle = null): self
     {
         $this->jobTitle = $jobTitle;
 
         return $this;
     }
-
 
     public function questionsAndComments($questionsAndComments = null): self
     {
@@ -200,14 +181,12 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function industry($industry = null): self
     {
         $this->industry = $industry;
 
         return $this;
     }
-
 
     public function numberOfEmployees($numberOfEmployees = null): self
     {
@@ -216,7 +195,6 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function purchasingTimeFrame($purchasingTimeFrame = null): self
     {
         $this->purchasingTimeFrame = $purchasingTimeFrame;
@@ -224,12 +202,10 @@ final class Registrant extends AbstractResource
         return $this;
     }
 
-
     public function purchasingRole($purchasingRole = null): self
     {
         $this->purchasingRole = $purchasingRole;
 
         return $this;
     }
-
 }

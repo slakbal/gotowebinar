@@ -1,7 +1,6 @@
 <?php
 
 Route::get('/webinar/array', function () {
-
     $eventParams = [
         //required
         'subject' => 'XXXXX Test XXXXX*',
@@ -25,7 +24,6 @@ Route::get('/webinar/array', function () {
 });
 
 Route::get('/webinar/object', function () {
-
     $webinar = (new \Slakbal\Gotowebinar\Objects\Webinar())
         ->subject('XXXXX Test XXXXX*')
         ->description('Object Description*')
@@ -44,7 +42,6 @@ Route::get('/webinar/object', function () {
 });
 
 Route::get('/registrant/array', function () {
-
     $registrantParams = [
         'firstName' => 'Peter',
         'lastName' => 'Pan',
@@ -57,7 +54,6 @@ Route::get('/registrant/array', function () {
 });
 
 Route::get('/registrant/object', function () {
-
     $registrant = (new \Slakbal\Gotowebinar\Objects\Registrant())
 
         //required

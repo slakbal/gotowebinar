@@ -21,14 +21,12 @@ final class GotoClient
 
     protected $payload;
 
-
     public function setPath(string $path)
     {
         $this->path = $path;
 
         return $this;
     }
-
 
     public function setPathKeys(array $pathKeys)
     {
@@ -37,7 +35,6 @@ final class GotoClient
         return $this;
     }
 
-
     public function setParameters(array $parameters)
     {
         $this->parameters = $parameters;
@@ -45,14 +42,12 @@ final class GotoClient
         return $this;
     }
 
-
     public function setPayload(array $payload)
     {
         $this->payload = $payload;
 
         return $this;
     }
-
 
     public function get()
     {
@@ -67,7 +62,6 @@ final class GotoClient
 
         return $this->processResult($response);
     }
-
 
     public function create()
     {
@@ -84,7 +78,6 @@ final class GotoClient
         return $this->processResult($response);
     }
 
-
     public function update()
     {
         $this->authenticate();
@@ -100,7 +93,6 @@ final class GotoClient
         return $this->processResult($response);
     }
 
-
     public function delete()
     {
         $this->authenticate();
@@ -114,5 +106,4 @@ final class GotoClient
 
         return $this->processResult($response);
     }
-
 }

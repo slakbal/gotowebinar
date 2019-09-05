@@ -8,7 +8,6 @@ trait Actions
 {
     use RequestHelpers;
 
-
     public function dump(array $data = [])
     {
         //set all the properties of the parent
@@ -35,7 +34,6 @@ trait Actions
         dump($this->pathKeys);
     }
 
-
     public function create(array $data = [])
     {
         //set all the properties of the parent
@@ -51,7 +49,6 @@ trait Actions
                                  ->create();
     }
 
-
     public function update(array $data = [])
     {
         //set all the properties of the parent
@@ -64,7 +61,6 @@ trait Actions
                                  ->update();
     }
 
-
     public function get()
     {
         return (new GotoClient())->setPath($this->getResourceFullPath())
@@ -73,7 +69,6 @@ trait Actions
                                  ->setPayload($this->getPayload())
                                  ->get();
     }
-
 
     public function delete()
     {
@@ -84,22 +79,18 @@ trait Actions
                                  ->delete();
     }
 
-
     public function status()
     {
         return (new GotoClient())->status();
     }
-
 
     public function authenticate()
     {
         return (new GotoClient())->authenticate();
     }
 
-
     public function flushAuthentication()
     {
         return (new GotoClient())->flushAuthentication();
     }
-
 }

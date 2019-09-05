@@ -8,7 +8,6 @@ trait Authenticable
 {
     use AccessProvider;
 
-
     public function status()
     {
         return [
@@ -20,11 +19,9 @@ trait Authenticable
         ];
     }
 
-
     public function authenticate()
     {
         if (! $this->hasAccessToken()) {
-
             if ($this->hasRefreshToken()) {
                 //Get new bearer token with refresh token
                 $this->refreshAccessToken();
@@ -36,7 +33,6 @@ trait Authenticable
 
         return $this;
     }
-
 
     private function refreshAccessToken()
     {
@@ -50,7 +46,6 @@ trait Authenticable
 
         return $response;
     }
-
 
     private function authenticateDirect()
     {
@@ -66,12 +61,10 @@ trait Authenticable
         return $response;
     }
 
-
     public function flushAuthentication()
     {
         $this->clearAuthCache();
 
         return $this;
     }
-
 }

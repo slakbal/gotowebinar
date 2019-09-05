@@ -2,9 +2,9 @@
 
 namespace Slakbal\Gotowebinar;
 
-use Slakbal\Gotowebinar\Contract\GotoWebinar;
 use Slakbal\Gotowebinar\Traits\Actions;
 use Slakbal\Gotowebinar\Traits\ClassHelpers;
+use Slakbal\Gotowebinar\Contract\GotoWebinar;
 
 abstract class AbstractResource implements GotoWebinar
 {
@@ -18,7 +18,6 @@ abstract class AbstractResource implements GotoWebinar
 
     protected $pathKeys = [];
 
-
     /** Override this on resource class level to be specific what fields should be excluded from the payload **/
     protected function excludeFromPayload(): array
     {
@@ -26,13 +25,11 @@ abstract class AbstractResource implements GotoWebinar
         return [];
     }
 
-
     /** Override this on resource class level to be specific what fields are required **/
     protected function requiredFields(): array
     {
         return [];
     }
-
 
     public function getBaseExclusions()
     {
@@ -43,26 +40,22 @@ abstract class AbstractResource implements GotoWebinar
             'baseResourcePath',
             'baseUrl',
             'baseAPI',
-            'pathKeys'
+            'pathKeys',
         ];
     }
-
 
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
 
-
     public function getResourceRelativePath()
     {
         return $this->resourcePath;
     }
 
-
     public function getResourceFullPath()
     {
-        return $this->getBaseUrl() . $this->getResourceRelativePath();
+        return $this->getBaseUrl().$this->getResourceRelativePath();
     }
-
 }

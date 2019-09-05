@@ -17,11 +17,9 @@ class Time
 
     public $endTime;
 
-
     public function __construct(Carbon $startTime, Carbon $endTime)
     {
         $this->startTime = $startTime->toW3cString();
         $this->endTime = $endTime->toW3cString();
     }
-
 }

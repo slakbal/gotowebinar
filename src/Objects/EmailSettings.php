@@ -28,26 +28,23 @@ class EmailSettings
 
     public $attendeeFollowUpEmail;
 
-
     public function __construct($confirmationEmail = true, $reminderEmail = true, $absenteeFollowUpEmail = true, $attendeeFollowUpEmail = true, $includeCertificate = true)
     {
-
-        $this->confirmationEmail = (object)[
-            "enabled" => $confirmationEmail,
+        $this->confirmationEmail = (object) [
+            'enabled' => $confirmationEmail,
         ];
 
-        $this->reminderEmail = (object)[
-            "enabled" => $reminderEmail,
+        $this->reminderEmail = (object) [
+            'enabled' => $reminderEmail,
         ];
 
-        $this->absenteeFollowUpEmail = (object)[
-            "enabled" => $absenteeFollowUpEmail,
+        $this->absenteeFollowUpEmail = (object) [
+            'enabled' => $absenteeFollowUpEmail,
         ];
 
-        $this->attendeeFollowUpEmail = (object)[
-            "enabled" => $attendeeFollowUpEmail,
-            "includeCertificate" => $includeCertificate,
+        $this->attendeeFollowUpEmail = (object) [
+            'enabled' => $attendeeFollowUpEmail,
+            'includeCertificate' => $includeCertificate,
         ];
     }
-
 }

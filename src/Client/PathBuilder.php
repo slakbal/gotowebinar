@@ -2,8 +2,8 @@
 
 namespace Slakbal\Gotowebinar\Client;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 trait PathBuilder
 {
@@ -14,7 +14,6 @@ trait PathBuilder
      */
     protected $encodingType = PHP_QUERY_RFC1738;
 
-
     private function buildUrl($path, $parameters = null)
     {
         $path = $this->replaceKeyPlaceholders($path, $this->getPathKeys());
@@ -23,15 +22,13 @@ trait PathBuilder
             return $this->cleanPath($path);
         }
 
-        return $this->cleanPath($path) . '?' . http_build_query($parameters, '', '&', $this->encodingType);
+        return $this->cleanPath($path).'?'.http_build_query($parameters, '', '&', $this->encodingType);
     }
-
 
     private function cleanPath($path)
     {
         return trim($path, '/');
     }
-
 
     private function getPathKeys()
     {
@@ -47,7 +44,6 @@ trait PathBuilder
         return $keys;
     }
 
-
     protected function replaceKeyPlaceholders($path, array $replacements)
     {
         if (empty($replacements)) {
@@ -58,7 +54,7 @@ trait PathBuilder
 
         foreach ($replacements as $key => $value) {
             $path = str_replace(
-                [':' . $key, ':' . Str::upper($key), ':' . Str::ucfirst($key)],
+                [':'.$key, ':'.Str::upper($key), ':'.Str::ucfirst($key)],
                 [$value, Str::upper($value), Str::ucfirst($value)],
                 $path
             );
@@ -66,7 +62,6 @@ trait PathBuilder
 
         return $path;
     }
-
 
     /**
      * Sort the replacements array.
@@ -80,5 +75,4 @@ trait PathBuilder
             return mb_strlen($key) * -1;
         })->all();
     }
-
 }

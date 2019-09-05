@@ -8,5 +8,4 @@ class WebinarModelTest extends \Orchestra\Testbench\TestCase
     public function test_the_first_test()
     {
     }
-
 }

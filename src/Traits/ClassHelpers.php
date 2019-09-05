@@ -10,7 +10,6 @@ trait ClassHelpers
     protected function setDataByMethod(array $data = [])
     {
         foreach ($data as $key => $value) {
-
             if (! method_exists($this, $key)) {
                 throw InvalidResource::missingMethod($key);
             }
@@ -19,11 +18,9 @@ trait ClassHelpers
         }
     }
 
-
     protected function setDataByProperty(array $data = [])
     {
         foreach ($data as $key => $value) {
-
             if (! property_exists($this, $key)) {
                 throw InvalidResource::missingProperty($key);
             }
@@ -31,7 +28,6 @@ trait ClassHelpers
             $this->$key = $value;
         }
     }
-
 
     protected function validate(array $requiredFields = [])
     {
@@ -42,19 +38,17 @@ trait ClassHelpers
         }
     }
 
-
     public function determineLocale()
     {
         switch (strtolower(config('app.locale'))) {
-            case "en":
-                return "en_US";
+            case 'en':
+                return 'en_US';
                 break;
-            case "de":
-                return "de_DE";
+            case 'de':
+                return 'de_DE';
                 break;
             default:
-                return null;
+                return;
         }
     }
-
 }
