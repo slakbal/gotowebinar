@@ -15,39 +15,3 @@ Route::get('/authenticate', function () {
 Route::get('/flush-auth', function () {
     return \Slakbal\Gotowebinar\Facade\Webinars::flushAuthentication()->status();
 })->name('goto.flush');
-
-/*
-
-Route::get('/', function () {
-
-    try {
-        $gotoResponse = GotoWebinar::status();
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-})->name('goto.status');
-
-Route::get('/authenticate', function () {
-
-    try {
-        $gotoResponse = GotoWebinar::authenticate()->status();
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-})->name('goto.auth');
-
-Route::get('/flush-auth', function () {
-
-    try {
-        $gotoResponse = GotoWebinar::flushAuthentication()->status();
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-        return [$e->getMessage()];
-    }
-
-    return [$gotoResponse];
-})->name('goto.flush');
-*/

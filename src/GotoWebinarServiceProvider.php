@@ -4,6 +4,10 @@ namespace Slakbal\Gotowebinar;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Slakbal\Gotowebinar\Resources\Webinar\Webinar;
+use Slakbal\Gotowebinar\Resources\Registrant\Registrant;
+use Slakbal\Gotowebinar\Resources\Attendee\Attendee;
+
 
 class GotoWebinarServiceProvider extends ServiceProvider
 {
@@ -33,6 +37,10 @@ class GotoWebinarServiceProvider extends ServiceProvider
 
         $this->app->bind(Registrant::class, function () {
             return new Registrant();
+        });
+
+        $this->app->bind(Attendee::class, function () {
+            return new Attendee();
         });
     }
 }

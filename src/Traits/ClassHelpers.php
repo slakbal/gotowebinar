@@ -31,8 +31,13 @@ trait ClassHelpers
 
     protected function validate(array $requiredFields = [])
     {
+        //todo validation for the webinars time properties aren't working yet when creating a new webinar
         foreach ($requiredFields as $requiredField) {
-            if (is_null($this->$requiredField)) {
+            if (in_array($requiredField, ['webinarKey', 'registrantKey'])) {
+                if (empty($this->pathKeys[$requiredField])) {
+                    throw InvalidResource::missingField($requiredField);
+                }
+            } elseif (is_null($this->$requiredField)) {
                 throw InvalidResource::missingField($requiredField);
             }
         }

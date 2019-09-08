@@ -2,8 +2,8 @@
 
 namespace Slakbal\Gotowebinar\Facade;
 
-use Slakbal\Gotowebinar\Webinar;
 use Illuminate\Support\Facades\Facade;
+use Slakbal\Gotowebinar\Resources\Webinar\Webinar;
 
 class Webinars extends Facade
 {

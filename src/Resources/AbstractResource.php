@@ -1,6 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar;
+namespace Slakbal\Gotowebinar\Resources;
 
 use Slakbal\Gotowebinar\Traits\Actions;
 use Slakbal\Gotowebinar\Traits\ClassHelpers;

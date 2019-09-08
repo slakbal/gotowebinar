@@ -2,9 +2,7 @@
 
 namespace Slakbal\Gotowebinar\Exception;
 
-use Exception;
-
-class InvalidResource extends Exception
+class InvalidResource extends GotoException
 {
     public static function missingMethod($key)
     {

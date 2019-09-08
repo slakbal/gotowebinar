@@ -1,8 +1,9 @@
 <?php
 
-namespace Slakbal\Gotowebinar;
+namespace Slakbal\Gotowebinar\Resources\Registrant;
 
 use Slakbal\Gotowebinar\Objects\Timezone;
+use Slakbal\Gotowebinar\Resources\AbstractResource;
 
 final class Registrant extends AbstractResource
 {

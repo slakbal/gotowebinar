@@ -1,6 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar;
+namespace Slakbal\Gotowebinar\Resources\Webinar;
 
 trait WebinarOperations
 {

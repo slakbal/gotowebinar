@@ -4,10 +4,12 @@ namespace Slakbal\Gotowebinar\Client;
 
 use Httpful\Mime;
 use Httpful\Request;
+use Illuminate\Http\Response;
+use Slakbal\Gotowebinar\Exception\GotoException;
 
 final class GotoClient
 {
-    use Authenticable, PathBuilder, ResultsProcessor;
+    use Authenticable, PathBuilder;
 
     protected $strict_ssl = false;
 
@@ -20,6 +22,14 @@ final class GotoClient
     protected $parameters;
 
     protected $payload;
+
+    const GET = 'GET';
+
+    const POST = 'POST';
+
+    const PUT = 'PUT';
+
+    const DELETE = 'DELETE';
 
     public function setPath(string $path)
     {
@@ -60,7 +70,7 @@ final class GotoClient
                            ->expectsJson()
                            ->send();
 
-        return $this->processResult($response);
+        return $this->processResponse($response, self::GET);
     }
 
     public function create()
@@ -75,7 +85,7 @@ final class GotoClient
                            ->expectsJson()
                            ->send();
 
-        return $this->processResult($response);
+        return $this->processResponse($response, self::POST);
     }
 
     public function update()
@@ -90,7 +100,7 @@ final class GotoClient
                            ->expectsJson()
                            ->send();
 
-        return $this->processResult($response);
+        return $this->processResponse($response, self::PUT);
     }
 
     public function delete()
@@ -104,6 +114,21 @@ final class GotoClient
                            ->expectsJson()
                            ->send();
 
-        return $this->processResult($response);
+        return $this->processResponse($response, self::DELETE);
+    }
+
+    private function processResponse($response, $verb)
+    {
+        if ($response->code >= Response::HTTP_BAD_REQUEST) {
+            throw GotoException::responseException($response);
+        }
+
+        if ($response->code >= 200 && $response->code < 300) {
+            if ($verb === self::DELETE) {
+                return collect(true);
+            }
+        }
+
+        return collect($response->body);
     }
 }

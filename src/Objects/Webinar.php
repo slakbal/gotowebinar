@@ -135,7 +135,7 @@ class Webinar extends EntityAbstract
      * @param string $timezone
      * @return $this
      */
-    public function timezone($timezone = null)
+    public function timeZone($timezone = null)
     {
         $this->timeZone = (new Timezone($timezone))->getTimezone();
 
