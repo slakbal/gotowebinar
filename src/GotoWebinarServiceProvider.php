@@ -4,59 +4,43 @@ namespace Slakbal\Gotowebinar;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Slakbal\Gotowebinar\Resources\Webinar\Webinar;
+use Slakbal\Gotowebinar\Resources\Registrant\Registrant;
+use Slakbal\Gotowebinar\Resources\Attendee\Attendee;
+
 
 class GotoWebinarServiceProvider extends ServiceProvider
 {
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     * @var bool
-     */
-    protected $defer = false; //must be false for the routes to work
-
-
     /**
      * Bootstrap the application services.
      * @return void
      */
     public function boot()
     {
-        if (!App::environment('production')) {
-            $this->loadRoutesFrom(__DIR__ . '/Routes/routes.php');
+        if (! App::environment('production')) {
+            $this->loadRoutesFrom(__DIR__.'/Routes/routes.php');
         } else {
             $this->defer = true;
         }
 
-        $this->publishes([__DIR__ . '/../config/goto.php' => config_path('goto.php')], 'config');
-
+        $this->publishes([__DIR__.'/../config/goto.php' => config_path('goto.php')], 'config');
     }
-
 
     public function register()
     {
         //runtime merge config
-        $this->mergeConfigFrom(__DIR__ . '/../config/goto.php', 'goto');
+        $this->mergeConfigFrom(__DIR__.'/../config/goto.php', 'goto');
 
-        $this->registerGotoWebinar(config('goto.auth_type'));
-    }
-
-
-    public function registerGotoWebinar($authType = 'direct')
-    {
-        $this->app->singleton(Webinar::class, function ($app) use ($authType) {
-            return new Webinar($authType);
+        $this->app->bind(Webinar::class, function () {
+            return new Webinar();
         });
-    }
 
+        $this->app->bind(Registrant::class, function () {
+            return new Registrant();
+        });
 
-    /**
-     * Get the services provided by the provider.
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            Webinar::class,
-        ];
+        $this->app->bind(Attendee::class, function () {
+            return new Attendee();
+        });
     }
 }
