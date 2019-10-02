@@ -4,6 +4,7 @@ namespace Slakbal\Gotowebinar;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Slakbal\Gotowebinar\Resources\Session\Session;
 use Slakbal\Gotowebinar\Resources\Webinar\Webinar;
 use Slakbal\Gotowebinar\Resources\Attendee\Attendee;
 use Slakbal\Gotowebinar\Resources\Registrant\Registrant;
@@ -19,7 +20,7 @@ class GotoWebinarServiceProvider extends ServiceProvider
         if (! App::environment('production')) {
             $this->loadRoutesFrom(__DIR__.'/Routes/routes.php');
         } else {
-            $this->defer = true;
+            $this->defer = true; //todo GotoIssue: this is deprecated, see if can be safely removed
         }
 
         $this->publishes([__DIR__.'/../config/goto.php' => config_path('goto.php')], 'config');
@@ -36,6 +37,10 @@ class GotoWebinarServiceProvider extends ServiceProvider
 
         $this->app->bind(Registrant::class, function () {
             return new Registrant();
+        });
+
+        $this->app->bind(Session::class, function () {
+            return new Session();
         });
 
         $this->app->bind(Attendee::class, function () {

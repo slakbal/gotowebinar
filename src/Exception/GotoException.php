@@ -11,7 +11,7 @@ class GotoException extends \Exception
     {
         $message = self::getResponseMessage($response, $customMessage);
 
-        Log::error('GOTOWEBINAR: '.self::formatVerb($verb).$message.' Payload: '.json_encode($response->body));
+        Log::error('GOTOWEBINAR: '.self::formatVerb($verb).$message.' - Payload: '.json_encode($response->body));
 
         return new static($message);
     }

@@ -34,7 +34,7 @@ trait WebinarOperations
      */
     public function insessionWebinars(): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/insessionWebinars';
+        $this->resourcePath = '/organizers/:organizerKey/insessionWebinars';
 
         return $this;
     }

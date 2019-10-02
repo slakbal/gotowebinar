@@ -48,7 +48,8 @@
       "aliases": {
         "Webinars": "Slakbal\\Gotowebinar\\Facade\\Webinars",
         "Registrants": "Slakbal\\Gotowebinar\\Facade\\Registrants",
-        "Attendees": "Slakbal\\Gotowebinar\\Facade\\Attendees"
+        "Attendees": "Slakbal\\Gotowebinar\\Facade\\Attendees",
+        "Sessions": "Slakbal\\Gotowebinar\\Facade\\Sessions"
       }
     }
   },
