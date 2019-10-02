@@ -59,6 +59,7 @@ Now find the `aliases` array in the same config file and add the following Facad
   'Webinars' => Slakbal\\Gotowebinar\\Facade\\Webinars,
   'Registrants' => Slakbal\\Gotowebinar\\Facade\\Registrants,
   'Attendees' => Slakbal\\Gotowebinar\\Facade\\Attendees
+  'Sessions' => Slakbal\\Gotowebinar\\Facade\\Sessions
 ];
 ```
 
