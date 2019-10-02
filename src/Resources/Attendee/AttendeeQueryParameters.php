@@ -2,8 +2,6 @@
 
 namespace Slakbal\Gotowebinar\Resources\Attendee;
 
-use Carbon\Carbon;
-
 trait AttendeeQueryParameters
 {
     public function page($value): self
