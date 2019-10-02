@@ -5,13 +5,25 @@ Route::get('/ping', function () {
 })->name('goto.ping');
 
 Route::get('/', function () {
-    return Webinars::status();
+    try {
+        return Webinars::status();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
 })->name('goto.status');
 
 Route::get('/authenticate', function () {
-    return Webinars::authenticate()->status();
+    try {
+        return Webinars::authenticate()->status();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
 })->name('goto.auth');
 
 Route::get('/flush-auth', function () {
-    return Webinars::flushAuthentication()->status();
+    try {
+        return Webinars::flushAuthentication()->status();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
 })->name('goto.flush');

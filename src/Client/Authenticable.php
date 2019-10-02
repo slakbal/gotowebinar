@@ -3,6 +3,8 @@
 namespace Slakbal\Gotowebinar\Client;
 
 use Httpful\Request;
+use Illuminate\Http\Response;
+use Slakbal\Gotowebinar\Exception\GotoException;
 
 trait Authenticable
 {
@@ -69,6 +71,11 @@ trait Authenticable
                                  ->expectsJson()
                                  ->send();
 
+        if ($this->response->code >= Response::HTTP_BAD_REQUEST) {
+            throw GotoException::responseException($this->response, 'Could not authenticate with the provided credentials.', 'POST');
+        }
+
         return $this->response->body;
     }
+
 }
