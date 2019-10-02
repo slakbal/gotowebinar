@@ -9,7 +9,7 @@ final class Registrant extends AbstractResource
 {
     use RegistrantQueryParameters, RegistrantOperations;
 
-    /* SCHEMA *required
+    /* CREATE SCHEMA *required
         {
           * "firstName": "string",
           * "lastName": "string",

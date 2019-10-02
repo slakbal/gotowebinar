@@ -1,8 +1,10 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Resources;
+namespace Slakbal\Gotowebinar\Resources\Attendee;
 
-trait HasPaging
+use Carbon\Carbon;
+
+trait AttendeeQueryParameters
 {
     public function page($value): self
     {

@@ -22,7 +22,7 @@ trait WebinarOperations
      */
     public function webinarKey($webinarKey): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/webinars/:webinarKey';
+        $this->resourcePath = $this->baseResourcePath.'/:webinarKey';
 
         $this->pathKeys['webinarKey'] = $webinarKey;
 
@@ -34,7 +34,7 @@ trait WebinarOperations
      */
     public function insessionWebinars(): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/insessionWebinars';
+        $this->resourcePath = '/organizers/:organizerKey/insessionWebinars';
 
         return $this;
     }
@@ -44,7 +44,7 @@ trait WebinarOperations
      */
     public function attendees(): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/webinars/:webinarKey/attendees';
+        $this->resourcePath = $this->baseResourcePath.'/:webinarKey/attendees';
 
         return $this;
     }
@@ -54,7 +54,7 @@ trait WebinarOperations
      */
     public function meetingTimes(): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/webinars/:webinarKey/meetingtimes';
+        $this->resourcePath = $this->baseResourcePath.'/:webinarKey/meetingtimes';
 
         return $this;
     }
@@ -64,7 +64,7 @@ trait WebinarOperations
      */
     public function audio(): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/webinars/:webinarKey/audio';
+        $this->resourcePath = $this->baseResourcePath.'/:webinarKey/audio';
 
         return $this;
     }
@@ -74,7 +74,7 @@ trait WebinarOperations
      */
     public function performance(): self
     {
-        $this->resourcePath = $this->baseResourcePath.'/webinars/:webinarKey/performance';
+        $this->resourcePath = $this->baseResourcePath.'/:webinarKey/performance';
 
         return $this;
     }

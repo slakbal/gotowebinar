@@ -10,7 +10,8 @@ https://goto-developer.logmeininc.com/content/gotowebinar-api-reference-v2
 
 ## Known Issues
 
-* There are still some issues with the deletion of Registrants from a Webinar.
+* There are still some issues with the deletion of Registrants from a Webinar by registrantKey
+* Retrieving session attendees by registrantKey
 
 ## Contributions and Bug
 
@@ -103,15 +104,26 @@ _goto/flush-auth
 _goto/webinars
 _goto/webinars/create
 _goto/webinars/createByArray
-_goto/webinars/{webinarKey}/show
+_goto/webinars/{webinarKey}/view
 _goto/webinars/{webinarKey}/update
 _goto/webinars/{webinarKey}/updateByArray
 _goto/webinars/{webinarKey}/registrants
 _goto/webinars/{webinarKey}/registrants/create
+_goto/webinars/{webinarKey}/registrants/{registrantKey}/view
 _goto/webinars/{webinarKey}/registrants/{registrantKey}/delete
-_goto/webinars/{webinarKey}/registrants/{registrantKey}/show
 _goto/webinars/{webinarKey}/attendees
 _goto/webinars/{webinarKey}/delete
+_goto/webinars/{webinarKey}/sessions
+_goto/webinars/{webinarKey}/sessions/{sessionKey}
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/performance
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/polls
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/questions
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/surveys
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/polls
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/questions
+_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/surveys
 ```
 
 ## Authentication Token Caching
@@ -392,15 +404,131 @@ Delete a specific registrant by webinarKey and registrantKey, method returns `tr
                       ->delete();
 ```
 
-## Attendees
-
-Will be added shortly
-
 ## Sessions
 
-Will be added shortly
+#### Get Organizer Sessions (Fluent)
 
+```php
+    $from = Carbon\Carbon::now()->subYears(50)->startOfDay();
+    $to = Carbon\Carbon::now()->addYears(50)->endOfDay();
 
+    // Example: sessions?page=10&size=1
+    $page = request()->query('page') ?? 0;
+    $size = request()->query('size') ?? 5;
+
+    return Sessions::organizerSessions()
+                   ->fromTime($from)
+                   ->toTime($to)
+                   ->page($page)
+                   ->size($size)
+                   ->get();
+```
+
+#### Get Webinar Sessions (Fluent)
+
+```php
+    // Example: sessions?page=10&size=1
+    $page = request()->query('page') ?? 0;
+    $size = request()->query('size') ?? 5;
+
+    return Sessions::webinarKey($webinarKey)
+                   ->page($page)
+                   ->size($size)
+                   ->get();
+```
+
+#### Get Session (Fluent)
+
+```php
+    return Sessions::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->get();
+```
+
+#### Get Session Performance (Fluent)
+
+```php
+    return Sessions::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->performance()
+                   ->get();
+```
+
+#### Get Session Polls (Fluent)
+
+```php
+    return Sessions::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->polls()
+                   ->get();
+```
+
+#### Get Session Questions (Fluent)
+
+```php
+    return Sessions::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->questions()
+                   ->get();
+```
+
+#### Get Session Surveys (Fluent)
+
+```php
+    return Sessions::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->surveys()
+                   ->get();
+```
+
+## Attendees
+
+#### Get Session Attendees (Fluent)
+
+```php
+    return Attendees::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->get();
+```
+
+#### Get Attendee (Fluent)
+
+```php
+    return Attendees::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->registrantKey($registrantKey)
+                   ->get();
+```
+
+#### Get Attendee Polls (Fluent)
+
+```php
+    return Attendees::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->registrantKey($registrantKey)
+                   ->polls()
+                   ->get();
+```
+
+#### Get Attendee Questions (Fluent)
+
+```php
+    return Attendees::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->registrantKey($registrantKey)
+                   ->questions()
+                   ->get();
+```
+
+#### Get Attendee Surveys (Fluent)
+
+```php
+    return Attendees::webinarKey($webinarKey)
+                   ->sessionKey($sessionKey)
+                   ->registrantKey($registrantKey)
+                   ->surveys()
+                   ->get();
+```
 
 Your contribution or bug fixes are welcome!
 

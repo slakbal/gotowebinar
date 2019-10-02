@@ -39,7 +39,7 @@ Route::get('webinars', function () {
     }
 });
 
-Route::get('webinars/{webinarKey}/show', function ($webinarKey) {
+Route::get('webinars/{webinarKey}/view', function ($webinarKey) {
     try {
         return Webinars::webinarKey($webinarKey)
                        ->get();
@@ -50,8 +50,8 @@ Route::get('webinars/{webinarKey}/show', function ($webinarKey) {
 
 Route::get('webinars/create', function () {
     try {
-        return Webinars::subject('XXXXX CREATED BY OBJECT XXXXX*')
-                       ->description('OBJECT Description*')
+        return Webinars::subject('XXXXX EVENT SUBJECT XXXXX*')
+                       ->description('Event Description*')
                        ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
                        ->timeZone('Europe/Amsterdam')
                        ->singleSession()
@@ -67,14 +67,14 @@ Route::get('webinars/create', function () {
 
 Route::get('webinars/createByArray', function () {
 
-    //todo still work to do on creating by array ie DateTimes and test if the validation is working on create
+    //todo GotoIssue: still work to do on creating by array ie DateTimes and test if the validation is working on create
 
     try {
         return Webinars::noEmailReminder()
                        ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
                        ->create([
-                                    'subject' => 'XXXXX CREATED BY ARRAY XXXXX*',
-                                    'description' => 'Test Description*',
+                                    'subject' => 'XXXXX EVENT SUBJECT XXXXX*',
+                                    'description' => 'Event Description*',
                                     'timeZone' => 'Europe/Amsterdam',
                                     'type' => 'single_session', //single_session
                                     'isPasswordProtected' => false, //default is false
@@ -87,8 +87,8 @@ Route::get('webinars/createByArray', function () {
 Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
     try {
         return Webinars::webinarKey($webinarKey)
-                       ->subject('XXXXX UPDATED OBJECT XXXXX*')
-                       ->description('UPDATED Description*')
+                       ->subject('XXXXX EVENT UPDATED SUBJECT XXXXX*')
+                       ->description('Event Updated Description*')
                        ->timeFromTo(Carbon\Carbon::now()->addDays(10)->midDay(), Carbon\Carbon::now()->addDays(10)->midDay()->addHours(2))
                        ->update();
     } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
@@ -98,14 +98,14 @@ Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
 
 Route::get('webinars/{webinarKey}/updateByArray', function ($webinarKey) {
 
-    //todo still work to do on creating by array ie DateTimes and test if the validation is working on update
+    //todo GotoIssue: still work to do on creating by array ie DateTimes and test if the validation is working on update
 
     try {
         return Webinars::webinarKey($webinarKey)
                        ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(2))
                        ->update([
-                                    'subject' => 'XXXXX UPDATED BY ARRAY XXXXX*',
-                                    'description' => 'UPDATED BY ARRAY Description*',
+                                    'subject' => 'XXXXX EVENT UPDATED SUBJECT XXXXX*',
+                                    'description' => 'Event Updated Description*',
                                     'timeZone' => 'Europe/Amsterdam',
                                     'isPasswordProtected' => false, //default is false
                                 ]);

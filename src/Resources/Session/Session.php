@@ -9,7 +9,7 @@ final class Session extends AbstractResource
     use SessionQueryParameters, SessionOperations;
 
     /** RESOURCE PATH **/
-    protected $baseResourcePath = '/organizers/:organizerKey/webinars/:webinarKey/attendees';
+    protected $baseResourcePath = '/organizers/:organizerKey/webinars/:webinarKey/sessions';
 
     public function __construct()
     {

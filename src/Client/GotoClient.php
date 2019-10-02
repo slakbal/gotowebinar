@@ -4,7 +4,6 @@ namespace Slakbal\Gotowebinar\Client;
 
 use Httpful\Mime;
 use Httpful\Request;
-use Illuminate\Http\Response;
 use Slakbal\Gotowebinar\Exception\GotoException;
 
 final class GotoClient
@@ -120,16 +119,24 @@ final class GotoClient
 
     private function processResponse($response, $verb)
     {
-        if ($response->code >= Response::HTTP_BAD_REQUEST) {
-            throw GotoException::responseException($response, null, $verb);
-        }
-
-        if ($response->code >= 200 && $response->code < 300) {
-            if ($verb === self::DELETE) {
-                return collect(true);
+        if ($response->code >= 100 && $response->code < 300) {
+            switch ($verb) {
+                case self::DELETE:
+                    return collect(true);
+                    break;
+                case self::PUT:
+                    return collect(true);
+                    break;
+                default:
+                    return collect($response->body);
             }
         }
 
-        return collect($response->body);
+        throw GotoException::responseException($response, 'HTTP Response code: '.$response->code, $verb);
+        /*
+        if ($response->code >= Response::HTTP_BAD_REQUEST) {
+            throw GotoException::responseException($response, 'Response code: '.$response->code, $verb);
+        }
+        */
     }
 }

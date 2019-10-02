@@ -13,7 +13,7 @@ final class Webinar extends AbstractResource
 {
     use WebinarQueryParameters, WebinarOperations;
 
-    /* SCHEMA *required
+    /* CREATE SCHEMA *required
     {
       * "subject": "string",
       * "times": [
@@ -53,7 +53,6 @@ final class Webinar extends AbstractResource
     protected $description;
 
     protected $times = [];
-    protected $timesX = [];
 
     protected $timeZone;
 
@@ -81,7 +80,7 @@ final class Webinar extends AbstractResource
 
     private $includeCertificate = true;
 
-    protected $baseResourcePath = '/organizers/:organizerKey';
+    protected $baseResourcePath = '/organizers/:organizerKey/webinars';
 
     public function __construct()
     {
