@@ -143,8 +143,8 @@ For example:
 
 ```php
     try {
-        return Webinars::subject('XXXXX CREATED BY OBJECT XXXXX*')
-                       ->description('OBJECT Description*')
+        return Webinars::subject('Event Name')
+                       ->description('Event Description*')
                        ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
                        ->timeZone('Europe/Amsterdam')
                        ->singleSession()
@@ -278,7 +278,7 @@ Delete a specific Webinar by webinarKey, method returns `true` or `false`
                        ->sendCancellationEmails()
                        ->delete();
 ```
-#### Webinar Attendees
+#### Webinar Attendees (Fluent)
 
 Return the attendees of a specific session by webinarKey
 
@@ -342,7 +342,7 @@ Create a registrant for a specific WebinarKey
                                        'purchasingRole' => 'Some Buyer Role',
                                    ]);
 ```
-#### Get Registrant
+#### Get Registrant (Fluent)
 
 Return a specific registrant by webinarKey and registrantKey
 
@@ -352,7 +352,7 @@ Return a specific registrant by webinarKey and registrantKey
                           ->get();
 ```
 
-#### Delete Registrant
+#### Delete Registrant (Fluent)
 
 Delete a specific registrant by webinarKey and registrantKey, method returns `true` or `false`
 
