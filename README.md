@@ -145,7 +145,7 @@ For example:
     try {
         return Webinars::subject('Event Name')
                        ->description('Event Description*')
-                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
+                       ->timeFromTo(Carbon::now()->addDays(10), Carbon::now()->addDays(10)->addHours(1))
                        ->timeZone('Europe/Amsterdam')
                        ->singleSession()
                        ->noEmailReminder()
@@ -197,8 +197,8 @@ The package will automatically log some major events and response errors for you
 #### Get Webinars (Fluent)
 
 ```php
-    $from = Carbon\Carbon::now()->subYear()->startOfDay();
-    $to = Carbon\Carbon::tomorrow()->endOfDay();
+    $from = Carbon::now()->subYear()->startOfDay();
+    $to = Carbon::tomorrow()->endOfDay();
 
     // Example URL: _goto/webinars?page=10&size=1
     $page = request()->query('page') ?? 0;
@@ -217,56 +217,56 @@ The package will automatically log some major events and response errors for you
 #### Create Webinar (Fluent)
 
 ```php
-        return Webinars::subject('Event Name')
-                       ->description('Event Description')
-                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
-                       ->timeZone('Europe/Amsterdam')
-                       ->singleSession()
-                       ->noEmailReminder()
-                       ->noEmailAttendeeFollowUp()
-                       ->noEmailAbsenteeFollowUp()
-                       ->noEmailConfirmation()
-                       ->create();
+    return Webinars::subject('Event Name')
+                   ->description('Event Description')
+                   ->timeFromTo(Carbon::now()->addDays(10), Carbon::now()->addDays(10)->addHours(1))
+                   ->timeZone('Europe/Amsterdam')
+                   ->singleSession()
+                   ->noEmailReminder()
+                   ->noEmailAttendeeFollowUp()
+                   ->noEmailAbsenteeFollowUp()
+                   ->noEmailConfirmation()
+                   ->create();
 ```
 #### Create Webinar (Array)
 
 ```php
-        return Webinars::noEmailReminder()
-                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
-                       ->create([
-                                    'subject' => 'Event Name',
-                                    'description' => 'Event Description*',
-                                    'timeZone' => 'Europe/Amsterdam',
-                                    'type' => 'single_session',
-                                    'isPasswordProtected' => false,
-                                ]);
+    return Webinars::noEmailReminder()
+                   ->timeFromTo(Carbon::now()->addDays(10), Carbon::now()->addDays(10)->addHours(1))
+                   ->create([
+                                'subject' => 'Event Name',
+                                'description' => 'Event Description*',
+                                'timeZone' => 'Europe/Amsterdam',
+                                'type' => 'single_session',
+                                'isPasswordProtected' => false,
+                            ]);
 ```
 #### Update Webinar (Fluent)
 
 ```php
-        return Webinars::webinarKey($webinarKey)
-                       ->subject('Updated Event Name')
-                       ->description('Updated Event Description*')
-                       ->timeFromTo(Carbon\Carbon::now()->addDays(10)->midDay(), Carbon\Carbon::now()->addDays(10)->midDay()->addHours(2))
-                       ->update();
+    return Webinars::webinarKey($webinarKey)
+                   ->subject('Updated Event Name')
+                   ->description('Updated Event Description*')
+                   ->timeFromTo(Carbon::now()->addDays(10)->midDay(), Carbon::now()->addDays(10)->midDay()->addHours(2))
+                   ->update();
 ```
 #### Update Webinar (Array)
 
 ```php
-        return Webinars::webinarKey($webinarKey)
-                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(2))
-                       ->update([
-                                    'subject' => 'Event Name',
-                                    'description' => 'UPDATED Event Description',
-                                    'timeZone' => 'Europe/Amsterdam',
-                                    'isPasswordProtected' => false,
-                                ]);
+    return Webinars::webinarKey($webinarKey)
+                   ->timeFromTo(Carbon::now()->addDays(10), Carbon::now()->addDays(10)->addHours(2))
+                   ->update([
+                                'subject' => 'Event Name',
+                                'description' => 'UPDATED Event Description',
+                                'timeZone' => 'Europe/Amsterdam',
+                                'isPasswordProtected' => false,
+                            ]);
 ```
 #### Show Webinar (Fluent)
 
 ```php
-        return Webinars::webinarKey($webinarKey)
-                       ->get();
+    return Webinars::webinarKey($webinarKey)
+                   ->get();
 ```
 
 #### Delete Webinar (Fluent)
@@ -274,19 +274,49 @@ The package will automatically log some major events and response errors for you
 Delete a specific Webinar by webinarKey, method returns `true` or `false`
 
 ```php
-        return Webinars::webinarKey($webinarKey)
-                       ->sendCancellationEmails()
-                       ->delete();
+    return Webinars::webinarKey($webinarKey)
+                   ->sendCancellationEmails()
+                   ->delete();
 ```
 #### Webinar Attendees (Fluent)
 
-Return the attendees of a specific session by webinarKey
+```php
+    return Webinars::webinarKey($webinarKey)
+                    ->page($page)
+                    ->size($size)
+                    ->get();
+```
+#### Webinar Meeting Times (Fluent)
 
 ```php
-        return Attendees::webinarKey($webinarKey)
-                        ->page($page)
-                        ->size($size)
-                        ->get();
+    return Webinars::webinarKey($webinarKey)
+                   ->meetingTimes()
+                   ->get();
+```
+#### Webinar Audio (Fluent)
+
+```php
+    return Webinars::webinarKey($webinarKey)
+                   ->audio()
+                   ->get();
+```
+#### Webinar Performance (Fluent)
+
+```php
+    return Webinars::webinarKey($webinarKey)
+                   ->performance()
+                   ->get();
+```
+#### Webinars In-Session (Fluent)
+
+```php
+    $from = Carbon::now()->subYears(50)->startOfDay();
+    $to = Carbon::now()->addYears(50)->endOfDay();
+
+    return Webinars::insessionWebinars()
+                    ->fromTime($from)
+                    ->toTime($to)
+                    ->get();
 ```
 
 ## Registrants
@@ -296,8 +326,8 @@ Return the attendees of a specific session by webinarKey
 Return a list of registrants for a specific Webinar
 
 ```php
-        return Registrants::webinarKey($webinarKey)
-                          ->get();
+    return Registrants::webinarKey($webinarKey)
+                      ->get();
 ```
 
 #### Create Registrant (Fluent)
@@ -305,51 +335,51 @@ Return a list of registrants for a specific Webinar
 Create a registrant for a specific WebinarKey
 
 ```php
-        return Registrants::webinarKey($webinarKey)
-                          ->firstName('John')
-                          ->lastName('Doe')
-                          ->timeZone('America/Chicago')
-                          ->email('john.doe@email.com')
-                          ->resendConfirmation()
-                          ->questionsAndComments('Some First Question')
-                          ->create();
+    return Registrants::webinarKey($webinarKey)
+                      ->firstName('John')
+                      ->lastName('Doe')
+                      ->timeZone('America/Chicago')
+                      ->email('john.doe@email.com')
+                      ->resendConfirmation()
+                      ->questionsAndComments('Some First Question')
+                      ->create();
 ```
 #### Create Registrant (Array)
 
 Create a registrant for a specific WebinarKey
 
 ```php
-        return Registrants::webinarKey($webinarKey)
-                          ->resendConfirmation()
-                          ->create([
-                                       'firstName' => 'Peters',
-                                       'lastName' => 'Panske',
-                                       'email' => 'peter@pan.com',
-                                       'timezone' => 'Europe/Amsterdam',
-                                       'phone' => '123',
-                                       'country' => 'SA',
-                                       'zipcode' => '123',
-                                       'source' => 'somewhere',
-                                       'address' => '123 Some street',
-                                       'city' => 'Some City',
-                                       'state' => 'Some State',
-                                       'organization' => 'Some Org',
-                                       'jobTitle' => 'Boss',
-                                       'questionsAndComments' => 'Some Question',
-                                       'industry' => 'Some Industry',
-                                       'numberOfEmployees' => 'Boss',
-                                       'purchasingTimeFrame' => 'Very soon',
-                                       'purchasingRole' => 'Some Buyer Role',
-                                   ]);
+    return Registrants::webinarKey($webinarKey)
+                      ->resendConfirmation()
+                      ->create([
+                                   'firstName' => 'Peters',
+                                   'lastName' => 'Panske',
+                                   'email' => 'peter@pan.com',
+                                   'timezone' => 'Europe/Amsterdam',
+                                   'phone' => '123',
+                                   'country' => 'SA',
+                                   'zipcode' => '123',
+                                   'source' => 'somewhere',
+                                   'address' => '123 Some street',
+                                   'city' => 'Some City',
+                                   'state' => 'Some State',
+                                   'organization' => 'Some Org',
+                                   'jobTitle' => 'Boss',
+                                   'questionsAndComments' => 'Some Question',
+                                   'industry' => 'Some Industry',
+                                   'numberOfEmployees' => 'Boss',
+                                   'purchasingTimeFrame' => 'Very soon',
+                                   'purchasingRole' => 'Some Buyer Role',
+                               ]);
 ```
 #### Get Registrant (Fluent)
 
 Return a specific registrant by webinarKey and registrantKey
 
 ```php
-        return Registrants::webinarKey($webinarKey)
-                          ->registrantKey($registrantKey)
-                          ->get();
+    return Registrants::webinarKey($webinarKey)
+                      ->registrantKey($registrantKey)
+                      ->get();
 ```
 
 #### Delete Registrant (Fluent)
@@ -357,9 +387,9 @@ Return a specific registrant by webinarKey and registrantKey
 Delete a specific registrant by webinarKey and registrantKey, method returns `true` or `false`
 
 ```php
-        return Registrants::webinarKey($webinarKey)
-                          ->registrantKey($registrantKey)
-                          ->delete();
+    return Registrants::webinarKey($webinarKey)
+                      ->registrantKey($registrantKey)
+                      ->delete();
 ```
 
 ## Attendees

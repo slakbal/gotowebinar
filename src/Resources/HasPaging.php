@@ -1,8 +1,8 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Resources\Attendee;
+namespace Slakbal\Gotowebinar\Resources;
 
-trait AttendeeQueryParameters
+trait HasPaging
 {
     public function page($value): self
     {

@@ -1,5 +1,5 @@
 <?php
-
+/*
 Route::get('webinars/{webinarKey}/attendees', function ($webinarKey) {
 
     // Example: attendees?page=10&size=1
@@ -15,3 +15,4 @@ Route::get('webinars/{webinarKey}/attendees', function ($webinarKey) {
         return [$e->getMessage()];
     }
 });
+*/

@@ -81,7 +81,7 @@ final class Webinar extends AbstractResource
 
     private $includeCertificate = true;
 
-    protected $baseResourcePath = '/organizers/:organizerKey/webinars';
+    protected $baseResourcePath = '/organizers/:organizerKey';
 
     public function __construct()
     {

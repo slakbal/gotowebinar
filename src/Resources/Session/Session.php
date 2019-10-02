@@ -1,13 +1,12 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Resources\Attendee;
+namespace Slakbal\Gotowebinar\Resources\Session;
 
 use Slakbal\Gotowebinar\Resources\AbstractResource;
-use Slakbal\Gotowebinar\Resources\Traits\PagingQueryParameters;
 
-final class Attendee extends AbstractResource
+final class Session extends AbstractResource
 {
-    use PagingQueryParameters, AttendeeOperations;
+    use SessionQueryParameters, SessionOperations;
 
     /** RESOURCE PATH **/
     protected $baseResourcePath = '/organizers/:organizerKey/webinars/:webinarKey/attendees';

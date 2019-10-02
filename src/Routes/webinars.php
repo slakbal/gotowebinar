@@ -123,3 +123,64 @@ Route::get('webinars/{webinarKey}/delete', function ($webinarKey) {
         return [$e->getMessage()];
     }
 });
+
+Route::get('webinars/{webinarKey}/attendees', function ($webinarKey) {
+
+    // Example: attendees?page=10&size=1
+    $page = request()->query('page') ?? 0;
+    $size = request()->query('size') ?? 5;
+
+    try {
+        return Webinars::webinarKey($webinarKey)
+                       ->attendees()
+                       ->page($page)
+                       ->size($size)
+                       ->get();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
+});
+
+Route::get('webinars/{webinarKey}/meetingtimes', function ($webinarKey) {
+    try {
+        return Webinars::webinarKey($webinarKey)
+                       ->meetingTimes()
+                       ->get();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
+});
+
+Route::get('webinars/{webinarKey}/audio', function ($webinarKey) {
+    try {
+        return Webinars::webinarKey($webinarKey)
+                       ->audio()
+                       ->get();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
+});
+
+Route::get('webinars/{webinarKey}/performance', function ($webinarKey) {
+    try {
+        return Webinars::webinarKey($webinarKey)
+                       ->performance()
+                       ->get();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
+});
+
+Route::get('webinars/insession', function () {
+    $from = Carbon\Carbon::now()->subYears(50)->startOfDay();
+    $to = Carbon\Carbon::now()->addYears(50)->endOfDay();
+
+    try {
+        return Webinars::insessionWebinars()
+                       ->fromTime($from)
+                       ->toTime($to)
+                       ->get();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
+});
