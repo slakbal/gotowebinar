@@ -77,5 +77,4 @@ trait Authenticable
 
         return $this->response->body;
     }
-
 }

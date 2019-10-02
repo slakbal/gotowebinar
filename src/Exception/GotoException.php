@@ -21,7 +21,7 @@ class GotoException extends \Exception
         $message = Response::$statusTexts[$response->code];
 
         if ($response->hasErrors() && $response->hasBody()) {
-            if(isset($response->body->description)){
+            if (isset($response->body->description)) {
                 $message .= ' - '.$response->body->description;
             }
         }
@@ -35,6 +35,6 @@ class GotoException extends \Exception
 
     private static function formatVerb($verb = null)
     {
-        return !empty($verb) ? strtoupper($verb).' - ' : null;
+        return ! empty($verb) ? strtoupper($verb).' - ' : null;
     }
 }
