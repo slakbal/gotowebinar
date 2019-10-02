@@ -110,6 +110,7 @@ final class GotoClient
         $response = Request::delete($this->buildUrl($this->path, $this->parameters))
                            ->strictSSL($this->strict_ssl)
                            ->addHeaders($this->getAuthorisationHeader())
+                           ->body(null, Mime::JSON)
                            ->timeout($this->timeout)
                            ->expectsJson()
                            ->send();
@@ -120,7 +121,7 @@ final class GotoClient
     private function processResponse($response, $verb)
     {
         if ($response->code >= Response::HTTP_BAD_REQUEST) {
-            throw GotoException::responseException($response);
+            throw GotoException::responseException($response, null, $verb);
         }
 
         if ($response->code >= 200 && $response->code < 300) {

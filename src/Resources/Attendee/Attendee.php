@@ -6,7 +6,7 @@ use Slakbal\Gotowebinar\Resources\AbstractResource;
 
 final class Attendee extends AbstractResource
 {
-    use AttendeeOperations;
+    use AttendeeQueryParameters, AttendeeOperations;
 
     /** RESOURCE PATH **/
     protected $baseResourcePath = '/organizers/:organizerKey/webinars/:webinarKey/attendees';

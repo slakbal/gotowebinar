@@ -7,13 +7,18 @@ use Illuminate\Support\Facades\Log;
 
 class GotoException extends \Exception
 {
-    public static function responseException($response, $customMessage = null)
+    public static function responseException($response, $customMessage = null, $verb = null)
     {
         $message = self::getResponseMessage($response, $customMessage);
 
-        Log::error('GOTOWEBINAR: '.$message.' Payload: '.json_encode($response->body));
+        Log::error('GOTOWEBINAR: '.self::formatVerb($verb).$message.' Payload: '.json_encode($response->body));
 
         return new static($message);
+    }
+
+    private static function formatVerb($verb = null)
+    {
+        return !empty($verb) ? strtoupper($verb).' - ' : null;
     }
 
     private static function getResponseMessage($response, $customMessage = null)

@@ -2,6 +2,16 @@
 
 This package is a GotoWebinar API service wrapper and facade for Laravel 5.4+.
 
+This new release makes use of the latest version of the GotoWebinar API and Authentication methods. This release is not compatible with the previous versions and is a complete new implementation. 
+
+## Compatible API Version
+
+https://goto-developer.logmeininc.com/content/gotowebinar-api-reference-v2
+
+## Known Issues
+
+* There are still some issues with the deletion of Registrants from a Webinar.
+
 ## Contributions and Bug
 
 Please create a pull request for any changes, update or bugs. Thanks!
@@ -17,13 +27,15 @@ composer require slakbal/gotowebinar
 If you have Laravel 5.5+ the package will be auto-discovered:
 
 ```json
-"extra": {
+  "extra": {
     "laravel": {
       "providers": [
         "Slakbal\\Gotowebinar\\GotoWebinarServiceProvider"
       ],
       "aliases": {
-        "GotoWebinar": "Slakbal\\Gotowebinar\\Facade\\GotoWebinar"
+        "Webinars": "Slakbal\\Gotowebinar\\Facade\\Webinars",
+        "Registrants": "Slakbal\\Gotowebinar\\Facade\\Registrants",
+        "Attendees": "Slakbal\\Gotowebinar\\Facade\\Attendees"
       }
     }
   },
@@ -43,7 +55,9 @@ Now find the `aliases` array in the same config file and add the following Facad
 ```php
 'aliases' => [
   // ...
-  'GotoWebinar' => Slakbal\Gotowebinar\Facade\GotoWebinar::class
+  'Webinars' => Slakbal\\Gotowebinar\\Facade\\Webinars,
+  'Registrants' => Slakbal\\Gotowebinar\\Facade\\Registrants,
+  'Attendees' => Slakbal\\Gotowebinar\\Facade\\Attendees
 ];
 ```
 
@@ -52,16 +66,17 @@ Now find the `aliases` array in the same config file and add the following Facad
 
 Before you can use the service provider you have configure it. You can create and App with API access keys here: [GotoWebinar Developer portal](https://goto-developer.logmeininc.com). Look for the `My Apps` menu.
 
-Note that you need to have an active or trial account for the API to function properly. Just dev credentials alone might not work.
+Note that you need to have an active or trial account for the API to function properly. Just dev credentials alone might not work since those tokens are sometimes restricted or expire.
 
-The provider currently only support `Direct` authentication. An OAuth2 authentication will be added at a later stage.
+The provider currently only support [OAuth2](https://goto-developer.logmeininc.com/how-get-access-token-and-organizer-key) authentication. Since this is used for backend integration and not clients like for examples mobile applications, etc. the initial authentication is done via Goto's [Direct Login](https://goto-developer.logmeininc.com/how-use-direct-login). 
 
 The package's configuration requires at a minimum the following environment values are required in your `.env` file.
 
 ```
-GOTO_DIRECT_USER=test@test.com
-GOTO_CONSUMER_SECRET=testpassword
-GOTO_CONSUMER_KEY=123123123123
+GOTO_CONSUMER_KEY=Oa0fdvd82FdXcLrsts3EQYdsuGhdscV41
+GOTO_CONSUMER_SECRET=8mbIGtkfdfhjksad68
+GOTO_DIRECT_USERNAME=webinars@company.com
+GOTO_DIRECT_PASSWORD=Password
 ```
 
 The provider can also publish it's config. You can publish the configuration file if you want to with:
@@ -78,93 +93,77 @@ In your development environment, when you run the following artisan command:
 php artisan route:list
 ```
 
-You will notice that there are some test routes, which you can look at for examples. Once your environment is in `production` in your `.env` file these routes will no longer be available.
+You will notice that there are some test routes, which you can look at for examples and use in the browser to test your integration with. Once your environment is in `production` in your `.env` file these routes will no longer be available.
 
 ```php
 _goto
+_goto/ping
+_goto/authenticate
+_goto/flush-auth
 _goto/webinars
-_goto/webinars/all
 _goto/webinars/create
-_goto/webinars/webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/show
-_goto/webinars/{webinarKey}/delete
+_goto/webinars/createByArray
+_goto/webinars/{webinarKey}/show
+_goto/webinars/{webinarKey}/update
+_goto/webinars/{webinarKey}/updateByArray
 _goto/webinars/{webinarKey}/registrants
 _goto/webinars/{webinarKey}/registrants/create
 _goto/webinars/{webinarKey}/registrants/{registrantKey}/delete
 _goto/webinars/{webinarKey}/registrants/{registrantKey}/show
-_goto/webinars/{webinarKey}/sessions
-_goto/webinars/{webinarKey}/sessions/{sessionKey}/attendees
-_goto/webinars/{webinarKey}/sessions/{sessionKey}/performance
-_goto/webinars/{webinarKey}/sessions/{sessionKey}/show
-_goto/webinars/{webinarKey}/show
-_goto/webinars/{webinarKey}/update
+_goto/webinars/{webinarKey}/attendees
+_goto/webinars/{webinarKey}/delete
 ```
 
 ## Authentication Token Caching
 
-The authentication token is cached! So caching the token results in one less round trip to GotoWebinar servers. You can use the following mehtod to refresh the cached authentication token:
+Once your config values are set the authentication tokens etc. are cached and expiry and refreshing of tokens are automatically managed!
 
-```php
+**Note a cache which support [tags](https://laravel.com/docs/5.8/cache#storing-tagged-cache-items) is required. Thus file or database cache drivers are not supported.**
 
-//pass in "true" to force authentication token refresh
-$gotoResponse = GotoWebinar::state(false);
+So caching the token results in one less round trip to GotoWebinar servers thus improved performance. If you want to manipulate the state manually the following methods can be used:
 
-//or explicity call the refreshToken method
-$gotoResponse = GotoWebinar::refreshToken();
+```php    
+    Webinars::status();
+    
+    //note methods are also chainable
+    Webinars::authenticate()->status(); 
+
+    Webinars::flushAuthentication()->status();
 ```
 
 ## Usage
 
-When using this package you'll notice it is closely aligned to the API documentation schemas etc. as can be found here: [GotoWebinar API Reference](https://goto-developer.logmeininc.com/content/gotowebinar-api-reference). It is recommended that you also keep an eye on the official API reference while implementing with this package.
+When using this package you'll notice it is closely aligned to the API documentation schemas etc. as can be found here: [GotoWebinar API v2](https://goto-developer.logmeininc.com/content/gotowebinar-api-reference-v2). It is recommended that you also keep an eye on the official API reference while implementing with this package.
 
-### Examples
+#### Examples
 
-In the following location `vendor/slakbal/gotowebinar/src/routes` , there is a `routes.php` file with the above mentioned routes.
+In the following location `vendor/slakbal/gotowebinar/src/routes` , there are route files with the above mentioned routes which can be used to see usage of the package.
 
 For example:
 
 ```php
-//Some of the body parameters have defaults, but can be explicitly overridden.
-$eventParams = [
-    //required
-    'subject'             => 'XXXXX Test XXXXX*', //required
-    'description'         => 'Test Description*', //required
-    'startTime'           => Carbon::now()->addDays(2)->toW3cString(),              //required  eg "2016-03-23T19:00:00Z"
-    'endTime'             => Carbon::now()->addDays(2)->addHour()->toW3cString(),   //require eg "2016-03-23T20:00:00Z"
-
-    //optional with defaults
-    'timeZone'            => 'Europe/Berlin',   //if not given the default is: config('app.timezone') from framework config
-    'type'                => 'single_session',  //if not given the default is: single_session
-    'isPasswordProtected' => false,             //if not given the default is: false
-];
-
-
-try {
-    $gotoResponse = GotoWebinar::createWebinar($eventParams);
-} catch (GotoException $e) {
-    //do something, go somewhere or notifify someone
-}
-
-
-return $gotoResponse;
+    try {
+        return Webinars::subject('XXXXX CREATED BY OBJECT XXXXX*')
+                       ->description('OBJECT Description*')
+                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
+                       ->timeZone('Europe/Amsterdam')
+                       ->singleSession()
+                       ->noEmailReminder()
+                       ->noEmailAttendeeFollowUp()
+                       ->noEmailAbsenteeFollowUp()
+                       ->noEmailConfirmation()
+                       ->create();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
 ```
 
-## Responses
-
-The package automatically returns the response body so you can just access the expected results for example:
-
-```php
-//create a webinar
-$gotoResponse = GotoWebinar::createWebinar($eventParams);
-```
-
-the API will send back a JSON response which will look like this:
+Response:
 
 ```json
-[
     {
         "webinarKey": "4255157664015486220"
     }
-]
 ```
 
 You can now on $gotoResponse directly access the properties in the response object:
@@ -185,7 +184,7 @@ try {
 }
 ```
 
-The package will automatically log most errors for you to the Laravel log file, so you don't need to log them again. For example:
+The package will automatically log some major events and response errors for you to your configured Laravel log file, so you don't need to log them again. For example:
 
 ```php
 [2017-09-21 00:14:38] local.ERROR: GOTOWEBINAR: DELETE - Not Found (404): Webinar with specified key does not exist.
@@ -193,205 +192,185 @@ The package will automatically log most errors for you to the Laravel log file, 
 
 ## GotoWebinar Resources
 
-### getUpcomingWebinars
+## Webinars
 
-Returns the list of all upcoming Webinars
-
-```php
-GotoWebinar::getUpcomingWebinars();
-```
-
-### getAllWebinars
-
-Returns the list of all upcoming Webinars
+#### Get Webinars (Fluent)
 
 ```php
-$parameters = [
-    'fromTime' => Carbon::now()->subYears(5)->toW3cString(), //"2017-06-01T00:00:00Z",
-    'toTime'   => Carbon::now()->addYears(5)->toW3cString(),
-];
+    $from = Carbon\Carbon::now()->subYear()->startOfDay();
+    $to = Carbon\Carbon::tomorrow()->endOfDay();
 
-GotoWebinar::getAllWebinars($parameters);
+    // Example URL: _goto/webinars?page=10&size=1
+    $page = request()->query('page') ?? 0;
+    $size = request()->query('size') ?? 5;
+
+    try {
+        return Webinars::fromTime($from)
+                       ->toTime($to)
+                       ->page($page)
+                       ->size($size)
+                       ->get();
+    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+        return [$e->getMessage()];
+    }
 ```
-
-### createWebinar
-
-Create a Webinar - date format standard: W3C - ISO 8601
+#### Create Webinar (Fluent)
 
 ```php
-//Some of the body parameters are set per default but can explicitly be overridden.
-$eventParams = [
-    'subject'             => 'XXXXX Test XXXXX*',   //required
-    'description'         => 'Test Description*',   //required
-    'startTime'           => Carbon::now()->addDays(2)->toW3cString(),              //required  eg "2016-03-23T19:00:00Z"
-    'endTime'             => Carbon::now()->addDays(2)->addHour()->toW3cString(),   //require eg "2016-03-23T20:00:00Z"
-    'timeZone'            => 'Europe/Berlin',   //if not given the config('app.timezone) from the framework will be used
-    'type'                => 'single_session',  //if not given the default is single_session
-    'isPasswordProtected' => false,             //if not given the default is false
-];
-
-$gotoResponse = GotoWebinar::createWebinar($eventParams);
+        return Webinars::subject('Event Name')
+                       ->description('Event Description')
+                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
+                       ->timeZone('Europe/Amsterdam')
+                       ->singleSession()
+                       ->noEmailReminder()
+                       ->noEmailAttendeeFollowUp()
+                       ->noEmailAbsenteeFollowUp()
+                       ->noEmailConfirmation()
+                       ->create();
 ```
-
-### updateWebinar
-
-Update a Webinar - date format standard: W3C - ISO 8601, method returns `true` or `false`
+#### Create Webinar (Array)
 
 ```php
-//Some of the body parameters are set per default but can explicitly be overridden.
-$eventParams = [
-    'subject'             => 'XXXXX UPDATE Test2 XXXXX**',  //required
-    'description'         => 'Updated Description**',       //required
-    'startTime'           => Carbon::now()->addDays(3)->toW3cString(),              //required  eg "2016-03-23T19:00:00Z"
-    'endTime'             => Carbon::now()->addDays(3)->addHour()->toW3cString(),   //require eg "2016-03-23T20:00:00Z"
-    'timeZone'            => 'America/New_York',    //if not given the config('app.timezone) from the framework will be used
-    'type'                => 'single_session',      //if not given the default is single_session
-    'isPasswordProtected' => true,                  //if not given the default is false
-];
-
-$gotoResponse = GotoWebinar::updateWebinar($webinarKey, $eventParams, $sendNotification = true);
+        return Webinars::noEmailReminder()
+                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
+                       ->create([
+                                    'subject' => 'Event Name',
+                                    'description' => 'Event Description*',
+                                    'timeZone' => 'Europe/Amsterdam',
+                                    'type' => 'single_session',
+                                    'isPasswordProtected' => false,
+                                ]);
 ```
-
-### getWebinar
-
-Return a specific Webinar by webinarKey
+#### Update Webinar (Fluent)
 
 ```php
-GotoWebinar::getWebinar($webinarKey);
+        return Webinars::webinarKey($webinarKey)
+                       ->subject('Updated Event Name')
+                       ->description('Updated Event Description*')
+                       ->timeFromTo(Carbon\Carbon::now()->addDays(10)->midDay(), Carbon\Carbon::now()->addDays(10)->midDay()->addHours(2))
+                       ->update();
+```
+#### Update Webinar (Array)
+
+```php
+        return Webinars::webinarKey($webinarKey)
+                       ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(2))
+                       ->update([
+                                    'subject' => 'Event Name',
+                                    'description' => 'UPDATED Event Description',
+                                    'timeZone' => 'Europe/Amsterdam',
+                                    'isPasswordProtected' => false,
+                                ]);
+```
+#### Show Webinar (Fluent)
+
+```php
+        return Webinars::webinarKey($webinarKey)
+                       ->get();
 ```
 
-#### deleteWebinar
+#### Delete Webinar (Fluent)
 
 Delete a specific Webinar by webinarKey, method returns `true` or `false`
 
 ```php
-GotoWebinar::deleteWebinar($webinarKey, $sendNotification = false);
+        return Webinars::webinarKey($webinarKey)
+                       ->sendCancellationEmails()
+                       ->delete();
+```
+#### Webinar Attendees
+
+Return the attendees of a specific session by webinarKey
+
+```php
+        return Attendees::webinarKey($webinarKey)
+                        ->page($page)
+                        ->size($size)
+                        ->get();
 ```
 
-### getRegistrants
+## Registrants
+
+#### Get Registrants (Fluent)
 
 Return a list of registrants for a specific Webinar
 
 ```php
-GotoWebinar::getRegistrants($webinarKey);
+        return Registrants::webinarKey($webinarKey)
+                          ->get();
 ```
 
-#### getRegistrants
-
-Return a list of registrants for a specific Webinar
-
-```php
-GotoWebinar::getRegistrants($webinarKey);
-```
-
-### createRegistrant
+#### Create Registrant (Fluent)
 
 Create a registrant for a specific WebinarKey
 
 ```php
-$attendeeParams = [
-    //required
-    'firstName'             => 'Peter',
-    'lastName'              => 'Pan',
-    'email'                 => 'peter.pan@example.com',
-
-    //optional
-    //empty fields will be filtered out an not sent with the request
-    'timeZone'              => 'America/Sao_Paulo',
-    'organization'          => 'Test Organisation',
-    'source '               => '',
-    'address '              => '',
-    'city '                 => '',
-    'state '                => '',
-    'zipCode '              => '',
-    'country '              => '',
-    'phone '                => '',
-    'jobTitle '             => '',
-    'questionsAndComments ' => '',
-    'industry '             => '',
-    'numberOfEmployees '    => '',
-    'purchasingTimeFrame '  => '',
-    'purchasingRole '       => '',
-];
-
-$gotoResponse = GotoWebinar::createRegistrant($webinarKey, $attendeeParams, $resendConfirmation = false);
+        return Registrants::webinarKey($webinarKey)
+                          ->firstName('John')
+                          ->lastName('Doe')
+                          ->timeZone('America/Chicago')
+                          ->email('john.doe@email.com')
+                          ->resendConfirmation()
+                          ->questionsAndComments('Some First Question')
+                          ->create();
 ```
+#### Create Registrant (Array)
 
-### getRegistrants
+Create a registrant for a specific WebinarKey
+
+```php
+        return Registrants::webinarKey($webinarKey)
+                          ->resendConfirmation()
+                          ->create([
+                                       'firstName' => 'Peters',
+                                       'lastName' => 'Panske',
+                                       'email' => 'peter@pan.com',
+                                       'timezone' => 'Europe/Amsterdam',
+                                       'phone' => '123',
+                                       'country' => 'SA',
+                                       'zipcode' => '123',
+                                       'source' => 'somewhere',
+                                       'address' => '123 Some street',
+                                       'city' => 'Some City',
+                                       'state' => 'Some State',
+                                       'organization' => 'Some Org',
+                                       'jobTitle' => 'Boss',
+                                       'questionsAndComments' => 'Some Question',
+                                       'industry' => 'Some Industry',
+                                       'numberOfEmployees' => 'Boss',
+                                       'purchasingTimeFrame' => 'Very soon',
+                                       'purchasingRole' => 'Some Buyer Role',
+                                   ]);
+```
+#### Get Registrant
 
 Return a specific registrant by webinarKey and registrantKey
 
 ```php
-GotoWebinar::getRegistrant($webinarKey, $registrantKey);
+        return Registrants::webinarKey($webinarKey)
+                          ->registrantKey($registrantKey)
+                          ->get();
 ```
 
-### deleteRegistrant
+#### Delete Registrant
 
 Delete a specific registrant by webinarKey and registrantKey, method returns `true` or `false`
 
 ```php
-GotoWebinar::deleteRegistrant($webinarKey, $registrantKey);
+        return Registrants::webinarKey($webinarKey)
+                          ->registrantKey($registrantKey)
+                          ->delete();
 ```
 
-### getSessions
+## Attendees
 
-Return the session of a webinar by webinarKey
+Will be added shortly
 
-```php
-GotoWebinar::getSessions($webinarKey);
-```
+## Sessions
 
-### getSession
+Will be added shortly
 
-Return a specific session by webinarKey and sessionKey
 
-```php
-GotoWebinar::getSession($webinarKey, $sessionKey);
-```
-
-### getSessionPerformance
-
-Return the performance of a specific session by webinarKey and sessionKey
-
-```php
-GotoWebinar::getSessionPerformance($webinarKey, $sessionKey);
-```
-
-### getAttendees
-
-Return the attendees of a specific session by webinarKey and sessionKey
-
-```php
-GotoWebinar::getAttendees($webinarKey, $sessionKey);
-```
-
-### getAttendee
-
-Return a specif attendee of a specific session by webinarKey and sessionKey
-
-```php
-GotoWebinar::getAttendee($webinarKey, $sessionKey);
-```
-
-### getAttendeePollAnswers
-
-Get poll answers from a particular attendee of a specific webinar session
-
-```php
-GotoWebinar::getAttendeePollAnswers($webinarKey, $sessionKey, $registrantKey);
-```
-
-### getSessionPolls
-
-Retrieve all collated attendee questions and answers for polls from a specific webinar session
-
-```php
-GotoWebinar::getSessionPolls($webinarKey, $sessionKey);
-```
-
-## Testing
-
-For your installation, add your own `phpunit.xml` file to add to your environment
 
 Your contribution or bug fixes are welcome!
 
