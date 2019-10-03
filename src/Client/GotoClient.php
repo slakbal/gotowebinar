@@ -122,13 +122,13 @@ final class GotoClient
         if ($response->code >= 100 && $response->code < 300) {
             switch ($verb) {
                 case self::DELETE:
-                    return collect(true);
+                    return true;
                     break;
                 case self::PUT:
-                    return collect(true);
+                    return true;
                     break;
                 default:
-                    return collect($response->body);
+                    return $response->body;
             }
         }
 
