@@ -15,4 +15,11 @@ trait RegistrantQueryParameters
 
         return $this;
     }
+
+    public function dontResendConfirmation(): self
+    {
+        $this->queryParameters['resendConfirmation'] = false;
+
+        return $this;
+    }
 }

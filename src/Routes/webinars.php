@@ -97,9 +97,10 @@ Route::get('webinars/createByArray', function () {
 Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
     try {
         $response = Webinars::webinarKey($webinarKey)
-                            ->subject('XXXXX EVENT UPDATED SUBJECT XXXXX*')
-                            ->description('Event Updated Description*')
+                            ->subject('XXXXX UPDATED EVENT SUBJECT XXXXX*')
+                            ->description('Updated Event Description*')
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10)->midDay(), Carbon\Carbon::now()->addDays(10)->midDay()->addHours(2))
+                            ->sendUpdateNotifications()
                             ->update();
 
         return [$response];
@@ -116,8 +117,8 @@ Route::get('webinars/{webinarKey}/updateByArray', function ($webinarKey) {
         $response = Webinars::webinarKey($webinarKey)
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(2))
                             ->update([
-                                         'subject' => 'XXXXX EVENT UPDATED SUBJECT XXXXX*',
-                                         'description' => 'Event Updated Description*',
+                                         'subject' => 'XXXXX UPDATED EVENT SUBJECT XXXXX*',
+                                         'description' => 'Updated Event Description*',
                                          'timeZone' => 'Europe/Amsterdam',
                                          'isPasswordProtected' => false, //default is false
                                      ]);
