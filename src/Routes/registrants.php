@@ -49,7 +49,6 @@ Route::get('webinars/{webinarKey}/registrants/create', function ($webinarKey) {
 
 Route::get('webinars/{webinarKey}/registrants/{registrantKey}/view', function ($webinarKey, $registrantKey) {
 
-    //todo GotoIssue: there is an issue with retrieving the registrant via the actual registrantKey, but using the shortId (739529690) in the joinUrl returns the registrant correctly :/
     /*
      * joinUrl: "https://global.gotowebinar.com/join/7850650863195083275/739529690",
      * registrantKey: 6820277626085326000,
@@ -68,7 +67,6 @@ Route::get('webinars/{webinarKey}/registrants/{registrantKey}/view', function ($
 
 Route::get('webinars/{webinarKey}/registrants/{registrantKey}/delete', function ($webinarKey, $registrantKey) {
 
-    //todo GotoIssue: there is an issue with delete the registrant via the actual registrantKey, also using the shortId (739529690) in the joinUrl to delete doesnt work. Ticket raised with GotoWebinar :/
     /*
      * joinUrl: "https://global.gotowebinar.com/join/7850650863195083275/739529690",
      * registrantKey: 6820277626085326000,

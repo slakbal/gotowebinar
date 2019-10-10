@@ -16,7 +16,7 @@ Route::get('webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey
     try {
         $response = Attendees::webinarKey($webinarKey)
                              ->sessionKey($sessionKey)
-                             ->registrantKey($registrantKey) //todo GotoIssue: looking up a registrant by the registrantKey returns "Not Found"
+                             ->registrantKey($registrantKey)
                              ->get();
 
         return [$response];
@@ -29,7 +29,7 @@ Route::get('webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey
     try {
         $response = Attendees::webinarKey($webinarKey)
                              ->sessionKey($sessionKey)
-                             ->registrantKey($registrantKey) //todo GotoIssue: looking up a registrant by the registrantKey returns "Not Found"
+                             ->registrantKey($registrantKey)
                              ->polls()
                              ->get();
 
@@ -43,7 +43,7 @@ Route::get('webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey
     try {
         $response = Attendees::webinarKey($webinarKey)
                              ->sessionKey($sessionKey)
-                             ->registrantKey($registrantKey) //todo GotoIssue: looking up a registrant by the registrantKey returns "Not Found"
+                             ->registrantKey($registrantKey)
                              ->questions()
                              ->get();
 
@@ -57,7 +57,7 @@ Route::get('webinars/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey
     try {
         $response = Attendees::webinarKey($webinarKey)
                              ->sessionKey($sessionKey)
-                             ->registrantKey($registrantKey) //todo GotoIssue: looking up a registrant by the registrantKey returns "Not Found"
+                             ->registrantKey($registrantKey)
                              ->surveys()
                              ->get();
 
