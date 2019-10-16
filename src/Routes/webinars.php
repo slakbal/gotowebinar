@@ -74,9 +74,6 @@ Route::get('webinars/create', function () {
 });
 
 Route::get('webinars/createByArray', function () {
-
-    //todo GotoIssue: still work to do on creating by array ie DateTimes and test if the validation is working on create
-
     try {
         $response = Webinars::noEmailReminder()
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
@@ -110,9 +107,6 @@ Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
 });
 
 Route::get('webinars/{webinarKey}/updateByArray', function ($webinarKey) {
-
-    //todo GotoIssue: still work to do on creating by array ie DateTimes and test if the validation is working on update
-
     try {
         $response = Webinars::webinarKey($webinarKey)
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(2))
