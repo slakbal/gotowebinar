@@ -107,8 +107,14 @@ final class Webinar extends AbstractResource
 
         if (! empty($suffix)) {
             $suffix_length = Str::length($suffix);
+            $subject_length = Str::length($subject);
+            $maxLength = (128 - 3);
 
-            $this->subject = Str::limit($subject, (128 - ($suffix_length + 3)), $suffix.'...');
+            if (($suffix_length + $subject_length) > $maxLength) {
+                $this->subject = Str::limit($subject, (128 - ($suffix_length + 3)), $suffix.'...');
+            } else {
+                $this->subject = $subject.$suffix;
+            }
         } else {
             $this->subject = Str::limit($subject, (128 - 3), '...');
         }
