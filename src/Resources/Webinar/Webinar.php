@@ -103,7 +103,15 @@ final class Webinar extends AbstractResource
      */
     public function subject($subject): self
     {
-        $this->subject = Str::limit($subject, (128 - 3), '...');
+        $suffix = config('goto.subject_suffix');
+
+        if (! empty($suffix)) {
+            $suffix_length = Str::length($suffix);
+
+            $this->subject = Str::limit($subject, (128 - ($suffix_length + 3)), $suffix.'...');
+        } else {
+            $this->subject = Str::limit($subject, (128 - 3), '...');
+        }
 
         return $this;
     }
