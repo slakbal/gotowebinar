@@ -56,8 +56,8 @@ Route::get('webinars/{webinarKey}/view', function ($webinarKey) {
 
 Route::get('webinars/create', function () {
     try {
-        $response = Webinars::subject('XXXXX EVENT SUBJECT XXXXX*')
-                            ->description('Event Description*')
+        $response = Webinars::subject('XXXXX EVENT SUBJECT XXXXX')
+                            ->description('Event Description')
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
                             ->timeZone('Europe/Amsterdam')
                             ->singleSession()
@@ -78,8 +78,8 @@ Route::get('webinars/createByArray', function () {
         $response = Webinars::noEmailReminder()
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(1))
                             ->create([
-                                         'subject' => 'XXXXX EVENT SUBJECT XXXXX*',
-                                         'description' => 'Event Description*',
+                                         'subject' => 'XXXXX EVENT SUBJECT XXXXX',
+                                         'description' => 'Event Description',
                                          'timeZone' => 'Europe/Amsterdam',
                                          'type' => 'single_session', //single_session
                                          'isPasswordProtected' => false, //default is false
@@ -94,8 +94,8 @@ Route::get('webinars/createByArray', function () {
 Route::get('webinars/{webinarKey}/update', function ($webinarKey) {
     try {
         $response = Webinars::webinarKey($webinarKey)
-                            ->subject('XXXXX UPDATED EVENT SUBJECT XXXXX*')
-                            ->description('Updated Event Description*')
+                            ->subject('XXXXX UPDATED EVENT SUBJECT XXXXX')
+                            ->description('Updated Event Description')
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10)->midDay(), Carbon\Carbon::now()->addDays(10)->midDay()->addHours(2))
                             ->sendUpdateNotifications()
                             ->update();
@@ -111,8 +111,8 @@ Route::get('webinars/{webinarKey}/updateByArray', function ($webinarKey) {
         $response = Webinars::webinarKey($webinarKey)
                             ->timeFromTo(Carbon\Carbon::now()->addDays(10), Carbon\Carbon::now()->addDays(10)->addHours(2))
                             ->update([
-                                         'subject' => 'XXXXX UPDATED EVENT SUBJECT XXXXX*',
-                                         'description' => 'Updated Event Description*',
+                                         'subject' => 'XXXXX UPDATED EVENT SUBJECT XXXXX',
+                                         'description' => 'Updated Event Description',
                                          'timeZone' => 'Europe/Amsterdam',
                                          'isPasswordProtected' => false, //default is false
                                      ]);
