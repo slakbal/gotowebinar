@@ -50,8 +50,6 @@ trait PathBuilder
             return $path;
         }
 
-        $replace = $this->sortReplacements($replacements);
-
         foreach ($replacements as $key => $value) {
             $path = str_replace(
                 [':'.$key, ':'.Str::upper($key), ':'.Str::ucfirst($key)],
@@ -61,18 +59,5 @@ trait PathBuilder
         }
 
         return $path;
-    }
-
-    /**
-     * Sort the replacements array.
-     *
-     * @param array $replace
-     * @return array
-     */
-    protected function sortReplacements(array $replace)
-    {
-        return (new Collection($replace))->sortBy(function ($value, $key) {
-            return mb_strlen($key) * -1;
-        })->all();
     }
 }
