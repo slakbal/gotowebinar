@@ -3,7 +3,6 @@
 namespace Slakbal\Gotowebinar\Client;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 
 trait PathBuilder
 {

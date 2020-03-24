@@ -2,8 +2,8 @@
 
 namespace Slakbal\Gotowebinar\Resources\Registrant;
 
-use Slakbal\Gotowebinar\Resources\Timezone;
 use Slakbal\Gotowebinar\Resources\AbstractResource;
+use Slakbal\Gotowebinar\Resources\Timezone;
 
 final class Registrant extends AbstractResource
 {

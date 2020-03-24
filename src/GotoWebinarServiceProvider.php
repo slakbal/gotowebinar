@@ -4,10 +4,10 @@ namespace Slakbal\Gotowebinar;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
-use Slakbal\Gotowebinar\Resources\Session\Session;
-use Slakbal\Gotowebinar\Resources\Webinar\Webinar;
 use Slakbal\Gotowebinar\Resources\Attendee\Attendee;
 use Slakbal\Gotowebinar\Resources\Registrant\Registrant;
+use Slakbal\Gotowebinar\Resources\Session\Session;
+use Slakbal\Gotowebinar\Resources\Webinar\Webinar;
 
 class GotoWebinarServiceProvider extends ServiceProvider
 {

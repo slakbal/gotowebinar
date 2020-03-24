@@ -200,7 +200,7 @@ try {
 The package will automatically log some major events and response errors for you to your configured Laravel log file, so you don't need to log them again. For example:
 
 ```php
-[2017-09-21 00:14:38] local.ERROR: GOTOWEBINAR: DELETE - Not Found (404): Webinar with specified key does not exist.
+[2017-09-21 00:14:38] local.ERROR: GotoWebinar: DELETE - Not Found (404): Webinar with specified key does not exist.
 ```
 
 ## GotoWebinar Resources

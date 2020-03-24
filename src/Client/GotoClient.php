@@ -4,6 +4,7 @@ namespace Slakbal\Gotowebinar\Client;
 
 use Httpful\Mime;
 use Httpful\Request;
+use Illuminate\Support\Facades\Log;
 use Slakbal\Gotowebinar\Exception\GotoException;
 
 final class GotoClient
@@ -62,7 +63,11 @@ final class GotoClient
     {
         $this->authenticate();
 
-        $response = Request::get($this->buildUrl($this->path, $this->parameters))
+        $path = $this->buildUrl($this->path, $this->parameters);
+
+        Log::info('GotoWebinar:', ['verb' => 'GET', 'path' => $path]);
+
+        $response = Request::get($path)
                            ->strictSSL($this->strict_ssl)
                            ->addHeaders($this->getAuthorisationHeader())
                            ->timeout($this->timeout)
@@ -76,7 +81,11 @@ final class GotoClient
     {
         $this->authenticate();
 
-        $response = Request::post($this->buildUrl($this->path, $this->parameters))
+        $path = $this->buildUrl($this->path, $this->parameters);
+
+        Log::info('GotoWebinar:', ['verb' => 'POST', 'path' => $path]);
+
+        $response = Request::post($path)
                            ->strictSSL($this->strict_ssl)
                            ->addHeaders($this->getAuthorisationHeader())
                            ->body($this->payload, Mime::JSON)
@@ -91,7 +100,11 @@ final class GotoClient
     {
         $this->authenticate();
 
-        $response = Request::put($this->buildUrl($this->path, $this->parameters))
+        $path = $this->buildUrl($this->path, $this->parameters);
+
+        Log::info('GotoWebinar:', ['verb' => 'PUT', 'path' => $path]);
+
+        $response = Request::put($path)
                            ->strictSSL($this->strict_ssl)
                            ->addHeaders($this->getAuthorisationHeader())
                            ->body($this->payload, Mime::JSON)
@@ -106,7 +119,11 @@ final class GotoClient
     {
         $this->authenticate();
 
-        $response = Request::delete($this->buildUrl($this->path, $this->parameters))
+        $path = $this->buildUrl($this->path, $this->parameters);
+
+        Log::info('GotoWebinar:', ['verb' => 'DELETE', 'path' => $path]);
+
+        $response = Request::delete($path)
                            ->strictSSL($this->strict_ssl)
                            ->addHeaders($this->getAuthorisationHeader())
                            ->body(null, Mime::JSON)
@@ -130,6 +147,8 @@ final class GotoClient
                 default:
                     return $response->body;
             }
+        } elseif ($response->code == 409) { //If the user is already registered, return the body
+            return $response->body;
         }
 
         throw GotoException::responseException($response, 'HTTP Response code: '.$response->code, $verb);

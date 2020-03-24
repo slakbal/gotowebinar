@@ -3,8 +3,8 @@
 namespace Slakbal\Gotowebinar\Client;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 trait AccessProvider
 {

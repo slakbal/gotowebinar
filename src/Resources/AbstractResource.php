@@ -2,9 +2,9 @@
 
 namespace Slakbal\Gotowebinar\Resources;
 
+use Slakbal\Gotowebinar\Contract\GotoWebinar;
 use Slakbal\Gotowebinar\Traits\Actions;
 use Slakbal\Gotowebinar\Traits\ClassHelpers;
-use Slakbal\Gotowebinar\Contract\GotoWebinar;
 
 abstract class AbstractResource implements GotoWebinar
 {

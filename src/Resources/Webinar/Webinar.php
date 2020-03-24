@@ -4,10 +4,10 @@ namespace Slakbal\Gotowebinar\Resources\Webinar;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Slakbal\Gotowebinar\Resources\AbstractResource;
+use Slakbal\Gotowebinar\Resources\EmailSettings;
 use Slakbal\Gotowebinar\Resources\Time;
 use Slakbal\Gotowebinar\Resources\Timezone;
-use Slakbal\Gotowebinar\Resources\EmailSettings;
-use Slakbal\Gotowebinar\Resources\AbstractResource;
 
 final class Webinar extends AbstractResource
 {
