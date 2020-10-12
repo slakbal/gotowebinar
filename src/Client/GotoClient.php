@@ -66,7 +66,7 @@ final class GotoClient
         $path = $this->buildUrl($this->path, $this->parameters);
 
         Log::info('GotoWebinar:', ['verb' => 'GET', 'path' => $path]);
-
+        
         $response = Request::get($path)
                            ->strictSSL($this->strict_ssl)
                            ->addHeaders($this->getAuthorisationHeader())

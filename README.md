@@ -66,15 +66,67 @@ Now find the `aliases` array in the same config file and add the following Facad
 
 ## Config
 
-Before you can use the service provider you have configure it. You can create and App with API access keys here: [GotoWebinar Developer portal](https://goto-developer.logmeininc.com). Look for the `My Apps` menu.
+If you are migrating from an older deprecated version of the OAuth API using Direct Login, read the following [guide to migrate](https://developer.goto.com/guides/References/05_Direct-Login_migration/) your setup using the default `grand_type=authorization_code` auhtorization method.
 
-Note that you need to have an active or trial account for the API to function properly. Just dev credentials alone might not work since those tokens are sometimes restricted or expire.
+### Authorization
 
-The provider currently only support [OAuth2](https://goto-developer.logmeininc.com/how-get-access-token-and-organizer-key) authentication. Since this is used for backend integration and not clients like for examples mobile applications, etc. the initial authentication is done via Goto's [Direct Login](https://goto-developer.logmeininc.com/how-use-direct-login). 
+In order to obtain an access-token, an authorization code needs to be requested first. This request **has** to be done **manually**, e.g. by Using a browser. To the contrary of using Direct Login, it is not possible to automate this process using a `username` and `password`.
 
-The package's configuration requires at a minimum the following environment values are required in your `.env` file.
+Read the following page [How to create an OAuth client](https://developer.goto.com/guides/HowTos/02_HOW_createClient/) to receive your `Client ID`, also known as the `CONSUMER KEY`. Please do make sure to use the same redirect URL in your environment settings as specified in the created OAuth client. The redirect URL does **not** have to exist, it's only required to retrieve your authorization `&code=` parameter.
+
+Once received, fill the following environment values that need to be configured in your `.env` file.
 
 ```
+GOTO_CONSUMER_KEY=Oa0fdvd82FdXcLrsts3EQYdsuGhdscV41
+GOTO_CONSUMER_SECRET=8mbIGtkfdfhjksad68
+GOTO_REDIRECT_URI=https://example.com/redirect
+```
+
+Generate an authorization link executing the following command
+
+```
+php artisan goto:authorize-link
+```
+
+If you wish to add a state parameter, add the option `--state=your-state`.
+
+Open the link by clicking or copy/paste in your browser. Login within your credentials and receive the `code` parameter. If your redirect URL is called `https://example.com` the redirect URL will be something like:
+
+```
+https://example.com?code=a-very-long-code
+```
+
+Copy this code and set this in your `.env` file:
+
+```
+GOTO_AUTHORIZATION_CODE=this-very-long-code
+```
+
+To retreive an access token, execute the following command with the `--flush` any cached config and stored access-token. Or if locally or in development mode, use the following route `/_goto/authenticate`.
+
+
+```
+php artisan goto:access-token --flush
+```
+
+In order to view the currently active access-token/refresh-token, simply call the same command without `--flush`.
+
+```
+php artisan goto:access-token
+```
+
+### Authorizing using the deprecated Direct Login method
+
+If your account is still able to use the [Direct Login](https://goto-developer.logmeininc.com/how-use-direct-login) method (using `grand_type=password`, you can create an App with API access keys here: [GotoWebinar Developer portal](https://goto-developer.logmeininc.com). Look for the `My Apps` menu.
+
+Note that you need to have an active or trial account for the API to function properly. Just dev credentials alone might not work since those tokens are sometimes restricted or expired.
+
+The provider currently only support [OAuth2](https://goto-developer.logmeininc.com/how-get-access-token-and-organizer-key) authentication. Since this is used for backend integration and not clients like for examples mobile applications, etc. the initial authentication is done via Goto's [Direct Login](https://goto-developer.logmeininc.com/how-use-direct-login).
+
+The package's configuration for legacy direct login requires at a minimum the following required environment values in your `.env` file.
+
+```
+GOTO_LEGACY=true
 GOTO_CONSUMER_KEY=Oa0fdvd82FdXcLrsts3EQYdsuGhdscV41
 GOTO_CONSUMER_SECRET=8mbIGtkfdfhjksad68
 GOTO_DIRECT_USERNAME=webinars@company.com
