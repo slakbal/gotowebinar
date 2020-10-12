@@ -2,8 +2,10 @@
 
 namespace Slakbal\Gotowebinar;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Slakbal\Gotowebinar\Commands\GoToAccessTokenCommand;
+use Slakbal\Gotowebinar\Commands\GoToAuthorizeLinkCommand;
+use Slakbal\Gotowebinar\Commands\GoToGenerateLinkCommand;
 use Slakbal\Gotowebinar\Resources\Attendee\Attendee;
 use Slakbal\Gotowebinar\Resources\Registrant\Registrant;
 use Slakbal\Gotowebinar\Resources\Session\Session;
@@ -17,11 +19,18 @@ class GotoWebinarServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! App::environment('production')) {
+        if (! $this->app->environment('production')) {
             $this->loadRoutesFrom(__DIR__.'/Routes/routes.php');
         }
 
         $this->publishes([__DIR__.'/../config/goto.php' => config_path('goto.php')], 'config');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                GoToGenerateLinkCommand::class,
+                GoToAccessTokenCommand::class
+            ]);
+        }
     }
 
     public function register()

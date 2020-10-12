@@ -20,7 +20,7 @@ trait Authenticable
                 $this->refreshAccessToken();
             } else {
                 //Perform fresh authentication for bearer and refresh token
-                $this->authenticateDirect();
+                $this->authenticateClient();
             }
         }
 
@@ -47,6 +47,13 @@ trait Authenticable
         return $response;
     }
 
+    private function authenticateClient()
+    {
+        return !config('goto.legacy', false) ?
+            $this->authenticateCode() :
+            $this->authenticateDirect();
+    }
+
     private function authenticateDirect()
     {
         $response = $this->sendAuthenticationRequest([
@@ -61,12 +68,24 @@ trait Authenticable
         return $response;
     }
 
+    private function authenticateCode()
+    {
+        $response = $this->sendAuthenticationRequest([
+                                                        'grant_type' => 'authorization_code',
+                                                        'redirect_uri' => config('goto.redirect_uri'),
+                                                        'code' => config('goto.authorization_code'),
+                                                    ]);
+
+        $this->setAccessInformation($response);
+
+        return $response;
+    }
+
     private function sendAuthenticationRequest(array $payload)
     {
-        $this->response = Request::post($this->directAuthenticationUrl)
+        $this->response = Request::post($this->directAuthenticationUrl, http_build_query($payload), 'form')
                                  ->strictSSL($this->strict_ssl)
                                  ->addHeaders($this->getAuthenticationHeader())
-                                 ->body(http_build_query($payload), 'form')
                                  ->timeout($this->timeout)
                                  ->expectsJson()
                                  ->send();
