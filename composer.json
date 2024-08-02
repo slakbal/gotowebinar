@@ -1,6 +1,6 @@
 {
   "name": "slakbal/gotowebinar",
-  "description": "GotoWebinar API wrapper for laravel 5+",
+  "description": "GotoWebinar API wrapper for Laravel",
   "license": "MIT",
   "keywords": [
     "gotowebinar",
@@ -15,10 +15,8 @@
     }
   ],
   "require": {
-    "php": ">=7.1.3",
-    "nategood/httpful": "^0.2",
-    "illuminate/contracts": "^5.8|^6.0|^7.0",
-    "guzzlehttp/guzzle": "~6.3"
+      "saloonphp/saloon": "^3.0",
+      "saloonphp/laravel-plugin": "^3.0"
   },
   "require-dev": {
   },
