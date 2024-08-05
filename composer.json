@@ -15,8 +15,7 @@
     }
   ],
   "require": {
-      "saloonphp/saloon": "^3.0",
-      "saloonphp/laravel-plugin": "^3.0"
+      "saloonphp/saloon": "^3.0"
   },
   "require-dev": {
   },
