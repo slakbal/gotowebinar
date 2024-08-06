@@ -24,12 +24,6 @@ class WebinarResource extends BaseResource
      * Returns upcoming and past webinars for the currently authenticated organizer that are scheduled within the specified date/time range. Page and size parameters are optional. Default page is 0 and default size is 20. Maximum size is 200.
      * Start and End of the datetime range in ISO8601 UTC format. The reserved characters like '+' have to be encoded while being passed as query parameter.
      *
-     * @param CarbonImmutable $fromTime
-     * @param CarbonImmutable $toTime
-     * @param int $page
-     * @param int $size
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -43,10 +37,6 @@ class WebinarResource extends BaseResource
     /**
      * Returns all insession webinars for the currently authenticated organizer that are scheduled within the specified date/time range. All inession webinars are returned in case no date/time range is provided.
      *
-     * @param CarbonImmutable $toTime
-     * @param CarbonImmutable|null $fromTime
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -60,9 +50,6 @@ class WebinarResource extends BaseResource
      * Webinars of type 'series' are treated the same as normal webinars - each session in the webinar series has a different webinarKey.
      * If an organizer cancels a webinar, then a request to get that webinar would return a '404 Not Found' error.
      *
-     * @param int $webinarKey
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -74,9 +61,6 @@ class WebinarResource extends BaseResource
     /**
      * Retrieves the meeting times for a webinar.
      *
-     * @param int $webinarKey
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -88,11 +72,6 @@ class WebinarResource extends BaseResource
     /**
      * Returns all attendees for all sessions of the specified webinar.
      *
-     * @param int $webinarKey
-     * @param int $page
-     * @param int $size
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -104,9 +83,6 @@ class WebinarResource extends BaseResource
     /**
      * Retrieves the audio/conferencing information for a specific webinar.
      *
-     * @param int $webinarKey
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -126,9 +102,6 @@ class WebinarResource extends BaseResource
      *
      * The call requires a webinar subject and description. The "isPasswordProtected" sets whether the webinar requires a password for attendees to join. If set to True, the organizer must go to Registration Settings at My Webinars (https://global.gotowebinar.com/webinars.tmpl) and add the password to the webinar, and send the password to the registrants. The response provides a numeric webinarKey in string format for the new webinar. Once a webinar has been created with this method,you can accept registrations.
      *
-     * @param CreateWebinarDto $webinarDto
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -142,9 +115,6 @@ class WebinarResource extends BaseResource
      * To send cancellation emails to registrants set sendCancellationEmails=true in the request.
      * When the cancellation emails are sent, the default generated message is used in the cancellation email body.
      *
-     * @param int $webinarKey
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -156,9 +126,6 @@ class WebinarResource extends BaseResource
     /**
      * Gets performance details for all sessions of a specific webinar.
      *
-     * @param int $webinarKey
-     * @param int|null $organizerKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -171,8 +138,6 @@ class WebinarResource extends BaseResource
      * Retrieves a URL that can be used to start a webinar.
      * When this URL is opened in a web browser, the GoTo Webinar client will be downloaded, launched and the webinar will start after the organizer logs in with its credentials.
      *
-     * @param int $webinarKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */
@@ -184,8 +149,6 @@ class WebinarResource extends BaseResource
     /**
      * Get all the recording assets associated with online recordings of the webinarKey.
      *
-     * @param int $webinarKey
-     * @return Response
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
      */

@@ -41,12 +41,11 @@ Route::prefix('webinars')->name('goto.webinars')
             }
         });
 
-
         Route::get('in-session', function () use ($gotoApi) {
             try {
                 return $gotoApi->webinars()->inSession(
                     toTime: CarbonImmutable::now(),
-                //fromTime: CarbonImmutable::now()->subHours(2),
+                    //fromTime: CarbonImmutable::now()->subHours(2),
                 )->json(); //select the json node to return
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
@@ -141,7 +140,6 @@ Route::prefix('webinars')->name('goto.webinars')
             }
         });
 
-
         Route::get('{webinarKey}/audio', function ($webinarKey) use ($gotoApi) {
             try {
                 $response = $gotoApi->webinars()->audio(
@@ -210,6 +208,7 @@ Route::prefix('webinars')->name('goto.webinars')
 
         Route::get('{webinarKey}/recording-assets', function ($webinarKey) use ($gotoApi) {
             try {
+
                 $response = $gotoApi->webinars()->recordingAssets(
                     webinarKey: $webinarKey,
                     page: 0,
