@@ -5,7 +5,7 @@ namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetWebinar extends Request
+class GetStartUrl extends Request
 {
     protected Method $method = Method::GET;
 
@@ -21,7 +21,7 @@ class GetWebinar extends Request
 
     public function resolveEndpoint(): string
     {
-        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}";
+        return "/webinars/{$this->webinarKey}/startUrl";
     }
 
     protected function defaultQuery(): array

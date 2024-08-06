@@ -11,6 +11,7 @@ class CancelWebinar extends Request
 
     public function __construct(
         protected int $webinarKey,
+        protected bool $sendCancellationEmails = false,
         protected ?int $organizerKey = null
     ) {
         $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
@@ -19,5 +20,10 @@ class CancelWebinar extends Request
     public function resolveEndpoint(): string
     {
         return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}";
+    }
+
+    protected function defaultQuery(): array
+    {
+        return ['sendCancellationEmails' => $this->sendCancellationEmails];
     }
 }

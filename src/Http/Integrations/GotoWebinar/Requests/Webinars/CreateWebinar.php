@@ -14,11 +14,9 @@ class CreateWebinar extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    protected $organizerKey;
-
     public function __construct(
         protected CreateWebinarDto $webinar,
-        ?int $organizerKey = null
+        protected ?int $organizerKey = null
     ) {
         $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
     }

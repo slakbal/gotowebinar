@@ -5,7 +5,7 @@ namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class GetWebinar extends Request
+class GetRecordingAssets extends Request
 {
     protected Method $method = Method::GET;
 
@@ -14,18 +14,24 @@ class GetWebinar extends Request
     */
     public function __construct(
         protected int $webinarKey,
+        protected int $page = 0,
+        protected int $limit = 10,
         protected ?int $organizerKey = null
     ) {
         $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
+        $this->limit = ($limit > 200) ? 200 : $limit;
     }
 
     public function resolveEndpoint(): string
     {
-        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}";
+        return "/webinars/{$this->webinarKey}/recordingAssets";
     }
 
     protected function defaultQuery(): array
     {
-        return [];
+        return [
+            'page' => $this->page,
+            'limit' => $this->limit,
+        ];
     }
 }
