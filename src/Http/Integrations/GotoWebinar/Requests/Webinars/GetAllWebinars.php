@@ -1,9 +1,8 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests;
+namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars;
 
 use Carbon\CarbonImmutable;
-use Carbon\CarbonTimeZone;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 

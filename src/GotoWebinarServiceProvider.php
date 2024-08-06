@@ -17,7 +17,7 @@ class GotoWebinarServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/Routes/gotowebinar.php');
 
         if (! App::environment('production')) {
-            $this->loadRoutesFrom(__DIR__.'/Routes/local.php');
+            $this->loadRoutesFrom(__DIR__.'/Routes/test.php');
         }
 
         $this->publishes([__DIR__.'/../config/gotowebinar.php' => config_path('gotowebinar.php')], 'config');

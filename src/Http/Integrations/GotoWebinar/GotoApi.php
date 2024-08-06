@@ -21,8 +21,6 @@ class GotoApi extends Connector
 
     protected int $requestTimeout = 30;
 
-    protected int $accountCacheHours = 1;
-
     public function resolveBaseUrl(): string
     {
         return 'https://api.getgo.com/G2W/rest/v2';

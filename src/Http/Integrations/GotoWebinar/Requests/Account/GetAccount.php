@@ -1,6 +1,6 @@
 <?php
 
-namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests;
+namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Account;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -13,7 +13,7 @@ class GetAccount extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/identity/v1/Users/me';
+        return 'https://api.getgo.com/identity/v1/Users/me';
     }
 
     public function createDtoFromResponse(Response $response): mixed
