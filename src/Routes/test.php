@@ -56,13 +56,59 @@ Route::prefix('goto/test')->name('goto.')
 
         Route::get('getWebinar/{webinarKey}', function ($webinarKey) use ($gotoApi) {
             try {
-                return $gotoApi->webinars()->get(
+                $response = $gotoApi->webinars()->get(
                     webinarKey: $webinarKey
-                )->json();
+                );
+
+                if ($response->successful()) {
+                    return $response->json();
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return [$response->status()];
+
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
             }
         })->name('getWebinar');
+
+        Route::get('createWebinar', function () use ($gotoApi) {
+            try {
+
+                $webinarDto = new \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreateWebinarDto(
+                    subject: 'Test Subject',
+                    startTime: \Carbon\CarbonImmutable::now()->addDay(1),
+                    endTime: \Carbon\CarbonImmutable::now()->addDay(1)->addHours(1),
+                    description: 'Test Description',
+                    type: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarType::SINGLE_SESSION,
+                    experienceType: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarExperience::CLASSIC
+                );
+
+                return $gotoApi->webinars()->create($webinarDto)->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        })->name('createWebinar');
+
+        Route::get('cancelWebinar/{webinarKey}', function ($webinarKey) use ($gotoApi) {
+            try {
+                $response = $gotoApi->webinars()->cancel($webinarKey);
+
+                if ($response->successful()) {
+                    return [true];
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        })->name('cancelWebinar');
 
         Route::get('getAllRegistrants/{webinarKey}', function ($webinarKey) use ($gotoApi) {
             try {

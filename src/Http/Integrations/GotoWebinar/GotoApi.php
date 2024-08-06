@@ -29,24 +29,19 @@ class GotoApi extends Connector
     protected function defaultAuth(): TokenAuthenticator
     {
         if (! cache()->has('gotoAuthorizationCode')) {
-
             $this->flushCache();
-
             throw new MissingAuthorizationException;
         }
 
         if (! cache()->has('gotoAuthenticator')) {
-
             $this->flushCache();
-
             throw new MissingAuthenticatorException;
         } else {
             $authenticator = cache()->get('gotoAuthenticator');
             $authenticator = AccessTokenAuthenticator::unserialize($authenticator);
         }
 
-        //dump($authenticator->expiresAt->setTimezone(new \DateTimeZone('Africa/Johannesburg')));
-        //When access token is expired, refresh the access token using your refresh token
+        //When access token is expired, refresh the access token using your refresh token and cache it
         if ($authenticator->hasExpired()) {
             $connector = new AuthConnector;
             $authenticator = $connector->refreshAccessToken($authenticator);
@@ -56,7 +51,7 @@ class GotoApi extends Connector
             cache()->forget('gotoOrganizerKey');
         }
 
-        //Load the User Account to get the Organiser ID
+        //Load the User Account to get the Organiser ID and cache it
         if (! cache()->has('gotoOrganizerKey')) {
             $connector = new AuthConnector;
             $AccountId = $connector->getUser($authenticator)->json('id');

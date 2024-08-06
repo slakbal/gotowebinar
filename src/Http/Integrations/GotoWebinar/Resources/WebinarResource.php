@@ -5,6 +5,9 @@ namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources;
 use Carbon\CarbonImmutable;
 use Saloon\Http\BaseResource;
 use Saloon\Http\Response;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreateWebinarDto;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars\CancelWebinar;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars\CreateWebinar;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars\GetAllWebinars;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars\GetWebinar;
 
@@ -24,5 +27,15 @@ class WebinarResource extends BaseResource
     public function get(int $webinarKey, ?int $organizerKey = null): Response
     {
         return $this->connector->send(new GetWebinar($webinarKey, $organizerKey));
+    }
+
+    public function create(CreateWebinarDto $webinarDto): Response
+    {
+        return $this->connector->send(new CreateWebinar($webinarDto));
+    }
+
+    public function cancel(int $webinarKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new CancelWebinar($webinarKey, $organizerKey));
     }
 }
