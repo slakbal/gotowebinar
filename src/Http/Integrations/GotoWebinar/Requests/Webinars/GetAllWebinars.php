@@ -35,8 +35,8 @@ class GetAllWebinars extends Request
     protected function defaultQuery(): array
     {
         return [
-            'fromTime' => $this->fromTime->startOfDay()->setTimezone('UTC')->toIso8601String(),
-            'toTime' => $this->toTime->endOfDay()->setTimezone('UTC')->toIso8601String(),
+            'fromTime' => $this->fromTime->setTimezone('UTC')->toIso8601String(),
+            'toTime' => $this->toTime->setTimezone('UTC')->toIso8601String(),
             'page' => $this->page,
             'size' => $this->size,
         ];

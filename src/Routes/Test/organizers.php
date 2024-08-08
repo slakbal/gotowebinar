@@ -11,8 +11,8 @@ Route::prefix('organizers')->name('goto.')
         Route::get('/sessions', function () use ($gotoApi) {
             try {
                 $response = $gotoApi->sessions()->organizerSessions(
-                    fromTime: \Carbon\CarbonImmutable::now()->subMonths(24),
-                    toTime: \Carbon\CarbonImmutable::now(),
+                    fromTime: \Carbon\CarbonImmutable::now()->startOfDay()->subMonths(24),
+                    toTime: \Carbon\CarbonImmutable::now()->endOfDay(),
                     page: 0, //max is 200
                     size: 10,
                     organizerKey: null,

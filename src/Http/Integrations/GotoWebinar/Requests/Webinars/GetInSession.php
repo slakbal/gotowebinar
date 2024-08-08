@@ -29,10 +29,10 @@ class GetInSession extends Request
 
     protected function defaultQuery(): array
     {
-        $queries = ['toTime' => $this->toTime->endOfDay()->setTimezone('UTC')->toIso8601String()];
+        $queries = ['toTime' => $this->toTime->setTimezone('UTC')->toIso8601String()];
 
         if (! empty($this->fromTime)) {
-            $queries = array_merge($queries, ['fromTime' => $this->fromTime->startOfDay()->setTimezone('UTC')->toIso8601String()]);
+            $queries = array_merge($queries, ['fromTime' => $this->fromTime->setTimezone('UTC')->toIso8601String()]);
         }
 
         return $queries;

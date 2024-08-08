@@ -12,8 +12,8 @@ Route::prefix('webinars')->name('goto.webinars')
         Route::get('/', function () use ($gotoApi) {
             try {
                 return $gotoApi->webinars()->all(
-                    fromTime: CarbonImmutable::now()->subMonths(24),
-                    toTime: CarbonImmutable::now(),
+                    fromTime: CarbonImmutable::now()->startOfDay()->subMonths(24),
+                    toTime: CarbonImmutable::now()->endOfDay(),
                     page: 0,
                     size: 20
                 )->json('_embedded.webinars'); //select the json node to return
@@ -29,7 +29,7 @@ Route::prefix('webinars')->name('goto.webinars')
                 $webinarDto = new \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreateWebinarDto(
                     subject: 'Test Webinar - API Integration',
                     startTime: \Carbon\CarbonImmutable::now()->addHours(1),
-                    endTime: \Carbon\CarbonImmutable::now()->addHours(1)->addMinutes(30),
+                    endTime: \Carbon\CarbonImmutable::now()->addHours(1)->addMinutes(10),
                     description: 'Test Description',
                     type: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarType::SINGLE_SESSION, //optional: default: single_session
                     experienceType: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarExperience::CLASSIC, //optional: default: CLASSIC
@@ -53,7 +53,7 @@ Route::prefix('webinars')->name('goto.webinars')
             try {
                 return $gotoApi->webinars()->inSession(
                     toTime: CarbonImmutable::now(),
-                    //fromTime: CarbonImmutable::now()->subHours(2),
+                    // fromTime: CarbonImmutable::now()->startOfDay()->subHours(2), //it is possible to set also a fromTime
                 )->json(); //select the json node to return
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
