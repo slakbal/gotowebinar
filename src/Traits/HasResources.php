@@ -3,6 +3,7 @@
 namespace Slakbal\Gotowebinar\Traits;
 
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources\AccountResource;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources\AttendeesResource;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources\PanelistResource;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources\RegistrantResource;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources\SessionResource;
@@ -33,5 +34,10 @@ trait HasResources
     public function sessions(): SessionResource
     {
         return new SessionResource($this);
+    }
+
+    public function attendees(): AttendeesResource
+    {
+        return new AttendeesResource($this);
     }
 }
