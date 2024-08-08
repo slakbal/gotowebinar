@@ -10,12 +10,23 @@ Route::prefix('webinars')->name('goto.')
 
         Route::get('/{webinarKey}/sessions', function ($webinarKey) use ($gotoApi) {
             try {
-                return $gotoApi->sessions()->all(
+                $response = $gotoApi->sessions()->all(
                     webinarKey: $webinarKey,
                     organizerKey: null,
                     page: 0, //max is 200
                     limit: 10
-                )->json('_embedded.sessionInfoResources');
+                );
+
+                if ($response->successful()) {
+                    return $response->json('_embedded.sessionInfoResources');
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
+
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
             }
@@ -23,11 +34,22 @@ Route::prefix('webinars')->name('goto.')
 
         Route::get('/{webinarKey}/sessions/{sessionKey}', function ($webinarKey, $sessionKey) use ($gotoApi) {
             try {
-                return $gotoApi->sessions()->get(
+                $response = $gotoApi->sessions()->get(
                     webinarKey: $webinarKey,
                     sessionKey: $sessionKey,
                     organizerKey: null,
-                )->json();
+                );
+
+                if ($response->successful()) {
+                    return $response->json();
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
+
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
             }
@@ -39,10 +61,98 @@ Route::prefix('webinars')->name('goto.')
                     webinarKey: $webinarKey,
                     sessionKey: $sessionKey,
                     organizerKey: null
-                )->json();
+                );
 
                 if ($response->successful()) {
                     return [true];
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/sessions/{sessionKey}/performance', function ($webinarKey, $sessionKey) use ($gotoApi) {
+            try {
+                $response = $gotoApi->sessions()->performance(
+                    webinarKey: $webinarKey,
+                    sessionKey: $sessionKey,
+                    organizerKey: null
+                );
+
+                if ($response->successful()) {
+                    return $response->json();
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/sessions/{sessionKey}/polls', function ($webinarKey, $sessionKey) use ($gotoApi) {
+            try {
+                $response = $gotoApi->sessions()->polls(
+                    webinarKey: $webinarKey,
+                    sessionKey: $sessionKey,
+                    organizerKey: null
+                );
+
+                if ($response->successful()) {
+                    return $response->json();
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/sessions/{sessionKey}/questions', function ($webinarKey, $sessionKey) use ($gotoApi) {
+            try {
+                $response = $gotoApi->sessions()->questions(
+                    webinarKey: $webinarKey,
+                    sessionKey: $sessionKey,
+                    organizerKey: null
+                );
+
+                if ($response->successful()) {
+                    return $response->json();
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/sessions/{sessionKey}/surveys', function ($webinarKey, $sessionKey) use ($gotoApi) {
+            try {
+                $response = $gotoApi->sessions()->surveys(
+                    webinarKey: $webinarKey,
+                    sessionKey: $sessionKey,
+                    organizerKey: null
+                );
+
+                if ($response->successful()) {
+                    return $response->json();
                 }
 
                 if ($response->failed()) {

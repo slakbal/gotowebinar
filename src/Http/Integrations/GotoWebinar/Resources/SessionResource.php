@@ -2,15 +2,16 @@
 
 namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources;
 
+use Carbon\CarbonImmutable;
 use Saloon\Http\BaseResource;
 use Saloon\Http\Response;
-use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Panelists\CreatePanelist;
-use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Panelists\DeletePanelist;
-use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Panelists\GetAllPanelists;
-use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Panelists\ResendPanelistInvitation;
-use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Registrants\GetRegistrant;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetAllSessions;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetOrganizerSessions;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetSession;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetSessionPerformance;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetSessionPolls;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetSessionQuestions;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetSessionSurveys;
 
 class SessionResource extends BaseResource
 {
@@ -24,18 +25,28 @@ class SessionResource extends BaseResource
         return $this->connector->send(new GetSession($sessionKey, $webinarKey, $organizerKey));
     }
 
-//    public function create(array $sessionDtoArray, int $webinarKey, bool $resendConfirmation, ?int $organizerKey = null): Response
-//    {
-//        return $this->connector->send(new CreateSession($sessionDtoArray, $webinarKey, $resendConfirmation, $organizerKey));
-//    }
-//
-//    public function delete(int $webinarKey, int $sessionKey, ?int $organizerKey = null): Response
-//    {
-//        return $this->connector->send(new DeleteSession($webinarKey, $sessionKey, $organizerKey));
-//    }
-//
-//    public function resendInvitation(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
-//    {
-//        return $this->connector->send(new ResendSessionInvitation($sessionKey, $webinarKey, $organizerKey));
-//    }
+    public function performance(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetSessionPerformance($sessionKey, $webinarKey, $organizerKey));
+    }
+
+    public function polls(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetSessionPolls($sessionKey, $webinarKey, $organizerKey));
+    }
+
+    public function questions(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetSessionQuestions($sessionKey, $webinarKey, $organizerKey));
+    }
+
+    public function surveys(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetSessionSurveys($sessionKey, $webinarKey, $organizerKey));
+    }
+
+    public function organizerSessions(CarbonImmutable $fromTime, CarbonImmutable $toTime, int $page = 0, int $size = 10, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetOrganizerSessions($fromTime, $toTime, $page, $size, $organizerKey));
+    }
 }
