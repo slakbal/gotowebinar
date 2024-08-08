@@ -1,0 +1,27 @@
+<?php
+
+namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Panelists;
+
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+
+class ResendPanelistInvitation extends Request
+{
+    protected Method $method = Method::POST;
+
+    /*
+    * $webinarKey - (Required) The key of the webinar
+    */
+    public function __construct(
+        protected int $panelistKey,
+        protected int $webinarKey,
+        protected ?int $organizerKey = null
+    ) {
+        $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
+    }
+
+    public function resolveEndpoint(): string
+    {
+        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}/panelists/{$this->panelistKey}/resendInvitation";
+    }
+}

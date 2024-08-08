@@ -68,11 +68,22 @@ Route::prefix('webinars')->name('goto.')
 
         Route::get('/{webinarKey}/registrants/{registrantKey}/cancel', function ($webinarKey, $registrantKey) use ($gotoApi) {
             try {
-                return $gotoApi->registrants()->delete(
+                $response = $gotoApi->registrants()->delete(
                     webinarKey: $webinarKey,
                     registrantKey: $registrantKey,
                     organizerKey: null
                 )->json();
+
+
+                if ($response->successful()) {
+                    return [true];
+                }
+
+                if ($response->failed()) {
+                    return $response->json();
+                }
+
+                return $response->json();
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
             }

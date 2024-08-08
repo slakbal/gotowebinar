@@ -31,10 +31,10 @@ class CreateRegistrant extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'firstName' => trim($this->registrant->firstName),
-            'lastName' => trim($this->registrant->lastName),
-            'email' => trim($this->registrant->email),
-            'organization' => trim($this->registrant->organization),
+            'firstName' => $this->registrant->firstName,
+            'lastName' => $this->registrant->lastName,
+            'email' => $this->registrant->email,
+            'organization' => $this->registrant->organization,
         ];
     }
 
