@@ -2,7 +2,6 @@
 
 namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions;
 
-use Carbon\CarbonImmutable;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 

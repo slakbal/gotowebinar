@@ -30,7 +30,7 @@ class CreatePanelist extends Request implements HasBody
 
     protected function defaultBody(): array
     {
-        if(count($this->panelistDtoArray) === 0){
+        if (count($this->panelistDtoArray) === 0) {
             return [];
         }
 

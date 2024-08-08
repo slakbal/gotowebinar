@@ -4,12 +4,6 @@ namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos;
 
 class CreateRegistrantDto extends BaseDto
 {
-    /**
-     * @param string $firstName
-     * @param string $lastName
-     * @param string $email
-     * @param string|null $organization
-     */
     public function __construct(
         public string $firstName,
         public string $lastName,

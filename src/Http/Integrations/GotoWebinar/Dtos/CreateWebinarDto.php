@@ -3,30 +3,11 @@
 namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos;
 
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Str;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarExperience;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarType;
 
 class CreateWebinarDto extends BaseDto
 {
-    /**
-     * @param string $subject
-     * @param CarbonImmutable $startTime
-     * @param CarbonImmutable $endTime
-     * @param string $description
-     * @param string|null $timeZone
-     * @param WebinarType $type
-     * @param bool $isPasswordProtected
-     * @param string|null $recordingAssetKey
-     * @param bool $isOndemand
-     * @param WebinarExperience $experienceType
-     * @param bool $confirmationEmail
-     * @param bool $reminderEmail
-     * @param bool $absenteeFollowUpEmail
-     * @param bool $attendeeFollowUpEmail
-     * @param bool $attendeeIncludeCertificate
-     * @param string|null $suffix
-     */
     public function __construct(
         public string $subject,
         public CarbonImmutable $startTime,
@@ -49,5 +30,4 @@ class CreateWebinarDto extends BaseDto
         $this->description = trim($this->limit(2048, $description));
         $this->timeZone = $timeZone ?? now()->timezone->getName();
     }
-
 }

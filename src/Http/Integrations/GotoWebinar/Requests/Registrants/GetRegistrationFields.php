@@ -23,5 +23,4 @@ class GetRegistrationFields extends Request
     {
         return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}/registrants/fields";
     }
-
 }

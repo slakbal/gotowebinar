@@ -74,7 +74,6 @@ Route::prefix('webinars')->name('goto.')
                     organizerKey: null
                 )->json();
 
-
                 if ($response->successful()) {
                     return [true];
                 }

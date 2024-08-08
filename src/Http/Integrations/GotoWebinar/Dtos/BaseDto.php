@@ -8,7 +8,7 @@ abstract class BaseDto
 {
     public function limit(int $maxLength, string $value, ?string $suffix = null): string
     {
-        if(empty($value)){
+        if (empty($value)) {
             return $value;
         }
 
