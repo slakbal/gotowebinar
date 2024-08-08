@@ -24,9 +24,4 @@ class GetRegistrant extends Request
     {
         return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}/registrants/{$this->registrantKey}";
     }
-
-    protected function defaultQuery(): array
-    {
-        return [];
-    }
 }

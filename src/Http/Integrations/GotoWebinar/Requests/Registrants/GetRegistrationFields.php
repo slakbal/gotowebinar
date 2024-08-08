@@ -21,11 +21,7 @@ class GetRegistrationFields extends Request
 
     public function resolveEndpoint(): string
     {
-        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}";
+        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}/registrants/fields";
     }
 
-    protected function defaultQuery(): array
-    {
-        return [];
-    }
 }

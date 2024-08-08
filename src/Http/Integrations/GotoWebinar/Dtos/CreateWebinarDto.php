@@ -7,8 +7,26 @@ use Illuminate\Support\Str;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarExperience;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarType;
 
-class CreateWebinarDto
+class CreateWebinarDto extends BaseDto
 {
+    /**
+     * @param string $subject
+     * @param CarbonImmutable $startTime
+     * @param CarbonImmutable $endTime
+     * @param string $description
+     * @param string|null $timeZone
+     * @param WebinarType $type
+     * @param bool $isPasswordProtected
+     * @param string|null $recordingAssetKey
+     * @param bool $isOndemand
+     * @param WebinarExperience $experienceType
+     * @param bool $confirmationEmail
+     * @param bool $reminderEmail
+     * @param bool $absenteeFollowUpEmail
+     * @param bool $attendeeFollowUpEmail
+     * @param bool $attendeeIncludeCertificate
+     * @param string|null $suffix
+     */
     public function __construct(
         public string $subject,
         public CarbonImmutable $startTime,
@@ -27,27 +45,9 @@ class CreateWebinarDto
         public bool $attendeeIncludeCertificate = false,
         public ?string $suffix = null
     ) {
-        $this->subject = $this->getSubject($subject, $suffix);
-        $this->description = Str::limit($this->description, 2048 - 3);
+        $this->subject = trim($this->limit(128, $subject, $suffix));
+        $this->description = trim($this->limit(2048, $description));
         $this->timeZone = $timeZone ?? now()->timezone->getName();
     }
 
-    private function getSubject(string $subject, ?string $suffix = null): string
-    {
-        $maxLength = (128 - 3);
-
-        if (! empty($suffix)) {
-            $suffix_length = Str::length($suffix);
-            $subject_length = Str::length($subject);
-
-            if (($suffix_length + $subject_length) > $maxLength) {
-                return Str::limit($subject, (128 - ($suffix_length + 3)), $suffix.'...');
-            }
-
-            return $subject.$suffix;
-
-        } else {
-            return Str::limit($subject, $maxLength);
-        }
-    }
 }

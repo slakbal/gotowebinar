@@ -23,18 +23,18 @@ class RegistrantResource extends BaseResource
         return $this->connector->send(new GetRegistrant($registrantKey, $webinarKey, $organizerKey));
     }
 
-    public function create(CreateRegistrantDto $registrantDto, int $webinarKey, ?int $organizerKey = null): Response
+    public function create(CreateRegistrantDto $registrantDto, int $webinarKey, bool $resendConfirmation, ?int $organizerKey = null): Response
     {
-        return $this->connector->send(new CreateRegistrant($registrantDto, $webinarKey, $organizerKey));
+        return $this->connector->send(new CreateRegistrant($registrantDto, $webinarKey, $resendConfirmation, $organizerKey));
     }
 
-    //    public function delete($webinarDto, ?int $organizerKey = null): Response
-    //    {
-    //        return $this->connector->send(new DeleteRegistrant($webinarDto, $organizerKey));
-    //    }
-    //
-    //    public function fields($webinarDto, ?int $organizerKey = null): Response
-    //    {
-    //        return $this->connector->send(new GetRegistrationFields($webinarDto, $organizerKey));
-    //    }
+    public function delete(int $webinarKey, int $registrantKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new DeleteRegistrant($webinarKey, $registrantKey, $organizerKey));
+    }
+
+    public function fields(int $webinarKey, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetRegistrationFields($webinarKey, $organizerKey));
+    }
 }

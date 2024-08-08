@@ -12,8 +12,9 @@ Route::prefix('webinars')->name('goto.')
             try {
                 return $gotoApi->registrants()->all(
                     webinarKey: $webinarKey,
-                    page: 0,
-                    limit: 10 //max is 200
+                    organizerKey: null,
+                    page: 0, //max is 200
+                    limit: 10
                 )->json('data');
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
@@ -33,7 +34,20 @@ Route::prefix('webinars')->name('goto.')
             try {
                 return $gotoApi->registrants()->create(
                     registrantDto: $registrantDto,
-                    webinarKey: $webinarKey
+                    webinarKey: $webinarKey,
+                    resendConfirmation: true,
+                    organizerKey: null
+                )->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/registrants/fields', function ($webinarKey) use ($gotoApi) {
+            try {
+                return $gotoApi->registrants()->fields(
+                    webinarKey: $webinarKey,
+                    organizerKey: null
                 )->json();
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
@@ -44,7 +58,20 @@ Route::prefix('webinars')->name('goto.')
             try {
                 return $gotoApi->registrants()->get(
                     registrantKey: $registrantKey,
-                    webinarKey: $webinarKey
+                    webinarKey: $webinarKey,
+                    organizerKey: null
+                )->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/registrants/{registrantKey}/cancel', function ($webinarKey, $registrantKey) use ($gotoApi) {
+            try {
+                return $gotoApi->registrants()->delete(
+                    webinarKey: $webinarKey,
+                    registrantKey: $registrantKey,
+                    organizerKey: null
                 )->json();
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');

@@ -111,9 +111,9 @@ class WebinarResource extends BaseResource
     }
 
     /**
-     * Cancels a specific webinar. If the webinar is a series or sequence, this call deletes all scheduled sessions.
-     * To send cancellation emails to registrants set sendCancellationEmails=true in the request.
-     * When the cancellation emails are sent, the default generated message is used in the cancellation email body.
+     *  Cancels a specific webinar. If the webinar is a series or sequence, this call deletes all scheduled sessions.
+     *  To send cancellation emails to registrants set sendCancellationEmails=true in the request.
+     *  When the cancellation emails are sent, the default generated message is used in the cancellation email body.
      *
      * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException

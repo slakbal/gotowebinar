@@ -31,16 +31,15 @@ class CreateRegistrant extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'firstName' => $this->registrant->firstName,
-            'lastName' => $this->registrant->lastName,
-            'email' => $this->registrant->email,
-            'organization' => $this->registrant->organization,
+            'firstName' => trim($this->registrant->firstName),
+            'lastName' => trim($this->registrant->lastName),
+            'email' => trim($this->registrant->email),
+            'organization' => trim($this->registrant->organization),
         ];
     }
 
     /*
-     * Set to 'application/json' to make a registration using fields (custom or default) additional to the basic ones or
-     * set it to 'application/vnd.citrix.g2wapi-v1.1+json' for just basic fields(firstName, lastName, and email).
+     * Set Header to 'application/vnd.citrix.g2wapi-v1.1+json' for just basic fields(firstName, lastName, and email).
      */
     protected function defaultHeaders(): array
     {
@@ -52,6 +51,6 @@ class CreateRegistrant extends Request implements HasBody
     protected function defaultQuery(): array
     {
         //Indicates whether the confirmation email should be resent when a registrant is re-registered. The default value is false.
-        return ['resendConfirmation' => $this->sendCancellationEmails];
+        return ['resendConfirmation' => $this->resendConfirmation];
     }
 }

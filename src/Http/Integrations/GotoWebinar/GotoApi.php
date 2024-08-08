@@ -2,9 +2,11 @@
 
 namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar;
 
+use Illuminate\Support\Facades\Log;
 use Saloon\Http\Auth\AccessTokenAuthenticator;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
+use Saloon\Http\PendingRequest;
 use Saloon\Traits\Plugins\AcceptsJson;
 use Saloon\Traits\Plugins\HasTimeout;
 use Slakbal\Gotowebinar\Exceptions\MissingAuthenticatorException;
@@ -20,6 +22,13 @@ class GotoApi extends Connector
     protected int $connectTimeout = 10;
 
     protected int $requestTimeout = 30;
+
+    //    public function __construct()
+    //    {
+    //        $this->middleware()->onRequest(function (PendingRequest $pendingRequest) {
+    //            Log::info('GotoApi Request:', [$pendingRequest->getUrl()]);
+    //        });
+    //    }
 
     public function resolveBaseUrl(): string
     {
@@ -66,6 +75,19 @@ class GotoApi extends Connector
         cache()->forget('gotoAuthorizationCode');
         cache()->forget('gotoAuthenticator');
         cache()->forget('gotoOrganizerKey');
+
+        return true;
+    }
+
+    public function status(): mixed
+    {
+        if (! cache()->has('gotoAuthorizationCode')) {
+            throw new MissingAuthorizationException;
+        }
+
+        if (! cache()->has('gotoAuthenticator')) {
+            throw new MissingAuthenticatorException;
+        }
 
         return true;
     }

@@ -29,14 +29,14 @@ class CreateWebinar extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'subject' => $this->webinar->subject,
+            'subject' => trim($this->webinar->subject),
             'times' => [
                 [
                     'startTime' => $this->webinar->startTime->toIso8601String(),
                     'endTime' => $this->webinar->endTime->toIso8601String(),
                 ],
             ],
-            'description' => $this->webinar->description,
+            'description' => trim($this->webinar->description),
             'timeZone' => $this->webinar->timeZone,
             'type' => $this->webinar->type->value, //Enum - WebinarType
             'isPasswordProtected' => $this->webinar->isPasswordProtected,
@@ -54,7 +54,7 @@ class CreateWebinar extends Request implements HasBody
                     'enabled' => $this->webinar->absenteeFollowUpEmail,
                 ],
                 'attendeeFollowUpEmail' => [
-                    'enabled' => $this->webinar->attendeeFollowUpEmail,
+                    'enabled' => ($this->webinar->attendeeIncludeCertificate) ? true : $this->webinar->attendeeFollowUpEmail,
                     'includeCertificate' => $this->webinar->attendeeIncludeCertificate,
                 ],
             ],

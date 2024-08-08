@@ -27,12 +27,20 @@ Route::prefix('webinars')->name('goto.webinars')
 
                 //Make use of the DTO to create a webinar since it ensures data integrity
                 $webinarDto = new \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreateWebinarDto(
-                    subject: 'Test Subject',
-                    startTime: \Carbon\CarbonImmutable::now()->addDay(1),
-                    endTime: \Carbon\CarbonImmutable::now()->addDay(1)->addHours(1),
+                    subject: 'Test Webinar - API Integration',
+                    startTime: \Carbon\CarbonImmutable::now()->addHours(1),
+                    endTime: \Carbon\CarbonImmutable::now()->addHours(1)->addMinutes(30),
                     description: 'Test Description',
                     type: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarType::SINGLE_SESSION, //optional: default: single_session
-                    experienceType: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarExperience::CLASSIC //optional: default: CLASSIC
+                    experienceType: \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Enums\WebinarExperience::CLASSIC, //optional: default: CLASSIC
+                    confirmationEmail: true,
+                    reminderEmail: true,
+                    absenteeFollowUpEmail: true,
+                    attendeeFollowUpEmail: true,
+                    suffix: '***',
+                    attendeeIncludeCertificate: true,
+                    timeZone: 'Europe/Berlin',
+                    isPasswordProtected: true
                 );
 
                 return $gotoApi->webinars()->create($webinarDto)->json();
@@ -76,7 +84,7 @@ Route::prefix('webinars')->name('goto.webinars')
         Route::get('{webinarKey}/cancel', function ($webinarKey) use ($gotoApi) {
             try {
                 $response = $gotoApi->webinars()->cancel(
-                    webinarkey: $webinarKey,
+                    webinarKey: $webinarKey,
                     sendCancellationEmails: true
                 );
 
