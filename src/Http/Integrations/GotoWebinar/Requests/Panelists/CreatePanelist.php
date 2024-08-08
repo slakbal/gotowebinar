@@ -34,9 +34,9 @@ class CreatePanelist extends Request implements HasBody
             return [];
         }
 
-        return Arr::map($this->panelistDtoArray, function (CreatePanelistDto $panelistDto, string $key) {
+        return Arr::map($this->panelistDtoArray, function (CreatePanelistDto $panelistDto) {
             return [
-                'name' => sprintf('%s %s',$panelistDto->firstName, $panelistDto->lastName),
+                'name' => $panelistDto->name,
                 'email' => $panelistDto->email,
             ];
         });

@@ -27,14 +27,12 @@ Route::prefix('webinars')->name('goto.')
             $panelists = [
                 //Make use of the DTO to create a panelist since it ensures data integrity
                 new \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreatePanelistDto(
-                    firstName: 'Leslie',
-                    lastName: 'Price',
+                    name: 'Leslie Price',
                     email: 'leslie.price78@gmail.com',
                 ),
                 new \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreatePanelistDto(
-                    firstName: 'Peter',
-                    lastName: 'Pan',
-                    email: 'peter.pan78@gmail.com',
+                    name: 'Peter Pan',
+                    email: 'peter.pan@gmail.com',
                 ),
             ];
 
