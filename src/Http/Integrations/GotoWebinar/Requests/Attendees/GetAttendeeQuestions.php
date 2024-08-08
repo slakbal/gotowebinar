@@ -6,7 +6,7 @@ use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Plugins\AcceptsJson;
 
-class GetAttendeePolls extends Request
+class GetAttendeeQuestions extends Request
 {
     use AcceptsJson;
 
@@ -23,6 +23,6 @@ class GetAttendeePolls extends Request
 
     public function resolveEndpoint(): string
     {
-        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}/sessions/{$this->sessionKey}/attendees/{$this->registrantKey}/polls";
+        return "/organizers/{$this->organizerKey}/webinars/{$this->webinarKey}/sessions/{$this->sessionKey}/attendees/{$this->registrantKey}/questions";
     }
 }

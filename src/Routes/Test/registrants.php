@@ -25,9 +25,9 @@ Route::prefix('webinars')->name('goto.')
 
             //Make use of the DTO to create a webinar since it ensures data integrity
             $registrantDto = new \Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Dtos\CreateRegistrantDto(
-                firstName: 'Leslie',
-                lastName: 'Price',
-                email: 'leslie.price78@gmail.com',
+                firstName: 'Jack',
+                lastName: 'Sparrow',
+                email: 'jack.sparrow@gmail.com',
                 organization: 'Test Organisation',
             );
 

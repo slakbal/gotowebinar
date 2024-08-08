@@ -20,9 +20,35 @@ Route::prefix('webinars')->name('goto.')
             }
         });
 
-        Route::get('/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/polls', function ($webinarKey, $sessionKey, $registrantKey) use ($gotoApi) {
+        Route::get('/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/poll-answers', function ($webinarKey, $sessionKey, $registrantKey) use ($gotoApi) {
             try {
-                return $gotoApi->attendees()->polls(
+                return $gotoApi->attendees()->pollAnswers(
+                    sessionKey: $sessionKey,
+                    registrantKey: $registrantKey,
+                    webinarKey: $webinarKey,
+                    organizerKey: null
+                )->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/questions', function ($webinarKey, $sessionKey, $registrantKey) use ($gotoApi) {
+            try {
+                return $gotoApi->attendees()->questions(
+                    sessionKey: $sessionKey,
+                    registrantKey: $registrantKey,
+                    webinarKey: $webinarKey,
+                    organizerKey: null
+                )->json();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/sessions/{sessionKey}/attendees/{registrantKey}/surveys', function ($webinarKey, $sessionKey, $registrantKey) use ($gotoApi) {
+            try {
+                return $gotoApi->attendees()->surveys(
                     sessionKey: $sessionKey,
                     registrantKey: $registrantKey,
                     webinarKey: $webinarKey,
