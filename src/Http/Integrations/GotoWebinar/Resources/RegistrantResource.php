@@ -13,9 +13,14 @@ use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Registrants\GetRe
 
 class RegistrantResource extends BaseResource
 {
-    public function all(int $webinarKey, ?int $organizerKey = null, int $page = 0, int $limit = 100): Response
+    public function all(int $webinarKey, ?int $organizerKey = null): Response
     {
-        return $this->connector->send(new GetAllRegistrants($webinarKey, $organizerKey, $page, $limit));
+        return $this->connector->send(new GetAllRegistrants($webinarKey, $organizerKey));
+    }
+
+    public function page(int $webinarKey, ?int $page = 0, ?int $pageSize = 100, ?int $organizerKey = null): Response
+    {
+        return $this->connector->send(new GetAllRegistrants($webinarKey, $organizerKey, $page, $pageSize));
     }
 
     public function get(int $registrantKey, int $webinarKey, ?int $organizerKey = null): Response

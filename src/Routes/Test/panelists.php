@@ -12,9 +12,7 @@ Route::prefix('webinars')->name('goto.')
             try {
                 return $gotoApi->panelists()->all(
                     webinarKey: $webinarKey,
-                    organizerKey: null,
-                    page: 0, //max is 200
-                    limit: 10
+                    organizerKey: null
                 )->json();
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');

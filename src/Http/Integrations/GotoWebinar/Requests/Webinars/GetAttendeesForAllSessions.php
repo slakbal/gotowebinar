@@ -3,9 +3,14 @@
 namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Webinars;
 
 use Saloon\Enums\Method;
+use Saloon\Http\Connector;
 use Saloon\Http\Request;
+use Saloon\PaginationPlugin\Contracts\HasRequestPagination;
+use Saloon\PaginationPlugin\Contracts\Paginatable;
+use Saloon\PaginationPlugin\Paginator;
+use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Paginator\AttendeePaginator;
 
-class GetAttendeesForAllSessions extends Request
+class GetAttendeesForAllSessions extends Request implements HasRequestPagination, Paginatable
 {
     protected Method $method = Method::GET;
 
@@ -14,12 +19,11 @@ class GetAttendeesForAllSessions extends Request
     */
     public function __construct(
         protected int $webinarKey,
-        protected int $page = 0,
-        protected int $size = 10,
+        protected int $requestPageLimit = 200, //Max default:200 - of the number of items per request when paging and collecting all the results
         protected ?int $organizerKey = null
     ) {
         $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
-        $this->size = ($size > 200) ? 200 : $size;
+        $this->requestPageLimit = ($requestPageLimit > 200) ? 200 : $requestPageLimit;
     }
 
     public function resolveEndpoint(): string
@@ -30,8 +34,11 @@ class GetAttendeesForAllSessions extends Request
     protected function defaultQuery(): array
     {
         return [
-            'page' => $this->page,
-            'size' => $this->size,
         ];
+    }
+
+    public function paginate(Connector $connector): Paginator
+    {
+        return new AttendeePaginator(connector: $connector, request: $this, perPageLimit: $this->requestPageLimit);
     }
 }

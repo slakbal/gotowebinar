@@ -15,10 +15,11 @@ class GetAllRegistrants extends Request
     public function __construct(
         protected int $webinarKey,
         protected ?int $organizerKey,
-        protected ?int $page,
-        protected int $limit = 100
+        protected ?int $page = null,
+        protected ?int $pageSize = null
     ) {
         $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
+        $this->pageSize = ($pageSize > 200) ? 200 : $pageSize;
     }
 
     public function resolveEndpoint(): string
@@ -28,9 +29,16 @@ class GetAllRegistrants extends Request
 
     protected function defaultQuery(): array
     {
-        return [
-            'page' => $this->page,
-            'limit' => $this->limit,
-        ];
+        $query = [];
+
+        if (! is_null($this->page)) {
+            $query['page'] = $this->page;
+        }
+
+        if (! is_null($this->pageSize)) {
+            $query['limit'] = $this->pageSize;
+        }
+
+        return $query;
     }
 }

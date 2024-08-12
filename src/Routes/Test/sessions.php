@@ -10,22 +10,15 @@ Route::prefix('webinars')->name('goto.')
 
         Route::get('/{webinarKey}/sessions', function ($webinarKey) use ($gotoApi) {
             try {
-                $response = $gotoApi->sessions()->all(
+                // https://docs.saloon.dev/installable-plugins/pagination#using-laravel-collections-lazycollection
+                // https://laravel.com/docs/11.x/collections
+
+                // returns LazyCollection as such can also call ->toArray() on the response and use Laravel collection methods
+                return $gotoApi->sessions()->all(
                     webinarKey: $webinarKey,
-                    organizerKey: null,
-                    page: 0, //max is 200
-                    limit: 10
+                    requestPageLimit: 200, //default max is 200 as per API spec. Ie. if set to 100 and there are 200 records to retrieve it will take 2 requests to fetch all.
+                    organizerKey: null
                 );
-
-                if ($response->successful()) {
-                    return $response->json('_embedded.sessionInfoResources');
-                }
-
-                if ($response->failed()) {
-                    return $response->json();
-                }
-
-                return $response->json();
 
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
@@ -50,28 +43,6 @@ Route::prefix('webinars')->name('goto.')
 
                 return $response->json();
 
-            } catch (RequiresReAuthorizationException $e) {
-                return redirect()->route('goto.authorize');
-            }
-        });
-
-        Route::get('/{webinarKey}/sessions/{sessionKey}/cancel', function ($webinarKey, $sessionKey) use ($gotoApi) {
-            try {
-                $response = $gotoApi->sessions()->delete(
-                    webinarKey: $webinarKey,
-                    sessionKey: $sessionKey,
-                    organizerKey: null
-                );
-
-                if ($response->successful()) {
-                    return [true];
-                }
-
-                if ($response->failed()) {
-                    return $response->json();
-                }
-
-                return $response->json();
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
             }

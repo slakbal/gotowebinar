@@ -3,6 +3,7 @@
 namespace Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Resources;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Support\LazyCollection;
 use Saloon\Http\BaseResource;
 use Saloon\Http\Response;
 use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetAllSessions;
@@ -15,9 +16,11 @@ use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Sessions\GetSessi
 
 class SessionResource extends BaseResource
 {
-    public function all(int $webinarKey, ?int $organizerKey = null, int $page = 0, int $limit = 100): Response
+    public function all(int $webinarKey, ?int $requestPageLimit = 200, ?int $organizerKey = null): LazyCollection
     {
-        return $this->connector->send(new GetAllSessions($webinarKey, $organizerKey, $page, $limit));
+        $paginator = (new GetAllSessions($webinarKey, $requestPageLimit, $organizerKey))->paginate($this->connector);
+
+        return $paginator->collect();
     }
 
     public function get(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
@@ -45,8 +48,10 @@ class SessionResource extends BaseResource
         return $this->connector->send(new GetSessionSurveys($sessionKey, $webinarKey, $organizerKey));
     }
 
-    public function organizerSessions(CarbonImmutable $fromTime, CarbonImmutable $toTime, int $page = 0, int $size = 10, ?int $organizerKey = null): Response
+    public function organizerSessions(CarbonImmutable $fromTime, CarbonImmutable $toTime, ?int $requestPageLimit = 200, ?int $organizerKey = null): LazyCollection
     {
-        return $this->connector->send(new GetOrganizerSessions($fromTime, $toTime, $page, $size, $organizerKey));
+        $paginator = (new GetOrganizerSessions($fromTime, $toTime, $requestPageLimit, $organizerKey))->paginate($this->connector);
+
+        return $paginator->collect();
     }
 }

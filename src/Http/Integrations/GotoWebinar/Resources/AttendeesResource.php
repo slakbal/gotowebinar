@@ -12,7 +12,7 @@ use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Attendees\GetAtte
 
 class AttendeesResource extends BaseResource
 {
-    public function all(int $sessionKey,int $webinarKey, ?int $organizerKey = null): Response
+    public function all(int $sessionKey, int $webinarKey, ?int $organizerKey = null): Response
     {
         return $this->connector->send(new GetAllAttendees($sessionKey, $webinarKey, $organizerKey));
     }
@@ -36,5 +36,4 @@ class AttendeesResource extends BaseResource
     {
         return $this->connector->send(new GetAttendeeSurveys($sessionKey, $registrantKey, $webinarKey, $organizerKey));
     }
-
 }

@@ -14,12 +14,12 @@ class GetRecordingAssets extends Request
     */
     public function __construct(
         protected int $webinarKey,
-        protected int $page = 0,
-        protected int $limit = 10,
+        protected ?int $page = null,
+        protected ?int $pageSize = null,
         protected ?int $organizerKey = null
     ) {
         $this->organizerKey = $organizerKey ?? cache()->get('gotoOrganizerKey');
-        $this->limit = ($limit > 200) ? 200 : $limit;
+        $this->pageSize = ($pageSize > 200) ? 200 : $pageSize;
     }
 
     public function resolveEndpoint(): string
@@ -29,9 +29,16 @@ class GetRecordingAssets extends Request
 
     protected function defaultQuery(): array
     {
-        return [
-            'page' => $this->page,
-            'limit' => $this->limit,
-        ];
+        $query = [];
+
+        if (! is_null($this->page)) {
+            $query['page'] = $this->page;
+        }
+
+        if (! is_null($this->pageSize)) {
+            $query['limit'] = $this->pageSize;
+        }
+
+        return $query;
     }
 }

@@ -12,10 +12,20 @@ Route::prefix('webinars')->name('goto.')
             try {
                 return $gotoApi->registrants()->all(
                     webinarKey: $webinarKey,
-                    organizerKey: null,
-                    page: 0, //max is 200
-                    limit: 10
-                )->json('data');
+                    organizerKey: null
+                )->json(); //->collect();
+            } catch (RequiresReAuthorizationException $e) {
+                return redirect()->route('goto.authorize');
+            }
+        });
+
+        Route::get('/{webinarKey}/registrants/page/{page}/size/{pageSize}', function ($webinarKey, int $page, int $pageSize) use ($gotoApi) {
+            try {
+                return $gotoApi->registrants()->page(
+                    webinarKey: $webinarKey,
+                    page: $page,
+                    pageSize: $pageSize
+                )->collect('data'); //->json('data'); //select the json node to return, null/empty to return paginator also
             } catch (RequiresReAuthorizationException $e) {
                 return redirect()->route('goto.authorize');
             }

@@ -7,6 +7,7 @@ use Saloon\Http\Auth\AccessTokenAuthenticator;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 use Saloon\Http\PendingRequest;
+use Saloon\Http\Request;
 use Saloon\Traits\Plugins\AcceptsJson;
 use Saloon\Traits\Plugins\HasTimeout;
 use Slakbal\Gotowebinar\Exceptions\MissingAuthenticatorException;

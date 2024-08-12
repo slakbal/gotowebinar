@@ -11,9 +11,9 @@ use Slakbal\Gotowebinar\Http\Integrations\GotoWebinar\Requests\Panelists\ResendP
 
 class PanelistResource extends BaseResource
 {
-    public function all(int $webinarKey, ?int $organizerKey = null, int $page = 0, int $limit = 100): Response
+    public function all(int $webinarKey, ?int $organizerKey = null): Response
     {
-        return $this->connector->send(new GetAllPanelists($webinarKey, $organizerKey, $page, $limit));
+        return $this->connector->send(new GetAllPanelists($webinarKey, $organizerKey));
     }
 
     public function create(array $panelistDtoArray, int $webinarKey, bool $resendConfirmation, ?int $organizerKey = null): Response
