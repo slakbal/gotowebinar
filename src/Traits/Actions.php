@@ -86,7 +86,16 @@ trait Actions
 
     public function authenticate()
     {
-        return (new GotoClient())->authenticate();
+        $x = new GotoClient();
+        $x->flushAuthentication();
+
+        return $x->authenticate();
+//        return (new GotoClient())->authenticate();
+    }
+
+    public function handleAuthorizationCallback($request)
+    {
+        return (new GotoClient())->handleAuthorizationCallback($request);
     }
 
     public function flushAuthentication()

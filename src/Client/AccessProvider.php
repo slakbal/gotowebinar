@@ -49,9 +49,9 @@ trait AccessProvider
     private function setAccessInformation($responseObject)
     {
         $this->setAccessToken($responseObject->access_token, $responseObject->expires_in)
-             ->setRefreshToken($responseObject->refresh_token)
-             ->setOrganizerKey($responseObject->organizer_key)
-             ->setAccountKey($responseObject->account_key);
+            ->setRefreshToken($responseObject->refresh_token)
+            ->setOrganizerKey($responseObject->organizer_key)
+            ->setAccountKey($responseObject->account_key);
 
         return $this;
     }
@@ -114,5 +114,10 @@ trait AccessProvider
         Cache::tags('GOTO-AUTH')->flush();
 
         return $this;
+    }
+
+    public function getRedirectUri()
+    {
+        return config('goto.redirect_uri');
     }
 }
