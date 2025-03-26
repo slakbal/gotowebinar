@@ -1,5 +1,5 @@
 <?php
-Route::prefix('_goto')->middleware('auth')->group(function () {
+Route::prefix('_goto')->group(function () {
 
     Route::get('/authenticate', function () {
         try {
