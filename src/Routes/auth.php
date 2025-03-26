@@ -3,7 +3,6 @@ Route::prefix('_goto')->group(function () {
 
     Route::get('/authenticate', function () {
         try {
-            dd('x');
             return Webinars::authenticate();//->status();
         } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
             return [$e->getMessage()];
