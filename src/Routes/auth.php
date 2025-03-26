@@ -1,29 +1,33 @@
 <?php
 
-Route::get('/authenticate', function () {
-    try {
-        return Webinars::authenticate();//->status();
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-        return [$e->getMessage()];
-    }
-})->name('goto.auth');
+Route::prefix('_goto')->group(function () {
 
-Route::get('/callback', function (Request $request) {
-    try {
-        if(Webinars::handleAuthorizationCallback($request)){
-            return ['authenticated'];
-        };
+    Route::get('/authenticate', function () {
+        try {
+            return Webinars::authenticate();//->status();
+        } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+            return [$e->getMessage()];
+        }
+    })->name('goto.auth');
 
-        return ['not authenticated'];
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-        return [$e->getMessage()];
-    }
-})->name('goto.callback');
+    Route::get('/callback', function (Request $request) {
+        try {
+            if(Webinars::handleAuthorizationCallback($request)){
+                return ['authenticated'];
+            };
 
-Route::get('/flush-auth', function () {
-    try {
-        return Webinars::flushAuthentication()->status();
-    } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
-        return [$e->getMessage()];
-    }
-})->name('goto.flush');
+            return ['not authenticated'];
+        } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+            return [$e->getMessage()];
+        }
+    })->name('goto.callback');
+
+    Route::get('/flush-auth', function () {
+        try {
+            return Webinars::flushAuthentication()->status();
+        } catch (Slakbal\Gotowebinar\Exception\GotoException $e) {
+            return [$e->getMessage()];
+        }
+    })->name('goto.flush');
+
+});
