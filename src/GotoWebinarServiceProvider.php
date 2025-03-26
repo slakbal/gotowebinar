@@ -17,10 +17,10 @@ class GotoWebinarServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! App::environment('production')) {
-            $this->loadRoutesFrom(__DIR__.'/Routes/routes.php');
-        }else{
+        if (App::environment('production')) {
             $this->loadRoutesFrom(__DIR__.'/Routes/auth.php');
+        }else{
+            $this->loadRoutesFrom(__DIR__.'/Routes/routes.php');
         }
 
         $this->publishes([__DIR__.'/../config/goto.php' => config_path('goto.php')], 'config');
