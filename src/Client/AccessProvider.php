@@ -49,23 +49,33 @@ trait AccessProvider
     private function setAccessInformation($responseObject)
     {
         $this->setAccessToken($responseObject->access_token, $responseObject->expires_in)
-            ->setRefreshToken($responseObject->refresh_token)
-            ->setOrganizerKey($responseObject->organizer_key)
-            ->setAccountKey($responseObject->account_key);
+            ->setRefreshToken($responseObject->refresh_token);
 
         return $this;
     }
 
-    private function setAccountKey($accountKey)
+    private function setAccountInformation($responseObject)
     {
-        Cache::tags($this->cache_tags)->forever('account-key', $accountKey);
+        $this->setOrganizerKey($responseObject->key)
+            ->setAccountKey($responseObject->accountKey);
 
         return $this;
     }
 
-    private function setOrganizerKey($organizerKey)
+    private function setAccountKey($accountKey = null)
     {
-        Cache::tags($this->cache_tags)->forever('organizer-key', $organizerKey);
+        if (!is_null($accountKey)) {
+            Cache::tags($this->cache_tags)->forever('account-key', $accountKey);
+        }
+
+        return $this;
+    }
+
+    private function setOrganizerKey($organizerKey = null)
+    {
+        if (!is_null($organizerKey)) {
+            Cache::tags($this->cache_tags)->forever('organizer-key', $organizerKey);
+        }
 
         return $this;
     }
