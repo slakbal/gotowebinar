@@ -1,17 +1,12 @@
 # GotoWebinar API wrapper for Laravel
 
-This package is a GotoWebinar API service wrapper and facade for Laravel 5.4+.
+This package is a GotoWebinar API service wrapper and facade for Laravel.
 
 This new release makes use of the latest version of the GotoWebinar API and Authentication methods. This release is not compatible with the previous versions and is a complete new implementation. 
 
 ## Compatible API Version
 
-https://goto-developer.logmeininc.com/content/gotowebinar-api-reference-v2
-
-## Known Issues
-
-* There are still some issues with the deletion of Registrants from a Webinar by registrantKey
-* Retrieving session attendees by registrantKey
+https://developer.goto.com/GoToWebinarV2#section/GoTo-Webinar-API-Overview
 
 ## Contributions and Bug
 
@@ -24,45 +19,6 @@ You can use Composer to install the library
 ```
 composer require slakbal/gotowebinar
 ```
-
-If you have Laravel 5.5+ the package will be auto-discovered:
-
-```json
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Slakbal\\Gotowebinar\\GotoWebinarServiceProvider"
-      ],
-      "aliases": {
-        "Webinars": "Slakbal\\Gotowebinar\\Facade\\Webinars",
-        "Registrants": "Slakbal\\Gotowebinar\\Facade\\Registrants",
-        "Attendees": "Slakbal\\Gotowebinar\\Facade\\Attendees"
-      }
-    }
-  },
-```
-
-Otherwise, find the `providers` array in the `config/app.php` file and add the following Service Provider:
-
-```php
-'providers' => [
-  // ...
-  Slakbal\Gotowebinar\GotoWebinarServiceProvider::class
-];
-```
-
-Now find the `aliases` array in the same config file and add the following Facade class:
-
-```php
-'aliases' => [
-  // ...
-  'Webinars' => Slakbal\\Gotowebinar\\Facade\\Webinars,
-  'Registrants' => Slakbal\\Gotowebinar\\Facade\\Registrants,
-  'Attendees' => Slakbal\\Gotowebinar\\Facade\\Attendees
-  'Sessions' => Slakbal\\Gotowebinar\\Facade\\Sessions
-];
-```
-
 
 ## Config
 
